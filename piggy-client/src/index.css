@@ -1,0 +1,49 @@
+/* SCROLL BAR */
+
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #e1e3e4;
+	border-radius: 3px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+/* FONTS */
+
+@font-face {
+	font-family: 'Rubik';
+	font-weight: 'light';
+	src: local('Rubik'), url(./fonts/Rubik/Rubik-Light.ttf) format('truetype');
+	font-weight: 300;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Rubik';
+	font-weight: normal;
+	src: local('Rubik'), url(./fonts/Rubik/Rubik-Regular.ttf) format('truetype');
+	font-weight: 400;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Rubik';
+	font-weight: bold;
+	src: local('Rubik'), url(./fonts/Rubik/Rubik-SemiBold.ttf) format('truetype');
+	font-weight: 600;
+	font-display: swap;
+}
