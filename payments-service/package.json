@@ -1,0 +1,20 @@
+{
+  "name": "payments-service",
+  "version": "1.0.0",
+  "description": "Microservice to allow money transfer between parent and child and payments overview",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/DanielHarit/piggy-school.git"
+  },
+  "author": "Daniel Harit",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "dotenv": "^16.0.0",
+    "express": "^4.16.3",
+    "request": "^2.87.0"
+  }
+}
