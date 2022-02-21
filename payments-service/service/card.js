@@ -1,11 +1,19 @@
 // That will be used to integrate with the cards supplier service
 var request = require('request');
+const Card = require('../models/card.model.js');
 
-module.exports.get_card_info = function(cardid) {
+module.exports.get_card_info = async function(userid) {
+    var card = await Card.findOne({userid: userid});
+
+    if (!card) {
+        throw new Error("No card with this userid found");
+    }
+    
     // TODO get card info from other serivce
     // TODO get card trasactions from other service
     var cardInfo = {
-        cardid: cardid,
+        userid: userid,
+        cardid: card.cardid,
         cashAmount: 1200,
         transactions: [
             {
@@ -22,27 +30,32 @@ module.exports.get_card_info = function(cardid) {
             }
         ]
     }
-
-    return new Promise((resolve, reject) => {
-        resolve(cardInfo);
-    });
+    
+    return cardInfo;
 }
 
-module.exports.update_card = function(cardid, amount) { 
+module.exports.update_card = async function(userid, amount) { 
     // raise error if amount is 0 or less
     if (amount <= 0) {
         throw new Error('Not possiable to add negative amount of money');
     }
+
+    card = await Card.findOne({userid: userid});
+
     // card exists - add money
-    if (cardid == "123456789") {
-        return new Promise((resolve, reject) => {
-            resolve(this.get_card_info(cardid));
-        });
+    if (card) {
+        // TODO: Add money to the card using the extend service
+        return card;
     } 
+
     // new card - create card with amount of money
     else {
-        return new Promise((resolve, reject) => {
-            resolve(this.get_card_info(cardid));
+        // TODO: Add money to the card using the extend service before create the db item for it
+        const newcard = new Card({
+            cardid: Math.random() * 1000 + 1,
+            userid: userid
         });
+
+        return newcard.save();
     }
 }

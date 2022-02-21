@@ -4,17 +4,17 @@ var card = require('../service/card');
 
 var controllers = {
     get_card_info: function(req, res) {
-        card.get_card_info(req.params.cardid)
+        card.get_card_info(req.params.userid)
         .then(card => {
             if(!card) {
                 return res.status(404).send({
-                    message: "Card not found with id " + req.params.cardid
+                    message: "Card not found with user id " + req.params.userid
                 });
             }
             res.send(card);
         }).catch(err => {
             return res.status(500).send({
-                message: "Error find card with id " + req.params.cardid
+                message: "Error find card with user id " + req.params.userid
             });
         });
     },
@@ -26,12 +26,12 @@ var controllers = {
             });
         }
 
-        card.update_card(req.params.cardid, req.body.amount)
+        card.update_card(req.params.userid, req.body.amount)
         .then(card => {
             res.send(card);
         }).catch(err => {
             return res.status(500).send({
-                message: "Error transfer money to card with id " + req.params.cardid
+                message: "Error transfer money to card with user id " + req.params.userid
             });
         });
     },
