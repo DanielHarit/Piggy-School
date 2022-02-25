@@ -12,6 +12,7 @@ import theme from './theme';
 const cacheRtl = createCache({
 	key: 'muirtl',
 	stylisPlugins: [prefixer, rtlPlugin],
+	prepend:true
 });
 
 function App() {
