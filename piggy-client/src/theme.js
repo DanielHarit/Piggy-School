@@ -25,6 +25,7 @@ const theme = createTheme({
 	typography: {
 		fontFamily: 'Rubik',
 	},
+	
 });
 
 export default theme;
