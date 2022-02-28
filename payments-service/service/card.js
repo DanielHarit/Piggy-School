@@ -20,13 +20,15 @@ module.exports.get_card_info = async function(userid) {
                 "id": '123',
                 "amount": 100,
                 "to": "124134324",
-                "category": "food"
+                "category": "food",
+                "date": Date.now()
             },
             {
                 "id": '124',
                 "amount": 160,
                 "to": "2137812703",
-                "category": "finance"
+                "category": "finance",
+                "date": Date.now()
             }
         ]
     }
