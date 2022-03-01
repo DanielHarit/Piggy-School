@@ -6,8 +6,14 @@ import {getChildrenByParentId, getParentById} from './DAL/parent.js'
 import {getAvatarById,getAllAvatars} from './DAL/avatar.js'
 import {getAllBackgroundColors,getBackgroundColorById} from './DAL/backgroudColor.js'
 
+var port = process.env.PORT || config.app.port;
 const app = express();
-initializeDbConnection();
+
+initializeDbConnection().then(() => {
+    app.listen(port, function() {
+        console.log('Server started on port: ' + port);
+    });
+});
 
 // childrens
 app.get('/children/:id', async (req, res) => {
@@ -51,7 +57,3 @@ app.get('/backgroundColor', async (req, res) => {
     const backgoundColors = await getAllBackgroundColors(req.params.id);
     res.send(backgoundColors);
 });
-
-  
-app.listen(config.app.port)
-console.log(`app is listennig on port ${config.app.port}`);

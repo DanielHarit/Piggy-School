@@ -9,8 +9,8 @@ export default {
         {
             children : "children",
             parent : "parent",
-            backgroundColor : "backgoundColor",
-            avatar : "avatar"
+            backgroundColor : "backgroundColors",
+            avatar : "avatars"
 
         }
     }

@@ -11,6 +11,6 @@ export const getAvatarById = async (id) => {
 
 export const getAllAvatars = async () =>{
     
-    const avatars =  await db.collection(collectionName).find({});
+    const avatars =  await db.collection(collectionName).find({}).toArray();
     return avatars;
 }
