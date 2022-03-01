@@ -1,19 +1,23 @@
-// That will be used to integrate with the cards supplier service
-var request = require('request');
-const Card = require('../models/card.model.js');
+// That will be used to integrate with the cards supplier service and the cards DB
+var axios = require('axios');
 
 module.exports.get_card_info = async function(userid) {
-    var card = await Card.findOne({userid: userid});
+    try {
+        var response = await axios.get(`${process.env.DB_SERVICE_URL}/children/creditCard/${userid}`);
+        var cardid = response.data;
+    }
+    catch(err) {
+        throw new Error("Error connecting to DB service!");
+    }
 
-    if (!card) {
+    if (!cardid) {
         throw new Error("No card with this userid found");
     }
     
-    // TODO get card info from other serivce
-    // TODO get card trasactions from other service
+    // TODO get card info from extend
     var cardInfo = {
         userid: userid,
-        cardid: card.cardid,
+        cardid: cardid,
         cashAmount: 1200,
         transactions: [
             {
@@ -42,22 +46,26 @@ module.exports.update_card = async function(userid, amount) {
         throw new Error('Not possiable to add negative amount of money');
     }
 
-    card = await Card.findOne({userid: userid});
+    try {
+        var response = await axios.get(`${process.env.DB_SERVICE_URL}/children/creditCard/${userid}`);
+        var cardid = response.data;
+    }
+    catch(err) {
+        throw new Error("Error connecting to DB service!");
+    }
 
     // card exists - add money
-    if (card) {
+    if (cardid && cardid != "") {
         // TODO: Add money to the card using the extend service
-        return card;
+        return cardid;
     } 
-
+    
     // new card - create card with amount of money
     else {
-        // TODO: Add money to the card using the extend service before create the db item for it
-        const newcard = new Card({
-            cardid: Math.random() * 1000 + 1,
-            userid: userid
-        });
-
-        return newcard.save();
+        // TODO: Add money to the new card using the extend service before create the db item for it
+        return axios.put(`${process.env.DB_SERVICE_URL}/children/creditCard/${userid}`, 
+                                    { 
+                                        "cardid": Math.random() * 1000 + 1 
+                                    });
     }
 }

@@ -1,4 +1,4 @@
-FROM node:16
+FROM node:12-slim
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -15,4 +15,4 @@ RUN npm ci --only=production
 # Bundle app source
 COPY . .
 
-CMD [ "node", "server.js" ]
+CMD [ "node", "index.js" ]
