@@ -13,7 +13,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 15,
     marginRight: 'auto',
     marginLeft: 'auto',
-  },
+    scrollBehaviour: 'smooth',
+ },
 }))
 
 const Transactions = ({transactionsList}) => {
@@ -21,7 +22,7 @@ const Transactions = ({transactionsList}) => {
 
   return (
     <div className={classes.root}>
-          <List disablePadding> 
+          <List disablePadding sx={{ overflow: 'auto', maxHeight: '160px',}} > 
             { transactionsList.map(transaction => (
             <>
               <ListItem key={transaction.id}>
