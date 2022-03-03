@@ -26,7 +26,7 @@ const CardAmount = ({ card }) => {
   return (
     <div className={classes.root}>
       
-    <Typography>החודש הוצאתי...</Typography>
+    <Typography>החודש הוצאתי..</Typography>
 
     <Card className={classes.total}>
       <Typography fontSize="35px" >
@@ -41,10 +41,10 @@ const CardAmount = ({ card }) => {
 }
 
 CardAmount.propTypes = {
-  card: []
+  card: PropTypes.array
 }
 CardAmount.defaultProps = {
-  card: {}
+  card: []
 }
 
 export default CardAmount
