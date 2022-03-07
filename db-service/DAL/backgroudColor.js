@@ -10,6 +10,6 @@ export const getBackgroundColorById = async (id) =>{
 }
 
 export const getAllBackgroundColors = async () =>{
-    const backgroundColors =  await db.collection(collectionName).find({});
+    const backgroundColors =  await db.collection(collectionName).find({}).toArray();
     return backgroundColors;
 }
