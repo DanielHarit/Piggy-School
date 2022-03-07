@@ -13,6 +13,7 @@ var controllers = {
             }
             res.send(card);
         }).catch(err => {
+            console.log(err);
             return res.status(500).send({
                 message: "Error find card with user id " + req.params.userid
             });
@@ -30,6 +31,7 @@ var controllers = {
         .then(card => {
             res.send(card);
         }).catch(err => {
+            console.log(err);
             return res.status(500).send({
                 message: "Error transfer money to card with user id " + req.params.userid
             });
