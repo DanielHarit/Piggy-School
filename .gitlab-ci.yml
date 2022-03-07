@@ -10,6 +10,7 @@ deploy:
     - docker:dind
   script:
     - echo $GCP_SERVICE_KEY > gcloud-service-key.json # Google Cloud service accounts
+    - cat gcloud-service-key.json
     - gcloud auth activate-service-account --key-file gcloud-service-key.json
     - gcloud config set project $GCP_PROJECT_ID
     - gcloud builds submit . --config=cloudbuild.yaml
