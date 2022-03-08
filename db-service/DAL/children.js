@@ -13,3 +13,10 @@ export const getCreditCardByChildrenId = async (id) =>{
     return children.CardId;
 }
 
+export const updateCreditCardByChildrenId = async (childrenId,cardId) =>{
+    const resultUpdate = await db.collection(collectionName).updateOne(
+        {"_id": childrenId} ,  { $set: {"CardId" : cardId}}
+    )
+    return resultUpdate.modifiedCount;
+}
+
