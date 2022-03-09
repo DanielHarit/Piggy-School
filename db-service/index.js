@@ -9,6 +9,7 @@ import {getAllBackgroundColors,getBackgroundColorById} from './DAL/backgroudColo
 
 var port = process.env.PORT || config.app.port;
 const app = express();
+app.use(express.json());
 app.use(cors());
 
 initializeDbConnection().then(() => {
