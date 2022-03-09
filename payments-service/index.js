@@ -1,6 +1,9 @@
 // Initialize application
-var express = require('express')
+var express = require('express');
+const cors = require('cors');
+
 var app = express();
+app.use(cors());
 
 // Set environments variables
 const dotenv = require('dotenv');
