@@ -23,5 +23,5 @@ export const getChildrenByParentId = async (id) =>{
              { $project : {  parentChildren : 1 }},
         ]
     ).toArray()
-    return parent;
+    return parent[0].parentChildren;
 }

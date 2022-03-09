@@ -1,0 +1,4 @@
+{
+    "PIGGY_DB_URL": "https://db-service-gchzpg7vxa-de.a.run.app",
+    "PAYMENT_SERVICE_URL": "https://payments-service-gchzpg7vxa-de.a.run.app"
+}
