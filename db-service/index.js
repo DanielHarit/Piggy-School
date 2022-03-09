@@ -2,7 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import config from './config.js'
 import {initializeDbConnection} from './DAL/mongoConnectios.js'
-import {getChildrenById, getCreditCardByChildrenId} from './DAL/children.js'
+import {getChildrenById, getCreditCardByChildrenId, updateCreditCardByChildrenId} from './DAL/children.js'
 import {getChildrenByParentId, getParentById} from './DAL/parent.js'
 import {getAvatarById,getAllAvatars} from './DAL/avatar.js'
 import {getAllBackgroundColors,getBackgroundColorById} from './DAL/backgroudColor.js'
@@ -27,6 +27,12 @@ app.get('/children/:id', async (req, res) => {
 app.get('/children/creditCard/:id', async (req, res) => {
     const creditCard = await getCreditCardByChildrenId(req.params.id);
     res.send(creditCard);
+});
+
+app.put('/children/creditCard/:id', async (req, res) => {
+    const cardId = req.body.cardId;
+    const countUpdated = await updateCreditCardByChildrenId(req.params.id,cardId);
+    res.send(`update ${countUpdated} documents`);
 });
 
 // parent
