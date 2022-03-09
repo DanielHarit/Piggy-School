@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import config from './config.js'
 import {initializeDbConnection} from './DAL/mongoConnectios.js'
 import {getChildrenById, getCreditCardByChildrenId, updateCreditCardByChildrenId} from './DAL/children.js'
@@ -9,6 +10,7 @@ import {getAllBackgroundColors,getBackgroundColorById} from './DAL/backgroudColo
 var port = process.env.PORT || config.app.port;
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 initializeDbConnection().then(() => {
     app.listen(port, function() {
