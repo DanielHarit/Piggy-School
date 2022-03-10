@@ -29,9 +29,7 @@ var controllers = {
 
         card.update_card(req.params.userid, req.body.amount)
         .then(card => {
-            res.send({
-                message: "Card updated with cardid: " + card
-            });
+            res.send(card);
         }).catch(err => {
             console.log(err);
             return res.status(500).send({
