@@ -4,17 +4,14 @@ import makeStyles from '@mui/styles/makeStyles'
 import HomepageHeader from '../../components/HomePage/HomepageHeader'
 import HomePageFooter from '../../components/HomePage/HomePageFooter'
 import ParentTransferMoneyPage from '../ParentTransferMoneyPage'
-import ParentContext from './ParentContext'
 import config from '../../conf.json'
 import { useState } from 'react'
 import axios from 'axios'
+import { HOMEPAGE_CONSTANTS } from '../../constants'
 
 
 const ParentHomePage = () => {
 
-  const [selectedChildrenId, setSelectedChildrenId] = useState('');
-  const [amount, setAmount] = useState(0);
-  
   const [userName,setUserName] =useState('')
   useEffect(() =>{
     axios.get(`${config.PIGGY_DB_URL}/parent/62171cef74e8cac9530dcdsdacbw`).then(res =>setUserName(res.data.DisplayName
@@ -22,13 +19,11 @@ const ParentHomePage = () => {
   },[])
 
   return (
-    <ParentContext.Provider value={{amount,setAmount,selectedChildrenId,setSelectedChildrenId}}>
-      <HomePage title="היי הורה" btnText="לתצוגת ילד" btnLink="/child">
+      <HomePage title="PIGGY" btnText="לתצוגת ילד" btnLink="/child">
         <HomepageHeader username={userName} caption="בוקר טיל" />
-        <HomePageFooter />
+        <HomePageFooter footerType={HOMEPAGE_CONSTANTS.PARENT_FOOTER}/>
         <ParentTransferMoneyPage/>
       </HomePage>
-    </ParentContext.Provider>
   )
 }
 

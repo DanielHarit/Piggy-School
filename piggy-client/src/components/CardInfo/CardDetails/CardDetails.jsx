@@ -1,5 +1,6 @@
 import { Card,CardActions,Fab,Typography } from '@mui/material'
 import { makeStyles } from '@mui/styles'
+import { textAlign } from '@mui/system'
 import PropTypes from 'prop-types'
 
 const useStyles = makeStyles((theme) => ({
@@ -13,16 +14,14 @@ const useStyles = makeStyles((theme) => ({
   borderRadius: 15,
   backgroundColor:'purple',
   color:'white',
+  padding:'25px',
  },
  amount:{
    fontSize:'25px',
    fontWeight:'bold',
-   marginTop:15,
-   marginRight:15,
  },
  Details:{
-   marginRight:15,
-   fontSize:'25px',
+   fontSize:'15px',
  },
  buttonShow: {
    borderRadius:'10px',
@@ -30,43 +29,51 @@ const useStyles = makeStyles((theme) => ({
  }
 }))
 
-const CardDetails = ({ number,expiry,cvc,placeholder,total }) => {
+const CardDetails = ({ id,expiry,cvc,placeholder,amount }) => {
   const classes = useStyles()
 
   return (
     <div className={classes.root}>
+       <Typography>הכרטיס שלי</Typography>
          <Card className={classes.total}>
+              <Typography className={classes.Details}>
+                חסכתי:
+              </Typography>
               <Typography className={classes.amount}>
-               { total } ₪
+                { amount } ₪
               </Typography>
               <Typography className={classes.Details}>
-                { number ? number : placeholder.number  }
+                מספר כרטיס:
+              </Typography>
+              <Typography className={classes.Details} sx={{textAlign:'left'}}>
+                { id ? id : placeholder.id  }
               </Typography>
                <Typography className={classes.Details}>
                 { expiry ?  expiry : placeholder.expiry }
-              </Typography>
-                  {/* <Typography className={classes.Details}>
+              </Typography> 
+                  { <Typography className={classes.Details}>
                     { cvc ? cvc : placeholder.cvc }
-                  </Typography>   */}
-                <CardActions disableSpacing>
-                  {/* <Button variant="contained" className={classes.buttonShow}>להצגת הפרטים</Button> */}
-                  <Fab disableSpacing variant="extended" size="medium" sx={{marginLeft: 'auto'}}>להצגת הפרטים</Fab>
-                </CardActions>
+                  </Typography>   }
+                 {/* { <CardActions>
+                  <Fab variant="extended" size="medium" sx={{marginLeft: 'auto'}}>להצגת הפרטים</Fab>
+                </CardActions>  */}
+                
           </Card>
           </div>
   )
 }
 
 CardDetails.propTypes = {
-  total:PropTypes.number,
-  number: PropTypes.string,
+  amount:PropTypes.number,
+  id: PropTypes.string,
   expiry: PropTypes.string,
   cvc: PropTypes.string,
   placeholder: PropTypes.object,
 }
 CardDetails.defaultProps = {
-  placeholder: {
-    number: "•••• •••• •••• ••••",
+  amount : 0,
+    placeholder: {
+    id: "•••• •••• •••• ••••",
     expiry: "••/••",
     cvc: "•••",
   },

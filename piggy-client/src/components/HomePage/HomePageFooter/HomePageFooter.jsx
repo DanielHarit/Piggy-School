@@ -10,7 +10,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { Home } from '@mui/icons-material'
 import axios from 'axios'
 import configData from "../../../conf.json";
-import ParentContext from '../../../views/ParentHomePage/ParentContext';
+import ParentContext from '../../../ParentContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,9 +79,10 @@ const HomePageFooter = ({ footerType }) => {
   const getFooterLinks = useFooterLinks(footerType)
   const { rightLink, middleLink, leftLink } = getFooterLinks()
 
-  const handleTransferMony = () =>{
+  const handleTransferMoney = () =>{
 
     console.log("payed for "+ amount+ " " +selectedChildrenId);
+
     axios.put(`${configData.PAYMENT_SERVICE_URL}/card/${selectedChildrenId}`, {
       amount : +amount
     }).then((res) =>{
@@ -110,7 +111,7 @@ const HomePageFooter = ({ footerType }) => {
             classes.floatingFooterLinkWrapper
           )}
         >
-          <IconButton className={cx(classes.footerLink, classes.floating)} onClick={handleTransferMony}>
+          <IconButton className={cx(classes.footerLink, classes.floating)} onClick={() =>{ footerType === HOMEPAGE_CONSTANTS.PARENT_FOOTER && handleTransferMoney()}}>
             <Home />
           </IconButton>
           <Typography className={classes.linkLabel}>
