@@ -26,7 +26,7 @@ const Transactions = ({transactionsList}) => {
             { transactionsList.map(transaction => (
             <>
               <ListItem key={transaction.id}>
-                <ListItemText primary={transaction.to} secondary={transaction.date}/>
+                <ListItemText primary={transaction.description} secondary={new Date(transaction.timestamp).toLocaleDateString()}/>
                 <Typography edge="end"> {transaction.amount} ₪ </Typography>
               </ListItem>
               <Divider light/>

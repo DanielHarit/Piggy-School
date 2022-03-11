@@ -2,11 +2,13 @@ import * as React from 'react';
 import HomePage from '../../components/HomePage';
 import HomepageHeader from '../../components/HomePage/HomepageHeader'
 import HomePageFooter from '../../components/HomePage/HomePageFooter'
-import CardAmount from '../../components/CardInfo/CardAmount'
+import CardAmount from '../../components/CardInfo/CardHistory'
 import CardDetails from '../../components/CardInfo/CardDetails'
 import { useEffect,useState } from 'react';
 import { makeStyles } from '@mui/styles'
 import axios from 'axios';
+import configData from "../../conf.json";
+import CardHistory from '../../components/CardInfo/CardHistory';
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -14,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
    }))
 
 const card = {
-    cashAmount: 40,
+    amount: 40,
     transactions: [
         {
             "id": '123',
@@ -49,22 +51,27 @@ const card = {
   
 const ChildHomePage = () => {
     const classes = useStyles()
-    const [cardData,setCardData] = useState(null);
-
+    const [cardData,setCardData,] = useState(null);
+    const [userName,setUserName] =useState('')
     useEffect(()=>{
-        // axios.get('/card/123').then((response)=>{
+            axios.get(`${configData.PIGGY_DB_URL}/children/62171cef74e8cac9530dcaac`).then((res) =>{
+                setUserName(res.data.UserSettings.DisplayName);
+            })
+            axios.get(`${configData.PAYMENT_SERVICE_URL}/card/62171cef74e8cac9530dcaac`).then((res) =>{
+                setCardData(res.data);
+              }).catch((err) =>{
+                setCardData(card);
+              })
 
-            setCardData(card)
-        // })
     },[] )
 
 	return(
         <div className={classes.root}>
-            <HomePage title='היי דנה' btnText='לתצוגת הורה' btnLink='/parent'>
-            <HomepageHeader username="דנה" caption="בוקר אש" />
+            <HomePage title='PIGGY' btnText='לתצוגת הורה' btnLink='/parent'>
+            <HomepageHeader username={userName} caption="בוקר אש" />
 
-            <CardDetails total={cardData?.cashAmount}></CardDetails>
-            <CardAmount card={cardData}></CardAmount>
+            <CardDetails amount={cardData?.amount} ></CardDetails>
+            <CardHistory card={cardData}></CardHistory>
           
 
             <HomePageFooter />

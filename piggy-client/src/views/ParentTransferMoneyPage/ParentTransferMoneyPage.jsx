@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
 import ChildrenDisplay from './ChildrenDisplay';
 import axios from 'axios';
-import ParentContext from '../ParentHomePage/ParentContext';
+import ParentContext from '../../ParentContext';
 import config from '../../conf.json'
 
 const useStyles = makeStyles((theme) => ({

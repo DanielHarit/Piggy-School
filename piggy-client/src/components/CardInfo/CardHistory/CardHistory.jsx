@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 
-const CardAmount = ({ card }) => {
+const CardHistory = ({ card }) => {
   const classes = useStyles()
 
   return (
@@ -30,7 +30,7 @@ const CardAmount = ({ card }) => {
 
     <Card className={classes.total}>
       <Typography fontSize="35px" >
-        { card?.transactions.map(transaction => transaction.amount).reduce((a,b) => a + b )} ₪
+        { card?.transactions.map(transaction => transaction.amount).reduce((a,b) => a + b, 0 )} ₪
       </Typography>
      </Card>
 
@@ -40,11 +40,11 @@ const CardAmount = ({ card }) => {
   )
 }
 
-CardAmount.propTypes = {
-  card: PropTypes.array
+CardHistory.propTypes = {
+  card: PropTypes.object
 }
-CardAmount.defaultProps = {
-  card: []
+CardHistory.defaultProps = {
+  card: { amount : 0 , transactions : [] }
 }
 
-export default CardAmount
+export default CardHistory
