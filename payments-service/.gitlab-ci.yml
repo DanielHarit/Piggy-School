@@ -5,7 +5,7 @@ variables:
 build:
     stage: build
     script:
-        - gcloud builds submit --tag gcr.io/$GOOGLE_CLOUD_PROJECT/$SERVICE_NAME
+        - gcloud builds submit ./Dockerfile --tag gcr.io/$GOOGLE_CLOUD_PROJECT/$SERVICE_NAME
 
 deploy:
     stage: deploy
