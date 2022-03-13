@@ -14,5 +14,5 @@ deploy:
     - gcloud auth activate-service-account --key-file gcloud-service-key.json # Activate your service account
     - gcloud auth configure-docker # Configure docker environment
     - gcloud config set project $GCP_PROJECT_ID #Set the GCP Project ID to the variable name
-    - gcloud builds submit --tag gcr.io/$GCP_PROJECT_ID/$SERVICE_NAME --source $SERVICE_NAME/.Dockerfile #Run the gcloud build command to build our image
+    - gcloud builds submit $SERVICE_NAME/.Dockerfile --tag gcr.io/$GCP_PROJECT_ID/$SERVICE_NAME #Run the gcloud build command to build our image
     - gcloud run deploy $SERVICE_NAME --image gcr.io/$GCP_PROJECT_ID/$SERVICE_NAME --region=asia-east1 --platform managed --allow-unauthenticated # Run the gcloud run deploy command to deploy our new service
