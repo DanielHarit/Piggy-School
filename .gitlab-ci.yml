@@ -1,16 +1,17 @@
-image: docker:latest
-
-stages:
-  - deploy
+# File: .gitlab-ci.yml
+variables:
+  SERVICE_NAME: "payments-service"
 
 deploy:
   stage: deploy
-  image: google/cloud-sdk
-  services:
-    - docker:dind
+  only:
+    - cicd # This pipeline stage will run on this branch alone
+
+  image: google/cloud-sdk:latest # We'll use Google Cloud SDK for Cloud Run related commands
   script:
-    - echo $GCP_SERVICE_KEY > gcloud-service-key.json # Google Cloud service accounts
-    - cat gcloud-service-key.json
-    - gcloud auth activate-service-account --key-file gcloud-service-key.json
-    - gcloud config set project $GCP_PROJECT_ID
-    - gcloud builds submit . --config=cloudbuild.yaml
+    - echo $GCP_SERVICE_ACCOUNT > gcloud-service-key.json # Save Google cloud contents in a temporary json file
+    - gcloud auth activate-service-account --key-file gcloud-service-key.json # Activate your service account
+    - gcloud auth configure-docker # Configure docker environment
+    - gcloud config set project $GCP_PROJECT_ID #Set the GCP Project ID to the variable name
+    - gcloud builds submit --tag gcr.io/$GCP_PROJECT_ID/$SERVICE_NAME #Run the gcloud build command to build our image
+    - gcloud run deploy $SERVICE_NAME --image gcr.io/$GCP_PROJECT_ID/$SERVICE_NAME --region=asia-east1 --platform managed --allow-unauthenticated # Run the gcloud run deploy command to deploy our new service
