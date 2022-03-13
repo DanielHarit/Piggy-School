@@ -10,6 +10,7 @@ deploy:
   image: google/cloud-sdk:latest # We'll use Google Cloud SDK for Cloud Run related commands
   script:
     - echo $GCP_SERVICE_ACCOUNT > gcloud-service-key.json # Save Google cloud contents in a temporary json file
+    - cat gcloud-service-key.json
     - gcloud auth activate-service-account --key-file gcloud-service-key.json # Activate your service account
     - gcloud auth configure-docker # Configure docker environment
     - gcloud config set project $GCP_PROJECT_ID #Set the GCP Project ID to the variable name
