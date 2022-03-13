@@ -1,10 +1,7 @@
 steps:
     # build the payments container image
   - name: 'Build payments service'
-    args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/payments-service', '.' ]
-    # push the payments container image
-  - name: 'Push payments service'
-    args: [ 'push', 'gcr.io/$PROJECT_ID/payments-service']
+    args: [ 'builds', 'submit', '--tag', 'gcr.io/$PROJECT_ID/$SERVICE_NAME']
     # deploy payments to Cloud Run
   - name: "Deploy payments service"
-    args: ['run', 'deploy', '--image', 'gcr.io/$PROJECT_ID/payments-service', '--platform', 'managed', '--allow-unauthenticated']
+    args: ['run', 'deploy', '--image', 'gcr.io/$PROJECT_ID/$SERVICE_NAME', '--platform', 'managed', '--allow-unauthenticated']
