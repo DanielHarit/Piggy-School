@@ -1,6 +1,13 @@
 # File: payments-service/.gitlab-ci.yml
 variables:
   SERVICE_NAME: "payments-service"
+default:
+    image: google/cloud-sdk:alpine
+    before_script:
+        - gcloud config set project $GCP_PROJECT_ID #Set the GCP Project ID to the variable name
+        - echo $GCP_SERVICE_ACCOUNT > gcloud-service-key.json # Save Google cloud contents in a temporary json file
+        - cat gcloud-service-key.json
+        - gcloud auth activate-service-account --key-file gcloud-service-key.json # Activate your service account
 
 build:
     stage: build
