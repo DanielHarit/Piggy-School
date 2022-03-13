@@ -1,19 +1,21 @@
 # File: .gitlab-ci.yml
 variables:
   SERVICE_NAME: "payments-service"
+default:
+    image: google/cloud-sdk:alpine
+    before_script:
+        - gcloud config set project $GCP_PROJECT_ID #Set the GCP Project ID to the variable name
+        - echo $GCP_SERVICE_ACCOUNT > gcloud-service-key.json # Save Google cloud contents in a temporary json file
+        - cat gcloud-service-key.json
+        - gcloud auth activate-service-account --key-file gcloud-service-key.json # Activate your service account
+        # - gcloud auth configure-docker # Configure docker environment
+
+build:
+    stage: build
+    script:
+        - gcloud builds submit --tag gcr.io/$GOOGLE_CLOUD_PROJECT/$SERVICE_NAME
 
 deploy:
-  stage: deploy
-  only:
-    - cicd # This pipeline stage will run on this branch alone
-
-  image: google/cloud-sdk:latest # We'll use Google Cloud SDK for Cloud Run related commands
-  script:
-    - echo $GCP_SERVICE_ACCOUNT > gcloud-service-key.json # Save Google cloud contents in a temporary json file
-    - cat gcloud-service-key.json
-    - gcloud auth activate-service-account --key-file gcloud-service-key.json # Activate your service account
-    - gcloud auth configure-docker # Configure docker environment
-    - gcloud config set project $GCP_PROJECT_ID #Set the GCP Project ID to the variable name
-    - gcloud builds submit . --config=cloudbuild.yaml
-#    - gcloud builds submit $SERVICE_NAME/Dockerfile --tag gcr.io/$GCP_PROJECT_ID/$SERVICE_NAME #Run the gcloud build command to build our image
-#    - gcloud run deploy $SERVICE_NAME --image gcr.io/$GCP_PROJECT_ID/$SERVICE_NAME --region=asia-east1 --platform managed --allow-unauthenticated # Run the gcloud run deploy command to deploy our new service
+    stage: deploy
+    script:
+        - gcloud run deploy $SERVICE_NAME --image gcr.io/$GOOGLE_CLOUD_PROJECT/$SERVICE_NAME --platform managed --region asia-east1 --allow-unauthenticated
