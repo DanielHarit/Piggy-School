@@ -1,3 +1,0 @@
-# File: .gitlab-ci.yml
-include:
-    - local: '/payments-service/.gitlab-ci.yml'
