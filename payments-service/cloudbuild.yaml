@@ -1,4 +1,4 @@
-# File: cloudbuild.yaml
+# File: payments-service/cloudbuild.yaml
 steps:
     # build the container image
   - name: 'gcr.io/cloud-builders/docker'
