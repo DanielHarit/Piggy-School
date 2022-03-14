@@ -8,6 +8,6 @@ steps:
     args: [ 'push', 'gcr.io/$PROJECT_ID/payments-service']
     # deploy to Cloud Run
   - name: "gcr.io/cloud-builders/gcloud"
-    args: ['run', 'deploy', 'erp-ui', '--image', 'gcr.io/$PROJECT_ID/payments-service', '--region', 'asia-east1', '--platform', 'managed', '--allow-unauthenticated']
+    args: ['run', 'deploy', 'payments-service', '--image', 'gcr.io/$PROJECT_ID/payments-service', '--region', 'asia-east1', '--platform', 'managed', '--allow-unauthenticated']
 images:
   - gcr.io/piggy-school/payments-service
