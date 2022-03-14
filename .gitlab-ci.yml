@@ -14,5 +14,5 @@ deploy:
     - gcloud auth activate-service-account --key-file gcloud-service-key.json
     - gcloud config set project $GCP_PROJECT_ID
     #- gcloud builds submit ./payments-service --config=payments-service/cloudbuild.yaml
-    - gcloud builds submit ./pyaments-service --tag gcr.io/piggy-school/payments-service
+    - gcloud builds submit ./payments-service --tag gcr.io/piggy-school/payments-service
     - gcloud run deploy --image gcr.io/piggy-school/payments-service --platform managed
