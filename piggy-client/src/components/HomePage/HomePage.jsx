@@ -35,9 +35,9 @@ const HomePage = ({ title, btnText, btnLink, children }) => {
 		<Box>
 			<AppBar position='static'>
 				<Toolbar>
-					<IconButton size='large' edge='start' color='inherit' aria-label='menu'>
-						<MenuIcon />
-					</IconButton>
+					{/* <IconButton size='large' edge='start' color='inherit' aria-label='menu'> */}
+						{/* <MenuIcon /> */}
+					{/* </IconButton> */}
 					<div className={classes.titles}>
 						<Typography variant='h6' component='div' className={classes.mainTitle}>
 							{title}

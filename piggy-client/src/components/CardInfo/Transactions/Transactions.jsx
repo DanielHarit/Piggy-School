@@ -22,7 +22,7 @@ const Transactions = ({transactionsList}) => {
 
   return (
     <div className={classes.root}>
-          <List disablePadding sx={{ overflow: 'auto', maxHeight: '160px',}} > 
+          <List disablePadding sx={{ overflow: 'auto', maxHeight: '200px',}} > 
             { transactionsList.map(transaction => (
             <>
               <ListItem key={transaction.id}>
