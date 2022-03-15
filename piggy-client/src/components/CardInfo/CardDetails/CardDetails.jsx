@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
  }
 }))
 
-const CardDetails = ({ id,expiry,cvc,placeholder,amount }) => {
+const CardDetails = ({ details,placeholder,amount }) => {
   const classes = useStyles()
 
   return (
@@ -42,18 +42,23 @@ const CardDetails = ({ id,expiry,cvc,placeholder,amount }) => {
               <Typography className={classes.amount}>
                 { amount } ₪
               </Typography>
-              <Typography className={classes.Details}>
-                מספר כרטיס:
+               <Typography className={classes.Details}>
+                פרטי האשראי מחכים במייל :)
+              </Typography>
+
+               {/* <Typography className={classes.Details}>
+                פרטי כרטיס:
               </Typography>
               <Typography className={classes.Details} sx={{textAlign:'left'}}>
-                { id ? id : placeholder.id  }
+                { details.cardNumber ? details.cardNumber : placeholder.number  }
               </Typography>
                <Typography className={classes.Details}>
-                { expiry ?  expiry : placeholder.expiry }
+                { details.expirationMonth ? details.expirationMonth : placeholder.expirationMonth } / 
+                { details.expirationYear ? details.expirationYear : placeholder.expirationYear}
               </Typography> 
                   { <Typography className={classes.Details}>
-                    { cvc ? cvc : placeholder.cvc }
-                  </Typography>   }
+                    { details.cvc ? details.cvc : placeholder.cvc }
+                  </Typography>    */}
                  {/* { <CardActions>
                   <Fab variant="extended" size="medium" sx={{marginLeft: 'auto'}}>להצגת הפרטים</Fab>
                 </CardActions>  */}
@@ -64,18 +69,23 @@ const CardDetails = ({ id,expiry,cvc,placeholder,amount }) => {
 }
 
 CardDetails.propTypes = {
-  amount:PropTypes.number,
-  id: PropTypes.string,
-  expiry: PropTypes.string,
-  cvc: PropTypes.string,
+  details:PropTypes.object,
   placeholder: PropTypes.object,
+  amount: PropTypes.number,
 }
 CardDetails.defaultProps = {
-  amount : 0,
-    placeholder: {
-    id: "•••• •••• •••• ••••",
-    expiry: "••/••",
-    cvc: "•••",
+    amount : 0,
+    details : {
+      cardNumber: "•••• •••• •••• ••••",
+      expirationMonth: "••",
+      expirationYear: "••",
+      cvc: "•••",
+    },
+    placeholder : {
+      number: "•••• •••• •••• ••••",
+      expirationMonth: "••",
+      expirationYear: "••",
+      cvc: "•••",
   },
 }
 

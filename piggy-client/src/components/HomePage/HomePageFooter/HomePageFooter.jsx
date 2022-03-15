@@ -7,7 +7,6 @@ import PropTypes from 'prop-types'
 import { IconButton, Typography, Dialog, DialogTitle } from '@mui/material'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { Home } from '@mui/icons-material'
 import axios from 'axios'
 import configData from "../../../conf.json";
 import ParentContext from '../../../ParentContext';
@@ -99,11 +98,11 @@ const HomePageFooter = ({ footerType }) => {
       <div className={classes.innerContainer}>
         <div className={classes.footerLinkWrapper}>
           <IconButton className={classes.footerLink} >
-            <Home />
+          { rightLink.icon }
             <Typography className={classes.linkLabel}>
               {rightLink.label}
             </Typography>
-          </IconButton>
+            </IconButton>
         </div>
         <div
           className={cx(
@@ -112,7 +111,7 @@ const HomePageFooter = ({ footerType }) => {
           )}
         >
           <IconButton className={cx(classes.footerLink, classes.floating)} onClick={() =>{ footerType === HOMEPAGE_CONSTANTS.PARENT_FOOTER && handleTransferMoney()}}>
-            <Home />
+            { middleLink.icon }
           </IconButton>
           <Typography className={classes.linkLabel}>
             {middleLink.label}
@@ -120,11 +119,11 @@ const HomePageFooter = ({ footerType }) => {
         </div>
         <div className={classes.footerLinkWrapper}>
           <IconButton className={classes.footerLink}>
-            <Home />
+           {leftLink.icon}
             <Typography className={classes.linkLabel}>
               {leftLink.label}
             </Typography>
-          </IconButton>
+            </IconButton>
         </div>
       </div>
     

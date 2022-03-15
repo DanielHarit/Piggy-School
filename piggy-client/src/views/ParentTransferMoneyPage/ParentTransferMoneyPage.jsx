@@ -31,10 +31,10 @@ const ParentHomePage = () => {
 	const classes = useStyles();
 
 	const [childrens,setChildrens] = useState([]);
-	const [showText, setShowText] = useState('הקלד למעלה כמה תרצה להעביר');
+	const [showText, setShowText] = useState('');
 
 	useEffect(() => {
-		amount && amount > 0 ? setShowText(`בחרת להעביר ${amount} שקלים`) : setShowText('הקלד למעלה כמה תרצה להעביר');
+		amount && amount > 0 ? setShowText(`בחרת להעביר ${amount} שקלים`) : setShowText('');
 	}, [amount]);
 
 	useEffect(()=>{
