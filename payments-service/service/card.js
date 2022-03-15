@@ -23,6 +23,28 @@ module.exports.get_card_info = async function(userid) {
     }
 }
 
+module.exports.resend_card_details = async function(userid) {
+    try {
+        var response = await axios.get(`${process.env.DB_SERVICE_URL}/children/creditCard/${userid}`);
+        var cardid = response.data;
+    }
+    catch(err) {
+        throw new Error("Error connecting to DB service!");
+    }
+
+    if (!cardid) {
+        throw new Error("No card with this userid found");
+    }
+
+    try {
+        response = await axios.get(`${process.env.EXTEND_SERVICE_URL}/card/resend/${cardid}`);
+        return response.data;
+    }
+    catch(err) {
+        throw new Error(`Error resend card details! cardid: ${cardid}`);
+    }
+}
+
 module.exports.update_card = async function(userid, amount) { 
     // Raise error if amount is 0 or less
     if (amount <= 0) {
@@ -43,7 +65,8 @@ module.exports.update_card = async function(userid, amount) {
     if (!cardid || cardid == "") {
         try {
             response = await axios.post(`${process.env.EXTEND_SERVICE_URL}/card`, {
-                "cardHolderName": children["UserSettings"]["DisplayName"]
+                "cardHolderName": children["UserSettings"]["DisplayName"],
+                "cardHolderEmail": children["Mail"]
             });
             
             cardid = response.data["id"];
