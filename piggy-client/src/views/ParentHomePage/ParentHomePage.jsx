@@ -14,8 +14,10 @@ const ParentHomePage = () => {
 
   const [userName,setUserName] =useState('')
   useEffect(() =>{
-    axios.get(`${config.PIGGY_DB_URL}/parent/62171cef74e8cac9530dcdsdacbw`).then(res =>setUserName(res.data.DisplayName
-      ))
+    const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
+    console.log(userMail);
+    axios.get(`${config.PIGGY_DB_URL}/parent/62171cef74e8cac9530dcdsdacbw`)
+      .then(res =>setUserName(res.data.DisplayName));
   },[])
 
   return (

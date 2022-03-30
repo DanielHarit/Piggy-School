@@ -47,7 +47,7 @@ const ParentHomePage = () => {
 	return (
 		<div className={classes.container}>
 			<div className={classes.childrenContainer}>
-				{childrens.map((children) => <ChildrenDisplay onClick={()=>setSelectedChildrenId(children._id)} selected={selectedChildrenId===children._id} name={children.UserSettings?.DisplayName}/>)}
+				{childrens.map((children) => <ChildrenDisplay key={children._id} onClick={()=>setSelectedChildrenId(children._id)} selected={selectedChildrenId===children._id} name={children.UserSettings?.DisplayName}/>)}
 			</div>
 			<TextField label='כמה תרצה להעביר?' variant='outlined' color='primary' fullWidth value={+amount || ''} type='number' onChange={(event) => setAmount(event.target.value)} />
 			<Typography variant='h6' component='div' className={classes.text}>
