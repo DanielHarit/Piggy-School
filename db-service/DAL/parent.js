@@ -8,6 +8,11 @@ export const getParentById = async (id) =>{
     return parent;
 }
 
+export const getParentByMail = async (mail) =>{
+    const parent =  await db.collection(collectionName).findOne({Mail:mail});
+    return parent;
+}
+
 export const getChildrenByParentId = async (id) =>{
     
     const parent =  await db.collection(collectionName).aggregate(
