@@ -2,9 +2,10 @@ import express from 'express'
 import cors from 'cors'
 import config from './config.js'
 import {initializeDbConnection} from './DAL/mongoConnectios.js'
-import {getChildrenById, getCreditCardByChildrenId, updateCreditCardByChildrenId} from './DAL/children.js'
-import {getChildrenByParentId, getParentById} from './DAL/parent.js'
+import {getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCreditCardByChildrenId} from './DAL/children.js'
+import {getChildrenByParentId, getParentById, getParentByMail} from './DAL/parent.js'
 import {getAvatarById,getAllAvatars} from './DAL/avatar.js'
+import {getUserType} from './DAL/identity.js'
 import {getAllBackgroundColors,getBackgroundColorById} from './DAL/backgroudColor.js'
 
 var port = process.env.PORT || config.app.port;
@@ -18,9 +19,19 @@ initializeDbConnection().then(() => {
     });
 });
 
+// identity
+app.get('/identity/:mail', async (req, res) => {
+    const userType = await getUserType(req.params.mail);
+    res.send(userType);
+});
+
 // childrens
 app.get('/children/:id', async (req, res) => {
     const children = await getChildrenById(req.params.id);
+    res.send(children);
+});
+app.get('/children/mail/:mail', async (req, res) => {
+    const children = await getChildrenByMail(req.params.mail);
     res.send(children);
 });
 
@@ -42,6 +53,10 @@ app.get('/parentChild/:id', async (req, res) => {
 });
 app.get('/parent/:id', async (req, res) => {
     const parent = await getParentById(req.params.id);
+    res.send(parent);
+});
+app.get('/parent/mail/:mail', async (req, res) => {
+    const parent = await getParentByMail(req.params.mail);
     res.send(parent);
 });
 
