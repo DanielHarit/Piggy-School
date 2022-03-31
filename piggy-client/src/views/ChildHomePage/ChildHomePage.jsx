@@ -7,7 +7,7 @@ import CardDetails from '../../components/CardInfo/CardDetails'
 import { useEffect,useState } from 'react';
 import { makeStyles } from '@mui/styles'
 import axios from 'axios';
-import configData from "../../conf.json";
+import config from "../../conf.json";
 import CardHistory from '../../components/CardInfo/CardHistory';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,11 +19,15 @@ const ChildHomePage = () => {
     const classes = useStyles()
     const [cardData,setCardData,] = useState(null);
     const [userName,setUserName] =useState('')
-    useEffect(()=>{
-            axios.get(`${configData.PIGGY_DB_URL}/children/62171cef74e8cac9530dcaac`).then((res) =>{
-                setUserName(res.data.UserSettings.DisplayName);
-            })
-            axios.get(`${configData.PAYMENT_SERVICE_URL}/card/62171cef74e8cac9530dcaac`).then((res) =>{
+    useEffect(async () => {
+        const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
+        const user = await axios.get(`${config.PIGGY_DB_URL}/children/mail/${userMail}`); 
+        setUserName(user.data.UserSettings.DisplayName);
+
+            // axios.get(`${config.PIGGY_DB_URL}/children/62171cef74e8cac9530dcaac`).then((res) =>{
+            //     setUserName(res.data.UserSettings.DisplayName);
+            // })
+            axios.get(`${config.PAYMENT_SERVICE_URL}/card/${user.data.CardId}`).then((res) =>{
                 setCardData(res.data);
               }).catch((err) =>{
               })

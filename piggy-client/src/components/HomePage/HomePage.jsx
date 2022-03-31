@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import makeStyles from '@mui/styles/makeStyles';
+import Logout from '../Auth/Logout';
 
 const useStyles = makeStyles((theme) => ({
 	titles: {
@@ -42,6 +43,7 @@ const HomePage = ({ title, btnText, btnLink, children }) => {
 						<Typography variant='h6' component='div' className={classes.mainTitle}>
 							{title}
 						</Typography>
+						<Logout />
 						<Button color='inherit' onClick={goToLink}>
 							{btnText}
 						</Button>
