@@ -10,6 +10,8 @@ function Logout() {
 
   const onSuccess = () => {
     console.log('Logout made successfully');
+    sessionStorage.removeItem("profileObj");
+    sessionStorage.removeItem("tokenId");
     navigate("/login");
   };
 
