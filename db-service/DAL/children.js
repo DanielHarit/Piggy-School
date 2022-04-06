@@ -46,5 +46,5 @@ export const registerChild = async (userMail, displayName, parentMail) =>{
     }
 
     const childId = child ? child._id : newChildDocument._id;
-    return updateParentChildrens(childId, parentMail);
+    return updateParentChildrens(childId, userMail, parentMail);
 }

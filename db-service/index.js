@@ -66,10 +66,11 @@ app.post('/parent/register', async (req, res) => {
     const userMail = req.body.mail;
     const displayName = req.body.displayName;
     const creditCardNumber = req.body.creditCardNumber;
+    const childrensList = req.body.childrensList;
     let newParentResponse;
     
     try {
-        newParentResponse = await registerParent(userMail, displayName, creditCardNumber);
+        newParentResponse = await registerParent(userMail, displayName, creditCardNumber, childrensList);
     }
     catch (err) {
         console.log(err);
@@ -93,7 +94,7 @@ app.post('/parent/child', async (req, res) => {
     }
 
     res.send(newParentChild);
-})
+});
 
 // Avatars
 app.get('/avatar/:id', async (req, res) => {
