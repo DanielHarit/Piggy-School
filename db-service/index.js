@@ -2,11 +2,11 @@ import express from 'express'
 import cors from 'cors'
 import config from './config.js'
 import {initializeDbConnection} from './DAL/mongoConnectios.js'
-import {getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCreditCardByChildrenId} from './DAL/children.js'
-import {getChildrenByParentId, getParentById, getParentByMail} from './DAL/parent.js'
-import {getAvatarById,getAllAvatars} from './DAL/avatar.js'
+import {getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCreditCardByChildrenId, registerChild} from './DAL/children.js'
+import {getChildrenByParentId, getParentById, registerParent, getParentByMail} from './DAL/parent.js'
+import {getAvatarById, getAllAvatars} from './DAL/avatar.js'
 import {getUserType} from './DAL/identity.js'
-import {getAllBackgroundColors,getBackgroundColorById} from './DAL/backgroudColor.js'
+import {getAllBackgroundColors, getBackgroundColorById} from './DAL/backgroudColor.js'
 
 var port = process.env.PORT || config.app.port;
 const app = express();
@@ -46,6 +46,23 @@ app.put('/children/creditCard/:id', async (req, res) => {
     res.send(`update ${countUpdated} documents`);
 });
 
+app.post('/children/register', async (req, res) => {
+    const userMail = req.body.mail;
+    const displayName = req.body.displayName;
+    const parentMail = req.body.parentMail;
+    let newChildResponse;
+
+    try {
+        newChildResponse = await registerChild(userMail, displayName, parentMail);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send({message: `Error creating child user with mail ${userMail}`});
+    }
+
+    res.send(newChildResponse);
+});
+
 // parent
 app.get('/parentChild/:id', async (req, res) => {
     const children = await getChildrenByParentId(req.params.id);
@@ -58,6 +75,40 @@ app.get('/parent/:id', async (req, res) => {
 app.get('/parent/mail/:mail', async (req, res) => {
     const parent = await getParentByMail(req.params.mail);
     res.send(parent);
+});
+
+app.post('/parent/register', async (req, res) => {
+    const userMail = req.body.mail;
+    const displayName = req.body.displayName;
+    const creditCardNumber = req.body.creditCardNumber;
+    const childrensList = req.body.childrensList;
+    let newParentResponse;
+    
+    try {
+        newParentResponse = await registerParent(userMail, displayName, creditCardNumber, childrensList);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send({message: `Error creating parent user with mail ${userMail}`});
+    }
+
+    res.send(newParentResponse);
+});
+
+app.post('/parent/child', async (req, res) => {
+    const parentMail = req.body.parentMail;
+    const childId = req.body.childId;
+    let newParentChild;
+
+    try {
+        newParentChild = await updateParentChildrens(childId, parentMail);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send({message: `Error adding child ${childMail} to parent ${parentMail}`});
+    }
+
+    res.send(newParentChild);
 });
 
 // Avatars

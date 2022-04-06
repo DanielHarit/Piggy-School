@@ -13,10 +13,11 @@ import { HOMEPAGE_CONSTANTS } from '../../constants'
 const ParentHomePage = () => {
 
   const [userName,setUserName] =useState('')
-  useEffect(() =>{
-    axios.get(`${config.PIGGY_DB_URL}/parent/62171cef74e8cac9530dcdsdacbw`).then(res =>setUserName(res.data.DisplayName
-      ))
-  },[])
+  useEffect(async () =>{
+    const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
+    const user = await axios.get(`${config.PIGGY_DB_URL}/parent/mail/${userMail}`); 
+    setUserName(user.data.DisplayName)
+  },[]);
 
   return (
       <HomePage title="PIGGY" btnText="לתצוגת ילד" btnLink="/child">

@@ -22,17 +22,17 @@ const Transactions = ({transactionsList}) => {
 
   return (
     <div className={classes.root}>
-          <List disablePadding sx={{ overflow: 'auto', maxHeight: '200px',}} > 
-            { transactionsList.map(transaction => (
-            <>
-              <ListItem key={transaction.id}>
-                <ListItemText primary={transaction.description} secondary={new Date(transaction.timestamp).toLocaleDateString()}/>
-                <Typography edge="end"> {transaction.amount} ₪ </Typography>
-              </ListItem>
-              <Divider light/>
-            </>
-            )) }
-         </List>
+      <List disablePadding sx={{ overflow: 'auto', maxHeight: '200px',}} > 
+        { transactionsList.map(transaction => (
+        <>
+          <ListItem key={transaction.id}>
+            <ListItemText primary={transaction.description} secondary={new Date(transaction.timestamp).toLocaleDateString()}/>
+            <Typography edge="end"> {transaction.amount} ₪ </Typography>
+          </ListItem>
+          <Divider light/>
+        </>
+        )) }
+      </List>
   </div>
   )
 }

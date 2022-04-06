@@ -37,25 +37,24 @@ const ParentHomePage = () => {
 		amount && amount > 0 ? setShowText(`בחרת להעביר ${amount} שקלים`) : setShowText('');
 	}, [amount]);
 
-	useEffect(()=>{
-		axios.get(`${config.PIGGY_DB_URL}/parentChild/62171cef74e8cac9530dcdsdacbw`).then(res => {
-		setChildrens(res.data)
-		setSelectedChildrenId((res.data)[0]._id)})
-
-	},[])
+	useEffect(async () => {
+		const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
+		const user = await axios.get(`${config.PIGGY_DB_URL}/parent/mail/${userMail}`); 
+		const childrens = await axios.get(`${config.PIGGY_DB_URL}/parentChild/${user.data._id}`);
+		setChildrens(childrens.data);
+		setSelectedChildrenId((childrens.data)[0]._id);
+	},[]);
 
 	return (
 		<div className={classes.container}>
 			<div className={classes.childrenContainer}>
-				{childrens.map((children) => <ChildrenDisplay onClick={()=>setSelectedChildrenId(children._id)} selected={selectedChildrenId===children._id} name={children.UserSettings?.DisplayName}/>)}
+				{childrens.map((children) => <ChildrenDisplay key={children._id} onClick={()=>setSelectedChildrenId(children._id)} selected={selectedChildrenId===children._id} name={children.UserSettings?.DisplayName}/>)}
 			</div>
 			<TextField label='כמה תרצה להעביר?' variant='outlined' color='primary' fullWidth value={+amount || ''} type='number' onChange={(event) => setAmount(event.target.value)} />
 			<Typography variant='h6' component='div' className={classes.text}>
 				{showText}
 			</Typography>
-		
 		</div>
-		
 	);
 };
 
