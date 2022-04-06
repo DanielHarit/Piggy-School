@@ -10,6 +10,12 @@ export const getChildrenById = async (id) =>{
     const children =  await db.collection(collectionName).findOne({_id:id});
     return children;
 }
+
+export const getChildrenByMail = async (mail) =>{
+    const children =  await db.collection(collectionName).findOne({Mail:mail});
+    return children;
+}
+
 export const getCreditCardByChildrenId = async (id) =>{
     const children =  await getChildrenById(id);
     return children.CardId;
