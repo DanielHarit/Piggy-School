@@ -5,6 +5,9 @@ import {initializeDbConnection} from './DAL/mongoConnectios.js'
 import {getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCreditCardByChildrenId, registerChild} from './DAL/children.js'
 import {getChildrenByParentId, getParentById, registerParent, getParentByMail} from './DAL/parent.js'
 import {getAvatarById, getAllAvatars} from './DAL/avatar.js'
+import {getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCreditCardByChildrenId, updateChildrenSettings , updateChildrenDisplayName} from './DAL/children.js'
+import {getChildrenByParentId, getParentById, getParentByMail} from './DAL/parent.js'
+import {getAvatarById,getAllAvatars} from './DAL/avatar.js'
 import {getUserType} from './DAL/identity.js'
 import {getAllBackgroundColors, getBackgroundColorById} from './DAL/backgroudColor.js'
 
@@ -63,6 +66,18 @@ app.post('/children/register', async (req, res) => {
     res.send(newChildResponse);
 });
 
+app.put('/children/AlertSettings/:id', async (req, res) => {
+    const newSettings = req.body;
+    const countUpdated = await updateChildrenSettings(req.params.id,newSettings);
+    res.send(`update ${countUpdated} documents`);
+});
+
+app.put('/children/DisplayName/:id', async (req, res) => {
+    const displayName = req.body.value;
+    const countUpdated = await updateChildrenDisplayName(req.params.id,displayName);
+    res.send(`update ${countUpdated} documents`);
+});
+
 // parent
 app.get('/parentChild/:id', async (req, res) => {
     const children = await getChildrenByParentId(req.params.id);
@@ -109,6 +124,10 @@ app.post('/parent/child', async (req, res) => {
     }
 
     res.send(newParentChild);
+});
+app.get('/user/type/:id' , async (req, res) => {
+    const isParent = await getParentById(req.params.id);
+    res.send(isParent ? "Parent" : "Child");
 });
 
 // Avatars

@@ -4,12 +4,8 @@ import { HOMEPAGE_CONSTANTS } from '../../../constants'
 import cx from 'classnames'
 import { useFooterLinks } from './useFooterLinks'
 import PropTypes from 'prop-types'
-import { IconButton, Typography, Dialog, DialogTitle } from '@mui/material'
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import axios from 'axios'
-import configData from "../../../conf.json";
-import ParentContext from '../../../ParentContext';
+import { IconButton, Typography} from '@mui/material'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,37 +63,19 @@ const useStyles = makeStyles((theme) => ({
 
 }))
 
-const ActionStatus = Object.freeze({"SUCCESS":'success', "ERROR":'error', "NONE":"none"})
 
-const HomePageFooter = ({ footerType }) => {
+const HomePageFooter = ({ footerType , onBtnsClick={ left:()=>{}, right:()=>{}, middle:()=>{}}}) => {
   const classes = useStyles();
-  const {amount,selectedChildrenId,setAmount} = useContext(ParentContext);
-  const [actionStatus, setActionStatus] = useState(ActionStatus.NONE)
-
+  
 
   const getFooterLinks = useFooterLinks(footerType)
-  const { rightLink, middleLink, leftLink } = getFooterLinks()
-
-  const handleTransferMoney = () =>{
-
-    console.log("payed for "+ amount+ " " +selectedChildrenId);
-
-    axios.put(`${configData.PAYMENT_SERVICE_URL}/card/${selectedChildrenId}`, {
-      amount : +amount
-    }).then((res) =>{
-      setActionStatus(ActionStatus.SUCCESS);
-      setAmount(0);
-    }).catch((err) =>{
-      setActionStatus(ActionStatus.ERROR);
-      setAmount(0);
-    })
-  }
+  const { rightLink, middleLink, leftLink } = getFooterLinks();
 
   return (
     <div className={classes.root}>
       <div className={classes.innerContainer}>
         <div className={classes.footerLinkWrapper}>
-          <IconButton className={classes.footerLink} >
+          <IconButton className={classes.footerLink} onClick={onBtnsClick.right} >
           { rightLink.icon }
             <Typography className={classes.linkLabel}>
               {rightLink.label}
@@ -110,7 +88,7 @@ const HomePageFooter = ({ footerType }) => {
             classes.floatingFooterLinkWrapper
           )}
         >
-          <IconButton className={cx(classes.footerLink, classes.floating)} onClick={() =>{ footerType === HOMEPAGE_CONSTANTS.PARENT_FOOTER && handleTransferMoney()}}>
+          <IconButton className={cx(classes.footerLink, classes.floating)} onClick={onBtnsClick.middle}>
             { middleLink.icon }
           </IconButton>
           <Typography className={classes.linkLabel}>
@@ -118,7 +96,7 @@ const HomePageFooter = ({ footerType }) => {
           </Typography>
         </div>
         <div className={classes.footerLinkWrapper}>
-          <IconButton className={classes.footerLink}>
+          <IconButton className={classes.footerLink} onClick={onBtnsClick.left}>
            {leftLink.icon}
             <Typography className={classes.linkLabel}>
               {leftLink.label}
@@ -126,19 +104,7 @@ const HomePageFooter = ({ footerType }) => {
             </IconButton>
         </div>
       </div>
-    
-      <Dialog open={actionStatus === ActionStatus.SUCCESS} onClose={()=>setActionStatus(ActionStatus.NONE)}>
-        <DialogTitle id="alert-dialog-title">
-          <CheckCircleOutlineIcon className={classes.icon} color='success' fontSize='large'/>
-          <Typography>ההעברה בוצעה בהצלחה!</Typography>
-        </DialogTitle>
-      </Dialog>
-      <Dialog open={actionStatus === ActionStatus.ERROR} onClose={()=>setActionStatus(ActionStatus.NONE)}>
-        <DialogTitle id="alert-dialog-title">
-          <ErrorOutlineIcon className={classes.icon} color='error' fontSize='large'/>
-          <Typography>ההעברה נכשלה</Typography>
-        </DialogTitle>
-      </Dialog>
+
     </div>
   )
 }
