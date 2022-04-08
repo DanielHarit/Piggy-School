@@ -54,3 +54,21 @@ export const registerChild = async (userMail, displayName, parentMail) =>{
     const childId = child ? child._id : newChildDocument._id;
     return updateParentChildrens(childId, userMail, parentMail);
 }
+export const updateChildrenSettings = async( childrenId,settings) => {
+    const property = Object.keys(settings)[0];
+    const value = settings[property];
+    const propertySettings = "UserSettings.AlertsSettings." + property;
+    const resultUpdate = await db.collection(collectionName).updateOne(
+        {"_id": childrenId} ,  { $set: {[propertySettings] : value}}
+    )
+    return resultUpdate.modifiedCount;
+}
+
+export const updateChildrenDisplayName = async( childrenId,newName) => {
+    const resultUpdate = await db.collection(collectionName).updateOne(
+        {"_id": childrenId} ,  { $set: {"UserSettings.DisplayName" : newName}}
+    )
+
+    return resultUpdate.modifiedCount;
+}
+
