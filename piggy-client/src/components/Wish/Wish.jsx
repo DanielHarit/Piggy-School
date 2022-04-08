@@ -1,11 +1,13 @@
 import { Paper, Typography, Avatar, Grid, LinearProgress } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import drownPic from '../../assets/img/drownExample.jpg';
 
 const useStyles = makeStyles((theme) => ({
-	total: {
-		padding: '15px',
+	root: {
 		backgroundColor: '#FAFAFA',
+		marginBottom: '10px',
+	},
+	inner: {
+		padding: '15px 0px 15px 15px',
 	},
 	name: {
 		fontSize: '15px',
@@ -38,34 +40,60 @@ const useStyles = makeStyles((theme) => ({
 	desc: {
 		fontSize: '15px',
 		marginRight: '10px',
+		color: '#9e9e9e',
+	},
+	priority: {
+		flexDirection: 'column',
+		display: 'flex',
+		justifyContent: 'center',
+		backgroundColor: '#cba9c3',
+		borderRadius: '0 5px 5px 0',
+		height: '100%',
+	},
+	priorityNum: {
+		fontSize: '25px',
+		fontWeight: 'bold',
+		textAlign: 'center',
+		color: 'white',
 	},
 }));
 
-const Wish = () => {
+const Wish = ({ name, pic, amount, currAmount, priority }) => {
 	const classes = useStyles();
 
 	return (
-		<Paper className={classes.total}>
+		<Paper className={classes.root}>
 			<Grid container>
-				<Grid item xs={3} className={classes.centered}>
-					<Avatar src={drownPic} sx={{ width: 56, height: 56, margin: 'auto' }} />
-					<Typography className={classes.name}>רחפן</Typography>
-				</Grid>
-				<Grid item xs={9}>
-					<div className={classes.progressWrapper}>
-						<Grid container>
-							<Grid item xs={6}>
-								<Typography className={classes.currAmount}>700₪</Typography>
-							</Grid>
-							<Grid item xs={6} className={classes.amountWrapper}>
-								<Typography className={classes.amount}>1000₪</Typography>
-							</Grid>
-							<Grid item xs={12}>
-								<LinearProgress className={classes.progressBar} variant='determinate' value={70} />
-							</Grid>
+				{priority && (
+					<Grid item xs={2}>
+						<div className={classes.priority}>
+							<Typography className={classes.priorityNum}>{priority}</Typography>
+						</div>
+					</Grid>
+				)}
+				<Grid item xs={priority ? 10 : 12}>
+					<Grid container className={classes.inner}>
+						<Grid item xs={3} className={classes.centered}>
+							<Avatar src={pic} sx={{ width: 56, height: 56, margin: 'auto' }} />
+							<Typography className={classes.name}>{name}</Typography>
 						</Grid>
-					</div>
-					<Typography className={classes.desc}>עוד 300₪ וסיימנו!</Typography>
+						<Grid item xs={9}>
+							<div className={classes.progressWrapper}>
+								<Grid container>
+									<Grid item xs={6}>
+										{amount - currAmount > 0 && <Typography className={classes.currAmount}>{currAmount}₪</Typography>}
+									</Grid>
+									<Grid item xs={6} className={classes.amountWrapper}>
+										<Typography className={classes.amount}>{amount}₪</Typography>
+									</Grid>
+									<Grid item xs={12}>
+										<LinearProgress className={classes.progressBar} variant='determinate' value={(currAmount * 100) / amount} />
+									</Grid>
+								</Grid>
+							</div>
+							<Typography className={classes.desc}>{amount - currAmount > 0 ? `עוד ${amount - currAmount}₪ וסיימנו!` : 'יש לנו את זה!'}</Typography>
+						</Grid>
+					</Grid>
 				</Grid>
 			</Grid>
 		</Paper>
