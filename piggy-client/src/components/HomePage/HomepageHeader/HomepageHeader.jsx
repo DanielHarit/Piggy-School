@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    minHeight: 200,
+    minHeight: 150,
     backgroundColor: '#9D9D9D',
     borderRadius: '0 0 48px 48px',
     padding: theme.spacing(0, 3, 0, 8),
