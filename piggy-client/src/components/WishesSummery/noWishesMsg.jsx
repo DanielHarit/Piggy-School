@@ -1,5 +1,7 @@
 import { Paper, Typography, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { useNavigate } from 'react-router-dom';
+import routes from '../Router/Routes';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -20,12 +22,17 @@ const useStyles = makeStyles((theme) => ({
 
 const NoWishesMsg = () => {
 	const classes = useStyles();
+	const navigate = useNavigate();
+
+	const goToWishList = () => navigate(routes.ChildWishList);
 
 	return (
 		<Paper className={classes.root}>
 			<Typography className={classes.desc}>כתיבת יעדי חיסכון עוזרת לנו להשיג את מה שאנחנו רוצים :) </Typography>
 			<div className={classes.btn}>
-				<Button className={classes.btnText}> לחצו כאן כדי להתחיל!</Button>
+				<Button className={classes.btnText} onClick={goToWishList}>
+					לחצו כאן כדי להתחיל!
+				</Button>
 			</div>
 		</Paper>
 	);

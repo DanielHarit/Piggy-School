@@ -4,6 +4,8 @@ import Wish from '../Wish';
 import drownPic from '../../assets/img/drownExample.jpg';
 import { useState } from 'react';
 import NoWishesMsg from './noWishesMsg';
+import { useNavigate } from 'react-router-dom';
+import routes from '../Router/Routes';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -21,13 +23,21 @@ const useStyles = makeStyles((theme) => ({
 
 const WishesSummery = () => {
 	const classes = useStyles();
-	const [showWishes, setShowWishes] = useState(true);
+	const navigate = useNavigate();
+
+	const [showWishes, setShowWishes] = useState(false);
+
+	const goToWishList = () => navigate(routes.ChildWishList);
 
 	return (
 		<div className={classes.root}>
 			<div className={classes.title}>
 				<Typography>היעדים שלי</Typography>
-				{showWishes && <Button variant='text'>הצג עוד...</Button>}
+				{showWishes && (
+					<Button variant='text' onClick={goToWishList}>
+						הצג עוד...
+					</Button>
+				)}
 			</div>
 			{showWishes ? (
 				<>
