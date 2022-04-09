@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
 	addBtn: {
 		fontSize: '16px',
 	},
+	wishesContainer: {
+		marginBottom: '10px',
+	},
 }));
 
 const ChildWishList = () => {
@@ -47,9 +50,11 @@ const ChildWishList = () => {
 		<div className={classes.root}>
 			<Typography variant='h6'>היעדים שלי</Typography>
 			{Object.keys(wishes).length === 0 && <Typography className={classes.explain}>כתיבת יעדי חיסכון עוזרת לנו להשיג את מה שאנחנו רוצים :) זה המקום להתחיל!</Typography>}
-			{Object.values(wishes).map((wish) => (
-				<Wish key={wish.id} name={wish.name} pic={wish.pic} cost={wish.cost} currAmount={wish.currAmount} priority={wish.priority} />
-			))}
+			<div className={classes.wishesContainer}>
+				{Object.values(wishes).map((wish) => (
+					<Wish key={wish.id} name={wish.name} pic={wish.pic} cost={wish.cost} currAmount={wish.currAmount} priority={wish.priority} />
+				))}
+			</div>
 			<Button className={classes.addBtn} variant='contained' fullWidth startIcon={<AddIcon />} onClick={goToAddWish}>
 				הוספת יעד
 			</Button>
