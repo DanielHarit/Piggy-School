@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import { Card } from '@mui/material'
+import { Card,Box } from '@mui/material'
 import { makeStyles } from '@mui/styles'
 import PropTypes from 'prop-types'
 import Transactions from '../Transactions'
@@ -16,6 +16,17 @@ const useStyles = makeStyles((theme) => ({
  total:{
   textAlign: 'center',
   backgroundColor: '#FAFAFA',
+ },
+ z:{
+  display:'inline-flex',
+  direction:'ltr',
+  alignItems:'center'
+ },
+ drawdown:{
+  fontSize :'35px',
+ },
+ amount:{
+  fontSize :'20px',
  }
 }))
 
@@ -26,11 +37,12 @@ const CardHistory = ({ card }) => {
   return (
     <div className={classes.root}>
       
-    <Typography>החודש הוצאתי..</Typography>
-
     <Card className={classes.total}>
-      <Typography fontSize="35px" >
-        { card?.transactions.map(transaction => transaction.amount).reduce((a,b) => a + b, 0 )} ₪
+      <Typography className={classes.z}>
+      <Box className={classes.drawdown}>
+      ₪{ card?.transactions.map(transaction => transaction.amount).reduce((a,b) => a + b, 0 )} 
+      </Box>
+      <Box className={classes.amount}> /{card?.amount} </Box>
       </Typography>
      </Card>
 

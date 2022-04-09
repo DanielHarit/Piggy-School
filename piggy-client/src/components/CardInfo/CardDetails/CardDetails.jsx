@@ -33,7 +33,6 @@ const CardDetails = ({ details,placeholder,amount }) => {
 
   return (
     <div className={classes.root}>
-       <Typography>הכרטיס שלי</Typography>
          <Card className={classes.total}>
               <Typography className={classes.Details}>
                 חסכתי:

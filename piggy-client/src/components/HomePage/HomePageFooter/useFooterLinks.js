@@ -9,7 +9,7 @@ import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 export const useFooterLinks = (footerType) => {
   return useCallback(() => {
     switch (footerType) {
-      case HOMEPAGE_CONSTANTS.CHILD_FOOTER:
+      case HOMEPAGE_CONSTANTS.CHILD:
         return {
           rightLink: {
             label: 'דף בית',
@@ -24,7 +24,7 @@ export const useFooterLinks = (footerType) => {
             icon:<DensityMediumIcon/>,
           },
         }
-      case HOMEPAGE_CONSTANTS.PARENT_FOOTER:
+      case HOMEPAGE_CONSTANTS.PARENT:
         return {
           rightLink: {
             label: 'דף בית',

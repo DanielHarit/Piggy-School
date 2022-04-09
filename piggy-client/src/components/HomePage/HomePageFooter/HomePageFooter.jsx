@@ -113,7 +113,7 @@ HomePageFooter.propTypes = {
   footerType: PropTypes.string,
 }
 HomePageFooter.defaultProps = {
-  footerType: HOMEPAGE_CONSTANTS.CHILD_FOOTER,
+  footerType: HOMEPAGE_CONSTANTS.CHILD,
 }
 
 export default HomePageFooter
