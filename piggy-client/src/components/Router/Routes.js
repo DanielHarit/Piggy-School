@@ -4,6 +4,7 @@ const routes = {
 	ChildLanding: '/childrenLanding',
 	ChildSettings: '/childSettings',
 	ChildWishList: '/childWishList',
+	ChildAddWish: '/childWishList/add',
 	ParentTransfer: '/parentTransfer',
 };
 

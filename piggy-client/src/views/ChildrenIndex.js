@@ -13,6 +13,7 @@ import configData from '../conf.json';
 import ChildrenSettings from '../views/ChildrenSettings/ChildrenSettings';
 import routes from '../components/Router/Routes';
 import ChildWishList from './ChildWishList';
+import ChildAddWish from './ChildAddWish';
 
 const useStyles = makeStyles((theme) => ({}));
 
@@ -36,6 +37,7 @@ const ChildIndex = () => {
 						<Route path={routes.ChildLanding} element={<ChildHomePage />} />
 						<Route path={routes.ChildSettings} element={<ChildrenSettings settings={user.UserSettings} mail={user.Mail} />} />
 						<Route path={routes.ChildWishList} element={<ChildWishList />} />
+						<Route path={routes.ChildAddWish} element={<ChildAddWish />} />
 						<Route path='*' element={<Navigate to={routes.ChildLanding} />} />
 					</Routes>
 				</div>
