@@ -1,7 +1,5 @@
 import { Paper, Typography, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { useNavigate } from 'react-router-dom';
-import routes from '../Router/Routes';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -20,11 +18,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const NoWishesMsg = () => {
+const NoWishesMsg = ({ goToWishList }) => {
 	const classes = useStyles();
-	const navigate = useNavigate();
-
-	const goToWishList = () => navigate(routes.ChildWishList);
 
 	return (
 		<Paper className={classes.root}>

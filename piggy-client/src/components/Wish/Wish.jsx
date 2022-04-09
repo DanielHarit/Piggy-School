@@ -1,5 +1,6 @@
 import { Paper, Typography, Avatar, Grid, LinearProgress } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { useEffect, useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 	currAmount: {
 		fontSize: '15px',
 	},
-	amount: {
+	cost: {
 		fontSize: '15px',
 		fontWeight: 'bold',
 	},
@@ -58,8 +59,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Wish = ({ name, pic, amount, currAmount, priority }) => {
+const Wish = ({ name, pic, cost, currAmount, priority }) => {
 	const classes = useStyles();
+
+	const [progress, setProgress] = useState(0);
+
+	useEffect(() => {
+		setProgress(currAmount > cost ? 100 : (currAmount * 100) / cost);
+	}, [cost, currAmount]);
 
 	return (
 		<Paper className={classes.root}>
@@ -81,17 +88,17 @@ const Wish = ({ name, pic, amount, currAmount, priority }) => {
 							<div className={classes.progressWrapper}>
 								<Grid container>
 									<Grid item xs={6}>
-										{amount - currAmount > 0 && <Typography className={classes.currAmount}>{currAmount}₪</Typography>}
+										{progress < 100 && <Typography className={classes.currAmount}>{currAmount}₪</Typography>}
 									</Grid>
 									<Grid item xs={6} className={classes.amountWrapper}>
-										<Typography className={classes.amount}>{amount}₪</Typography>
+										<Typography className={classes.cost}>{cost}₪</Typography>
 									</Grid>
 									<Grid item xs={12}>
-										<LinearProgress className={classes.progressBar} variant='determinate' value={(currAmount * 100) / amount} />
+										<LinearProgress className={classes.progressBar} variant='determinate' value={progress} />
 									</Grid>
 								</Grid>
 							</div>
-							<Typography className={classes.desc}>{amount - currAmount > 0 ? `עוד ${amount - currAmount}₪ וסיימנו!` : 'יש לנו את זה!'}</Typography>
+							<Typography className={classes.desc}>{progress < 100 ? `עוד ${cost - currAmount}₪ וסיימנו!` : 'יש לנו את זה!'}</Typography>
 						</Grid>
 					</Grid>
 				</Grid>

@@ -1,8 +1,6 @@
 import { Typography, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Wish from '../Wish';
-import drownPic from '../../assets/img/drownExample.jpg';
-import { useState } from 'react';
 import NoWishesMsg from './noWishesMsg';
 import { useNavigate } from 'react-router-dom';
 import routes from '../Router/Routes';
@@ -21,32 +19,26 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const WishesSummery = () => {
+const WishesSummery = ({ wishes, currAmount }) => {
 	const classes = useStyles();
 	const navigate = useNavigate();
 
-	const [showWishes, setShowWishes] = useState(false);
-
-	const goToWishList = () => navigate(routes.ChildWishList);
+	const goToWishList = () =>
+		navigate(routes.ChildWishList, {
+			state: { wishes, currAmount },
+		});
 
 	return (
 		<div className={classes.root}>
 			<div className={classes.title}>
 				<Typography>היעדים שלי</Typography>
-				{showWishes && (
+				{Object.keys(wishes).length > 0 && (
 					<Button variant='text' onClick={goToWishList}>
 						הצג עוד...
 					</Button>
 				)}
 			</div>
-			{showWishes ? (
-				<>
-					<Wish name='רחפן' pic={drownPic} amount={1200} currAmount={800} />
-					<Wish name='רחפן' pic={drownPic} amount={800} currAmount={800} priority={2} />
-				</>
-			) : (
-				<NoWishesMsg />
-			)}
+			{Object.keys(wishes).length > 0 ? <Wish name={wishes[1].name} pic={wishes[1].pic} cost={wishes[1].cost} currAmount={currAmount} /> : <NoWishesMsg goToWishList={goToWishList} />}
 		</div>
 	);
 };
