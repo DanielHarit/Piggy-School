@@ -2,9 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import config from './config.js';
 import { initializeDbConnection } from './DAL/mongoConnectios.js';
-import { getAvatarById, getAllAvatars } from './DAL/avatar.js';
-import { getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCreditCardByChildrenId, registerChild, updateChildrenSettings, updateChildrenDisplayName } from './DAL/children.js';
 import { getChildrenByParentId, getParentById, registerParent, getParentByMail } from './DAL/parent.js';
+import { getAvatarById, getAllAvatars } from './DAL/avatar.js';
+import { getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCreditCardByChildrenId, updateChildrenSettings, registerChild, updateChildrenDisplayName } from './DAL/children.js';
 import { getUserType } from './DAL/identity.js';
 import { getAllBackgroundColors, getBackgroundColorById } from './DAL/backgroudColor.js';
 
