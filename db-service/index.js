@@ -9,7 +9,8 @@ import {getUserType} from './DAL/identity.js'
 import {getAllBackgroundColors, getBackgroundColorById} from './DAL/backgroudColor.js'
 
 
-var port = process.env.PORT || config.app.port;const app = express();
+var port = process.env.PORT || config.app.port;
+const app = express();
 app.use(express.json());
 app.use(cors());
 
