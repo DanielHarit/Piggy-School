@@ -35,7 +35,7 @@ const ActionStatus = Object.freeze({
   NONE: "none",
 });
 
-const ParentHomePage = () => {
+const ParentHomePage = ({ parentId }) => {
   const [actionStatus, setActionStatus] = useState(ActionStatus.NONE);
   const { amount, setAmount, setSelectedChildrenId, selectedChildrenId } =
     useContext(ParentContext);
@@ -52,16 +52,14 @@ const ParentHomePage = () => {
   }, [amount]);
 
   useEffect(async () => {
-    const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
-    const user = await axios.get(
-      `${config.PIGGY_DB_URL}/parent/mail/${userMail}`
-    );
-    const childrens = await axios.get(
-      `${config.PIGGY_DB_URL}/parentChild/${user.data._id}`
-    );
-    setChildrens(childrens.data);
-    setSelectedChildrenId(childrens.data[0]._id);
-  }, []);
+    if (parentId) {
+      const childrens = await axios.get(
+        `${config.PIGGY_DB_URL}/parentChild/${parentId}`
+      );
+      setChildrens(childrens.data);
+      setSelectedChildrenId(childrens.data[0]._id);
+    }
+  }, [parentId]);
 
   const handleTransferMoney = () => {
     console.log("payed for " + amount + " " + selectedChildrenId);
@@ -82,16 +80,19 @@ const ParentHomePage = () => {
 
   return (
     <div className={classes.container}>
-      <div className={classes.childrenContainer}>
-        {childrens.map((children) => (
+      <div className={classes.childrenContainer}> 
+	  {parentId &&
+        childrens.map((children) => (
           <ChildrenDisplay
             key={children._id}
             onClick={() => setSelectedChildrenId(children._id)}
             selected={selectedChildrenId === children._id}
             name={children.UserSettings?.DisplayName}
           />
-        ))}
-      </div>
+        ))
+	}
+	      </div>
+
       <TextField
         label="כמה תרצה להעביר?"
         variant="outlined"
@@ -132,6 +133,7 @@ const ParentHomePage = () => {
         </DialogTitle>
       </Dialog>
     </div>
+	
   );
 };
 

@@ -8,7 +8,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme';
 import CircularProgress from '@mui/material/CircularProgress';
 import CssBaseline from '@mui/material/CssBaseline';
-import ParentHomePage from './views/ParentHomePage';
+import ParentIndex from './views/ParentIndex';
 import ChildIndex from './views/ChildrenIndex';
 import axios from 'axios';
 import config from './conf.json';
@@ -53,7 +53,7 @@ function App() {
 			<CacheProvider value={cacheRtl}>
 				<ThemeProvider theme={theme}>
 					<CssBaseline/>
-					{isLoading ? <div className={classes.CircularProgress}><CircularProgress /></div> : isChildren ?<ChildIndex />  : <ParentHomePage />}
+					{isLoading ? <div className={classes.CircularProgress}><CircularProgress /></div> : isChildren ?<ChildIndex />  : <ParentIndex/>}
 				</ThemeProvider>
 			</CacheProvider>
 		</BrowserRouter>

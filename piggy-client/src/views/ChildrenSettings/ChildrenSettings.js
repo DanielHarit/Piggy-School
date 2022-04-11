@@ -1,7 +1,8 @@
-import { Switch, Typography , Input , FormControl } from "@mui/material";
+import { Switch, Typography, Input, FormControl } from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
 import makeStyles from "@mui/styles/makeStyles";
 import SettingBox from "./SettingBox";
+import { useNavigate } from "react-router-dom";
 import avatarImg from "../../assets/img/4043250_avatar_child_girl_kid_icon.png";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -11,7 +12,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import axios from "axios";
 import EditIcon from "@mui/icons-material/Edit";
 import TextField from "@mui/material/TextField";
-import {useLocation} from 'react-router-dom';
+import routes from "../../components/Router/Routes";
+import { Navigate, useLocation } from "react-router-dom";
 
 import config from "../../conf.json";
 
@@ -30,19 +32,30 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     flexBasis: "60%",
     justifyContent: "center",
-    paddingRight: "3px",
+    paddingRight: "6px",
   },
   imgContainer: {
+    display: "flex",
     flexBasis: "20%",
+    position: "relative",
+  },
+  editImg: {
+    paddingRight: "1px",
+    marginRight: "71%",
+    marginTop: "63%",
+    position: "absolute",
   },
   img: {
     display: "block",
     maxHeight: "100%",
     maxWidth: "100%",
+    borderRadius: "50%",
+    borderStyle: "solid",
+    borderWidth: "1px",
   },
   color: {
     width: "70px",
-    backgroundColor: "pink",
+    backgroundColor: theme.palette.background.default,
     border: "1px solid black",
     borderRadius: "10px",
   },
@@ -68,9 +81,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 // : {WeeklyWatch,NewStories,Allowance}})
-const ChildrenSettings = () => {
-
-  const {state : {settings, mail}} = useLocation();
+const ChildrenSettings = ({ onUserNameChange }) => {
+  const {
+    state: { settings, mail },
+  } = useLocation();
 
   const classes = useStyles();
   const AdornmentRef = useRef();
@@ -84,6 +98,7 @@ const ChildrenSettings = () => {
     Mail: "",
   });
   const [editName, setEditName] = useState(null);
+  const navigate = useNavigate();
 
   const handleChangeSettings = (prop) => {
     axios
@@ -98,22 +113,21 @@ const ChildrenSettings = () => {
       );
   };
 
-  const handleChangeDisplayName = (displayName,event) => {
+  const handleChangeDisplayName = (displayName) => {
     axios
       .put(
         `${config.PIGGY_DB_URL}/children/DisplayName/62171cef74e8cac9530dcaac`,
         {
-          value : displayName
+          value: displayName,
         }
       )
-      .then((data) =>
-        
-          setUserDetailsSettings((prev) => ({
-            ...prev,
-            DisplayName: displayName,
-          }))
-        
-      );
+      .then((data) => {
+        setUserDetailsSettings((prev) => ({
+          ...prev,
+          DisplayName: displayName,
+        }));
+        onUserNameChange(displayName);
+      });
   };
 
   useEffect(() => {
@@ -144,31 +158,43 @@ const ChildrenSettings = () => {
         <>
           <div className={classes.imgContainer}>
             <img alt="logo" src={avatarImg} className={classes.img}></img>
+            <EditIcon
+              className={classes.editImg}
+              fontSize="small"
+              onClick={() => navigate(routes.Store)}
+            />
           </div>
           <div className={classes.userDetails}>
             <div className={classes.emailContainer}>
               {editName ? (
                 <>
-                  <FormControl                           
- variant="standard" onBlur={(event) => { 
-                    
-                      setEditName(null)
-                    
-                    }}>
+                  <FormControl
+                    variant="standard"
+                  >
                     <Input
+                 
+                     onBlur={(event) => {
+                       if(event.relatedTarget === AdornmentRef.current)
+                          handleChangeDisplayName(editName)
+                      setEditName(null);
+                    }}
                       autoFocus
-                      ref={AdornmentRef}
                       value={editName}
                       variant="standard"
                       onChange={handleInputChange}
                       endAdornment={
-                        <InputAdornment position="end">
+                        <InputAdornment
+                          position="end"
+                          style={{ pointerEvents: "stroke" }}
+                          disablePointerEvents
+                          onClick={(event) =>{
+                            console.log('click input')
+                            handleChangeDisplayName(editName, event)}
+                          }
+                        >
                           <IconButton
-                          onMouseDown={(event)=>handleChangeDisplayName(editName, event)}
-                            aria-label="toggle password visibility"
-                            onClick={() => {
-                              alert("click");
-                            }}
+                            aria-label="send"
+                            ref={AdornmentRef}
                             edge="end"
                           >
                             <DoneIcon />
@@ -201,7 +227,12 @@ const ChildrenSettings = () => {
       </SettingBox>
       <SettingBox className={classes.colorContainer}>
         <Typography className={classes.colorText}>אני רוצה רקע בצבע</Typography>
-        <div className={classes.color}></div>
+        <div
+          className={classes.color}
+          onClick={() => {
+            navigate(routes.Store);
+          }}
+        ></div>
       </SettingBox>
       <SettingBox title="התראות" className={classes.alertContainer}>
         <FormGroup>
