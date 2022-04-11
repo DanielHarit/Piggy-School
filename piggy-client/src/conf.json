@@ -1,5 +1,5 @@
 {
-    "PIGGY_DB_URL": "http://localhost:3000",
+    "PIGGY_DB_URL": "https://db-service-gchzpg7vxa-de.a.run.app",
     "PAYMENT_SERVICE_URL": "https://payments-service-gchzpg7vxa-de.a.run.app",
     "CLIENT_ID": "755238118125-6lf6mgs1v2o41db4ajkksp3vg6nj1gn1.apps.googleusercontent.com"
 }
