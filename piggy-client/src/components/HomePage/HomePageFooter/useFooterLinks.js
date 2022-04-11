@@ -31,12 +31,12 @@ export const useFooterLinks = (footerType) => {
             icon: <Home/>,
           },
           middleLink: {
-            label: 'העבר',
-            icon:<SendIcon/>,
-          },
-          leftLink: {
             label: 'פרופיל',
             icon:<AccountCircle/>,
+          },
+          leftLink: {
+            label: 'העבר',
+            icon:<SendIcon/>,
           },
         }
     }

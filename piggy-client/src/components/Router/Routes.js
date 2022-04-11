@@ -6,6 +6,7 @@ const routes = {
 	ChildWishList: '/childWishList',
 	ChildAddWish: '/childWishList/add',
 	ParentTransfer: '/parentTransfer',
-};
+    Store : "/store"
 
+};
 export default routes;
