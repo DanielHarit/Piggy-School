@@ -14,6 +14,7 @@ import ChildrenSettings from "../views/ChildrenSettings/ChildrenSettings";
 import routes from "../components/Router/Routes";
 import ChildWishList from "./ChildWishList";
 import ChildAddWish from "./ChildAddWish";
+import Store from "./Store/Store";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -67,6 +68,7 @@ const ChildIndex = () => {
             />
             <Route path={routes.ChildWishList} element={<ChildWishList />} />
             <Route path={routes.ChildAddWish} element={<ChildAddWish />} />
+            <Route path={routes.Store} element={<Store />} />
             <Route path="*" element={<Navigate to={routes.ChildLanding} />} />
           </Routes>
         </div>
