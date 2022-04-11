@@ -8,6 +8,7 @@ import axios from 'axios';
 
 import CardHistory from '../../components/CardInfo/CardHistory';
 import WishesSummery from '../../components/WishesSummery';
+import StoriesBar from '../../components/StoriesBar';
 
 const useStyles = makeStyles((theme) => ({
 	//     root:{
@@ -51,7 +52,8 @@ const ChildHomePage = () => {
 
 	return (
 		<div className={classes.root}>
-			{/* <CardDetails amount={cardData?.amount} details={cardData?.cardDetails} /> */}
+      		<StoriesBar />
+			<CardDetails amount={cardData?.amount} details={cardData?.cardDetails} />
 			<WishesSummery wishes={wishes} currAmount={amountLeftInCard} isLoadingUserData={isLoadingUserData} />
 			<div className={classes.title}>
 				<Typography>השבוע הוצאתי</Typography>
