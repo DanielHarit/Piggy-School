@@ -19,7 +19,7 @@ function Logout() {
     <div>
       <GoogleLogout
         clientId={clientId}
-        buttonText="Logout"
+        buttonText="התנתק"
         onLogoutSuccess={onSuccess}
       ></GoogleLogout>
     </div>
