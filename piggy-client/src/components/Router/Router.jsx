@@ -6,8 +6,6 @@ import ParentTransferMoneyPage from '../../views/ParentTransferMoneyPage';
 import UserTypeSelect from '../../views/UserTypeSelect';
 import ParentLogin from '../../views/ParentLogin';
 import ChildLogin from '../../views/ChildLogin';
-// import ParentRegister from '../../views/ParentRegister';
-// import ChildLogin from '../../views/ChildRegister';
 
 const Router = () => {
 	return (

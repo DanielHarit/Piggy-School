@@ -65,7 +65,7 @@ const ChildLogin = () => {
       <Container fixed>
         שווה לראות אותך!
         ההורים כבר הזמינו אותך?
-        <Login btnText="הכנס"/>
+        <Login btnText="כניסה עם גוגל"/>
         חדשים בפיגי?
         כדי להירשם לאפליקציה על אחד ההורים שלך להירשם ולשלוח לך הזמנה לחשבון המשותף
         <Button onClick={handleOpen}>
@@ -93,7 +93,7 @@ const ChildLogin = () => {
         </Modal>
         *ניתן להשתמש באפליקציה מגיל 14
         <Button color='inherit' onClick={loginAsChild}>
-					I'm a child
+					אני נער!
 				</Button>
       </Container>
     </React.Fragment>
