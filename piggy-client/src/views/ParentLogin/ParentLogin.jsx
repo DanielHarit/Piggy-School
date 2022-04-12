@@ -24,7 +24,7 @@ const ParentLogin = () => {
       <CssBaseline />
       <Container fixed>
         כבר יש לכם חשבון?
-        <Login />
+        <Login btnText="הכנס" />
         חדשים בפיגי? בואו והצטרפו למשפחה
         <Button onClick={registerParent}>
           הרשמה עם גוגל

@@ -21,10 +21,8 @@ const ChildHomePage = () => {
 
     useEffect(async () => {
         const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
-        console.log(userMail);
         const user = await axios.get(`${config.PIGGY_DB_URL}/children/mail/${userMail}`); 
         setUserName(user.data.UserSettings.DisplayName);
-        console.log(user.data);
 
         const userCard = await axios.get(`${config.PAYMENT_SERVICE_URL}/card/${user.data._id}`);
         setCardData(userCard.data);

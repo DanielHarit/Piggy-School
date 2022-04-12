@@ -8,6 +8,8 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
+import axios from 'axios';
+import config from '../../conf.json';
 
 const style = {
   position: 'absolute',
@@ -23,8 +25,18 @@ const style = {
 
 const ChildLogin = () => {
   const navigate = useNavigate();
-  const sendParentInvite = () => {
-    alert(parentMail);
+  const registerChild = async (userMail, userName) => {
+    const newChild = {
+      mail: String(userMail),
+      displayName: String(userName),
+      parentMail: String(parentMail)
+    };
+
+    console.log(newChild);
+
+    await axios.post(`${config.PIGGY_DB_URL}/children/register`, newChild)
+    .then((response) => console.log(response))
+    .catch((error) => console.log(error));
   };
   
   const [open, setOpen] = React.useState(false);
@@ -53,7 +65,7 @@ const ChildLogin = () => {
       <Container fixed>
         שווה לראות אותך!
         ההורים כבר הזמינו אותך?
-        <Login />
+        <Login btnText="הכנס"/>
         חדשים בפיגי?
         כדי להירשם לאפליקציה על אחד ההורים שלך להירשם ולשלוח לך הזמנה לחשבון המשותף
         <Button onClick={handleOpen}>
@@ -76,9 +88,7 @@ const ChildLogin = () => {
               value={parentMail}
               onChange={handleMailChange}
             />
-            <Button color='inherit' onClick={sendParentInvite}>
-              שליחה להורה
-            </Button>
+            <Login btnText="הרשם" successCallback={registerChild} />
           </Box>
         </Modal>
         *ניתן להשתמש באפליקציה מגיל 14

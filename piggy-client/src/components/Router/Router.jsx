@@ -15,8 +15,6 @@ const Router = () => {
 			<Route path='/landing' element={<UserTypeSelect />} />
 			<Route path='/login/parent' element={<ParentLogin />} />
 			<Route path='/login/child' element={<ChildLogin />} />
-			{/* <Route path='/register/parent' element={<ParentRegister />} /> */}
-			{/* <Route path='/register/child' element={<ChildRegister />} /> */}
 			<Route path='/parent' element={<ParentHomePage />} />
 			<Route path='/child' element={<ChildHomePage />} />
 			<Route path='/parentTransfer' element={<ParentTransferMoneyPage />} />
