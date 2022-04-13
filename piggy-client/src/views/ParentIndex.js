@@ -41,12 +41,12 @@ const ParentIndex = () => {
          footerType={HOMEPAGE_CONSTANTS.PARENT_FOOTER}
          onBtnsClick={{
             left: () => {
-              navigate(routes.ParentTransfer, {
+              navigate('/parent' + routes.ParentTransfer, {
                 state: { settings: user.UserSettings, mail: user.Mail },
               });
             },
             middle: () => {
-                navigate(routes.ParentHomePage);
+                navigate('/parent' + routes.ParentHomePage);
               },
           }}
         />
@@ -56,7 +56,7 @@ const ParentIndex = () => {
             <Route path={routes.ParentTransfer} element={<ParentTransferMoneyPage parentId={user?._id} />} />
             <Route
               path="*"
-              element={<Navigate to={routes.ParentHomePage} />}
+              element={<Navigate to={"parent"} />}
             />
           </Routes>
         </div>

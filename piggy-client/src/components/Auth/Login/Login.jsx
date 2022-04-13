@@ -19,7 +19,7 @@ function Login({successCallback=() => {}, btnText='ערך דיפולטי'}) {
 
     if (user["data"]["type"] === 'parent') navigate("/parent");
     if (user["data"]["type"] === 'child') navigate("/child");
-    else console.log("None registered user");
+    navigate("/child");
   };
 
   const onFailure = (res) => {

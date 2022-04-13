@@ -47,7 +47,7 @@ const ChildIndex = () => {
         />
         <div className={classes.root}>
           <Routes>
-            <Route path={routes.ChildLanding} element={<ChildHomePage />} />
+            <Route path={routes.ChildrenHomePage} element={<ChildHomePage />} />
             <Route
               path={routes.ChildSettings}
               element={
@@ -69,20 +69,20 @@ const ChildIndex = () => {
             <Route path={routes.ChildWishList} element={<ChildWishList />} />
             <Route path={routes.ChildAddWish} element={<ChildAddWish />} />
             <Route path={routes.Store} element={<Store />} />
-            <Route path="*" element={<Navigate to={routes.ChildLanding} />} />
+            <Route path='*' element={<Navigate to={"children"} />} />
           </Routes>
         </div>
         <HomePageFooter
           onBtnsClick={{
             left: () => {
               setShowHelloMsg(false);
-              navigate(routes.ChildSettings, {
+              navigate('/child' + routes.ChildSettings, {
                 state: { settings: user.UserSettings, mail: user.Mail },
               });
             },
             middle: () => {
               setShowHelloMsg(true);
-              navigate(routes.ChildLanding);
+              navigate('/child' +routes.ChildrenHomePage)
             },
           }}
         />

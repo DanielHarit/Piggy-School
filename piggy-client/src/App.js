@@ -37,7 +37,7 @@ function App() {
 	const classes = useStyles();
 	const [isChildren, setIsChildren] = useState(true);
 	const [isLanding, setIsLanding] = useState(true);
-	
+
 	useEffect(async () => {
 		const user = JSON.parse(sessionStorage.getItem("profileObj"));
 		if (user) {
@@ -58,7 +58,7 @@ function App() {
 			<CacheProvider value={cacheRtl}>
 				<ThemeProvider theme={theme}>
 					<CssBaseline/>
-					{isLanding ? <LoginIndex /> : isChildren ? <ChildIndex />  : <ParentIndex/>}
+					 <LoginIndex /> 				   
 				</ThemeProvider>
 			</CacheProvider>
 		</BrowserRouter>
