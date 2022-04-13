@@ -20,8 +20,6 @@ const ParentIndex = () => {
   const [selectedChildrenId, setSelectedChildrenId] = useState('');
   const [amount, setAmount] = useState(0);
   const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  
 
   useEffect(async () =>{
     // const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];

@@ -12,9 +12,9 @@ import routes from './Routes';
 const Router = () => {
 	return (
 		<Routes>
-			<Route path='/landing' element={<UserTypeSelect />} />
-			<Route path='/login/parent' element={<ParentLogin />} />
-			<Route path='/login/child' element={<ChildLogin />} />
+			<Route path={routes.Landing} element={<UserTypeSelect />} />
+			<Route path={routes.LoginParent} element={<ParentLogin />} />
+			<Route path={routes.LoginChild} element={<ChildLogin />} />
 			<Route path='/parent' element={<ParentHomePage />} />
 			<Route path='/child' element={<ChildHomePage />} />
 			<Route path={routes.ParentHomePage} element={<ParentHomePage />} />
