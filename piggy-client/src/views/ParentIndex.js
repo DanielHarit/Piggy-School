@@ -22,8 +22,8 @@ const ParentIndex = () => {
   const [user, setUser] = useState(null);
 
   useEffect(async () =>{
-    // const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
-    const userMail = "shlomi@gmail.com";
+    const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
+    // const userMail = "shlomi@gmail.com";
     const user = await axios.get(`${config.PIGGY_DB_URL}/parent/mail/${userMail}`); 
     setUser(user.data)
   },[]);

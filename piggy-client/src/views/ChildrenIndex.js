@@ -9,7 +9,7 @@ import ChildHomePage from "./ChildHomePage";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
-import configData from "../conf.json";
+import config from "../conf.json";
 import ChildrenSettings from "../views/ChildrenSettings/ChildrenSettings";
 import routes from "../components/Router/Routes";
 import ChildWishList from "./ChildWishList";
@@ -27,12 +27,10 @@ const ChildIndex = () => {
   const [user, setUser] = useState({});
   const [showHelloMgs, setShowHelloMsg] = useState(true);
 
-  useEffect(() => {
-    axios
-      .get(`${configData.PIGGY_DB_URL}/children/62171cef74e8cac9530dcaac`)
-      .then((res) => {
-        setUser(res.data);
-      });
+  useEffect(async () => {
+    const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
+    const user = await axios.get(`${config.PIGGY_DB_URL}/children/mail/${userMail}`);
+    setUser(user.data);
   }, []);
 
   const navigate = useNavigate();

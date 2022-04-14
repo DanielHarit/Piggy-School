@@ -19,25 +19,14 @@ const ChildHomePage = () => {
     const [cardData,setCardData] = useState(null);
     const [userName,setUserName] = useState('');
 
-    // useEffect(async () => {
-    //     const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
-    //     const user = await axios.get(`${config.PIGGY_DB_URL}/children/mail/${userMail}`); 
-    //     setUserName(user.data.UserSettings.DisplayName);
+    useEffect(async () => {
+        const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
+        const user = await axios.get(`${config.PIGGY_DB_URL}/children/mail/${userMail}`); 
+        setUserName(user.data.UserSettings.DisplayName);
 
-    //     const userCard = await axios.get(`${config.PAYMENT_SERVICE_URL}/card/${user.data._id}`);
-    //     setCardData(userCard.data);
-    // }, []);
-
-	useEffect(async () => {
-		//const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
-		const userMail = 'mika@gmail.com';
-		// console.log(userMail);
-		const user = await axios.get(`${config.PIGGY_DB_URL}/children/mail/${userMail}`);
-		// console.log(user.data);
-
-		const userCard = await axios.get(`${config.PAYMENT_SERVICE_URL}/card/${user.data._id}`);
-		setCardData(userCard.data);
-	}, []);
+        const userCard = await axios.get(`${config.PAYMENT_SERVICE_URL}/card/${user.data._id}`);
+        setCardData(userCard.data);
+    }, []);
 
 	// TODO
 
