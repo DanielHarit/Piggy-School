@@ -53,14 +53,20 @@ app.post('/children/register', async (req, res) => {
 	const parentMail = req.body.parentMail;
 	let newChildResponse;
 
-	try {
-		newChildResponse = await registerChild(userMail, displayName, parentMail);
-	} catch (err) {
-		console.log(err);
-		res.status(500).send({ message: `Error creating child user with mail ${userMail}` });
+	const parent = await getParentByMail(userMail);
+	if (parent) {
+		console.log(`Parent existed! ${userMail}`);
+		res.status(500).send({ message: `A parent with this mail already exists: ${userMail}` });
+	} else {
+		try {
+			newChildResponse = await registerChild(userMail, displayName, parentMail);
+		} catch (err) {
+			console.log(err);
+			res.status(500).send({ message: `Error creating child user with mail ${userMail}` });
+		}
+		
+		res.send(newChildResponse);
 	}
-
-	res.send(newChildResponse);
 });
 
 app.put('/children/AlertSettings/:id', async (req, res) => {
@@ -108,14 +114,20 @@ app.post('/parent/register', async (req, res) => {
 	const childrensList = req.body.childrensList;
 	let newParentResponse;
 
-	try {
-		newParentResponse = await registerParent(userMail, displayName, creditCardNumber, childrensList);
-	} catch (err) {
-		console.log(err);
-		res.status(500).send({ message: `Error creating parent user with mail ${userMail}` });
+	const children = await getChildrenByMail(userMail);
+	if (children) {
+		console.log(`Child existed! ${userMail}`);
+		res.status(500).send({ message: `A child with this mail already exists: ${userMail}` });
+	} else {
+		try {
+			newParentResponse = await registerParent(userMail, displayName, creditCardNumber, childrensList);
+		} catch (err) {
+			console.log(err);
+			res.status(500).send({ message: `Error creating parent user with mail ${userMail}` });
+		}
+		
+		res.send(newParentResponse);
 	}
-
-	res.send(newParentResponse);
 });
 
 app.post('/parent/child', async (req, res) => {
