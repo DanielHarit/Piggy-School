@@ -5,28 +5,27 @@ import { Avatar, IconButton } from '@mui/material';
 import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
-	container: {
-		paddingTop: '7px',
-		display: 'flex',
-		flexDirection: 'column',
-		maxWidth: '100px',
-		justifyContent: 'center',
-	},
-	childrenDisplay: {
-		borderRadius: '50%',
-		height: '60px',
-		width: '60px',
-	},
-	selected: {
-		border: '1px',
-		borderStyle: 'solid',
-		borderWidth: '2px',
-		borderColor: theme.palette.primary.main,
-	},
-	text: {
-		color: theme.palette.primary.main,
-		textAlign: 'center',
-	},
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    maxWidth: "100px",
+    justifyContent: "center",
+  },
+  childrenDisplay: {
+    borderRadius: "50%",
+    height: "60px",
+    width: "60px",
+  },
+  selected: {
+    border: "1px",
+    borderStyle: "solid",
+    borderWidth: "2px",
+    borderColor: theme.palette.primary.main,
+  },
+  text: {
+    color: theme.palette.primary.main,
+    textAlign: "center",
+  },
 }));
 
 const ChildrenDisplay = ({ name, onClick, selected, pic }) => {
