@@ -17,12 +17,11 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import DoneIcon from "@mui/icons-material/Done";
 import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
 import axios from "axios";
 import EditIcon from "@mui/icons-material/Edit";
 import TextField from "@mui/material/TextField";
 import routes from "../../components/Router/Routes";
-import { Navigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import config from "../../conf.json";
 
@@ -45,8 +44,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     flexBasis: "60%",
     justifyContent: "center",
-    // alignItems: 'center',
-    // justifyContent: "space-evenly",
     paddingRight: "6px",
   },
   imgContainer: {
@@ -62,8 +59,6 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     display: "block",
-    // maxHeight: "100%",
-    // maxWidth: "100%",
     height: "20vmin",
     width: "20vmin",
     borderRadius: "50%",
@@ -101,7 +96,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-// : {WeeklyWatch,NewStories,Allowance}})
 const ChildrenSettings = ({ onUserNameChange }) => {
   const {
     state: { settings, mail },
@@ -216,13 +210,7 @@ const ChildrenSettings = ({ onUserNameChange }) => {
                   />
                 </>
               )}
-              {/* <IconButton
-                color="primary"
-                aria-label="edit email"
-              > */}
             </div>
-
-            {/* </IconButton> */}
             <Typography>{userDetailsSettings.mail}</Typography>
           </div>
         </>
