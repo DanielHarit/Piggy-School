@@ -7,14 +7,21 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: 'column',
         backgroundColor: 'white',
+        flexGrow: '1',
         margin: '1px 15px',
         borderRadius: '10px',
-        padding: '12px 10px'
+        padding: '12px 10px',
+        justifyContent: 'center'
 	},
     body: { 
+        flexGrow: "2",
         display: "flex",
+        alignItems: 'center',
 	},
     title:{
+        flexGrow: "1",
+        display: 'flex',
+        alignItems: 'center',
         paddingBottom: '6px'
     }
 }));

@@ -15,10 +15,11 @@ import routes from "../components/Router/Routes";
 import ChildWishList from "./ChildWishList";
 import ChildAddWish from "./ChildAddWish";
 import Store from "./Store/Store";
+import { Calculate } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginBottom: 120,
+    height: 'calc(100vh - 310px)'
   },
 }));
 
