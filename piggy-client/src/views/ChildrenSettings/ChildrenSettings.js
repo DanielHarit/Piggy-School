@@ -1,4 +1,12 @@
-import { Switch, Typography, Input, FormControl } from "@mui/material";
+import {
+  Switch,
+  Typography,
+  Input,
+  FormControl,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+} from "@mui/material";
 import React, { useState, useEffect, useRef } from "react";
 import makeStyles from "@mui/styles/makeStyles";
 import SettingBox from "./SettingBox";
@@ -7,6 +15,7 @@ import avatarImg from "../../assets/img/4043250_avatar_child_girl_kid_icon.png";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import DoneIcon from "@mui/icons-material/Done";
+import ClearIcon from '@mui/icons-material/Clear';
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import axios from "axios";
@@ -22,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   container: {
+    display: "flex",
+    height: "100%",
+    overflowY: "auto",
+    flexDirection: "column",
     margin: "0 5%",
     "& > *": {
       marginTop: "2vh",
@@ -32,6 +45,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     flexBasis: "60%",
     justifyContent: "center",
+    // alignItems: 'center',
+    // justifyContent: "space-evenly",
     paddingRight: "6px",
   },
   imgContainer: {
@@ -47,8 +62,10 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     display: "block",
-    maxHeight: "100%",
-    maxWidth: "100%",
+    // maxHeight: "100%",
+    // maxWidth: "100%",
+    height: "20vmin",
+    width: "20vmin",
     borderRadius: "50%",
     borderStyle: "solid",
     borderWidth: "1px",
@@ -58,6 +75,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     border: "1px solid black",
     borderRadius: "10px",
+    maxHeight: "70px",
+    height: "100%",
   },
   colorText: {
     paddingLeft: "26px",
@@ -66,12 +85,14 @@ const useStyles = makeStyles((theme) => ({
   },
   colorContainer: {
     height: "6.5vh",
+    alignItems: "center",
   },
   alert: {
     flexBasis: "100%",
   },
   alertContainer: {
     flexWrap: "wrap",
+    alignContent: "space-evenly",
   },
   emailContainer: {
     display: "flex",
@@ -127,6 +148,7 @@ const ChildrenSettings = ({ onUserNameChange }) => {
           DisplayName: displayName,
         }));
         onUserNameChange(displayName);
+        setEditName(null);
       });
   };
 
@@ -168,42 +190,22 @@ const ChildrenSettings = ({ onUserNameChange }) => {
             <div className={classes.emailContainer}>
               {editName ? (
                 <>
-                  <FormControl
-                    variant="standard"
-                  >
+                  <FormControl variant="standard">
                     <Input
-                 
-                     onBlur={(event) => {
-                       if(event.relatedTarget === AdornmentRef.current)
-                          handleChangeDisplayName(editName)
-                      setEditName(null);
-                    }}
                       autoFocus
                       value={editName}
                       variant="standard"
                       onChange={handleInputChange}
-                      endAdornment={
-                        <InputAdornment
-                          position="end"
-                          style={{ pointerEvents: "stroke" }}
-                          disablePointerEvents
-                          onClick={(event) =>{
-                            console.log('click input')
-                            handleChangeDisplayName(editName, event)}
-                          }
-                        >
-                          <IconButton
-                            aria-label="send"
-                            ref={AdornmentRef}
-                            edge="end"
-                          >
-                            <DoneIcon />
-                          </IconButton>
-                        </InputAdornment>
-                      }
                     />
                   </FormControl>
+                  <IconButton aria-label="send" edge="end" onClick={()=>handleChangeDisplayName(editName)}>
+                    <DoneIcon />
+                  </IconButton>
+                  <IconButton aria-label="send" onClick={()=>setEditName(null)} edge="end">
+                    <ClearIcon />
+                  </IconButton>
                 </>
+                
               ) : (
                 <>
                   <Typography>{userDetailsSettings.DisplayName}</Typography>
