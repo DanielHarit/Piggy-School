@@ -15,6 +15,7 @@ import routes from '../components/Router/Routes';
 import ChildWishList from './ChildWishList';
 import ChildAddWish from './ChildAddWish';
 import Store from './Store/Store';
+import Stories from './Stories';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -65,6 +66,7 @@ const ChildIndex = () => {
 						<Route path={routes.ChildAddWish} element={<ChildAddWish />} />
 						<Route path={routes.Store} element={<Store />} />
 						<Route path='*' element={<Navigate to={'children'} />} />
+						<Route path={routes.Stories} element={<Stories />} />
 					</Routes>
 				</div>
 				<HomePageFooter

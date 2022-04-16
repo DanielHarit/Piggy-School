@@ -12,5 +12,6 @@ const routes = {
 	Landing: '/landing',
 	ParentSettings: '/parentSettings',
 	ChildrenQuickView: '/childrenQuickView',
+	Stories: '/stories'
 };
 export default routes;
