@@ -73,8 +73,14 @@ export const addWish = async (childrenId, newWish) => {
 	return resultUpdate.modifiedCount;
 };
 
-export const updateWishList = async (childrenId, wishes) => {
-	const resultUpdate = await db.collection(collectionName).updateOne({ _id: childrenId }, { $set: { WishList: wishes } });
+export const updateWishList = async (childrenId, newWishListPriorities) => {
+	const { WishList } = await db.collection(collectionName).findOne({ _id: childrenId });
+
+	const prioritiesMap = {};
+	newWishListPriorities.forEach(({ id, priority }) => (prioritiesMap[id] = priority));
+
+	const newWishList = WishList.map((wish) => ({ ...wish, priority: prioritiesMap[wish.id] }));
+	const resultUpdate = await db.collection(collectionName).updateOne({ _id: childrenId }, { $set: { WishList: newWishList } });
 
 	return resultUpdate.modifiedCount;
 };

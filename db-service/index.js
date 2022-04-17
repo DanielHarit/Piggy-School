@@ -87,7 +87,7 @@ app.post('/children/WishList/:id', async (req, res) => {
 });
 
 app.put('/children/WishList/:id', async (req, res) => {
-	const wishes = req.body;
+	const wishes = req.body.wishes;
 	const countUpdated = await updateWishList(req.params.id, wishes);
 	res.send(`update ${countUpdated} documents`);
 });
