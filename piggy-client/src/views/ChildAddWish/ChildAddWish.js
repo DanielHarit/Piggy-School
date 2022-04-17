@@ -132,6 +132,10 @@ const ChildAddWish = () => {
 					InputProps={{
 						startAdornment: <InputAdornment position='start'>₪</InputAdornment>,
 					}}
+					inputProps={{
+						inputMode: 'numeric',
+						pattern: '[0-9]*',
+					}}
 				/>
 				<div className={classes.imgUpload}>
 					<Badge
