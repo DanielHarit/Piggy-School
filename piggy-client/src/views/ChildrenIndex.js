@@ -19,7 +19,7 @@ import { Calculate } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		height: 'calc(100vh - 310px)',
+		height: 'calc(100vh - 330px)',
 		overflowY: 'auto',
 	},
 }));
