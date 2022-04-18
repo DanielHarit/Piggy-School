@@ -41,7 +41,7 @@ const ChildWishList = () => {
 	const { state } = useLocation();
 	const navigate = useNavigate();
 
-	const goToAddWish = () => navigate(routes.ChildAddWish, { state });
+	const goToAddWish = () => navigate('/child' + routes.ChildAddWish, { state });
 
 	const [wishList, setWishList] = useState([]);
 	const [idsToRemove, setIdsToRemove] = useState([]);

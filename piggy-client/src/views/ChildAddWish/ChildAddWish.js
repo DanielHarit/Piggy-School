@@ -80,7 +80,7 @@ const ChildAddWish = () => {
 		const newState = { ...state };
 		if (newWish) newState.wishes = { ...state.wishes, [newWish.priority]: newWish };
 
-		navigate(routes.ChildWishList, { state: newState });
+		navigate('/child' + routes.ChildWishList, { state: newState });
 	};
 
 	const uploadImage = async (event) => {
