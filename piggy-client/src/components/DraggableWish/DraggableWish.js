@@ -1,6 +1,9 @@
+import { Grid, IconButton } from '@mui/material';
 import { useRef } from 'react';
+import { makeStyles } from '@mui/styles';
 import { useDrag, useDrop } from 'react-dnd';
 import Wish from '../Wish';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 const ItemTypes = {
 	CARD: 'card',
@@ -10,8 +13,18 @@ const style = {
 	cursor: 'move',
 };
 
-const DraggableWish = ({ id, wish, index, moveCard }) => {
+const useStyles = makeStyles((theme) => ({
+	removeBtn: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		marginBottom: '12px',
+	},
+}));
+
+const DraggableWish = ({ id, wish, removeWish, index, moveCard }) => {
 	const ref = useRef(null);
+	const classes = useStyles();
 
 	const [{ handlerId }, drop] = useDrop({
 		accept: ItemTypes.CARD,
@@ -71,7 +84,16 @@ const DraggableWish = ({ id, wish, index, moveCard }) => {
 	drag(drop(ref));
 	return (
 		<div ref={ref} style={{ ...style, opacity }} data-handler-id={handlerId}>
-			<Wish key={wish.id} name={wish.name} pic={wish.pic} cost={wish.cost} currAmount={wish.currAmount} priority={wish.priority} />
+			<Grid container>
+				<Grid item sm={1} xs={2} className={classes.removeBtn}>
+					<IconButton onClick={() => removeWish(wish)}>
+						<RemoveCircleOutlineIcon color='error' />
+					</IconButton>
+				</Grid>
+				<Grid item sm={11} xs={10}>
+					<Wish key={wish.id} name={wish.name} pic={wish.pic} cost={wish.cost} currAmount={wish.currAmount} priority={wish.priority} />
+				</Grid>
+			</Grid>
 		</div>
 	);
 };

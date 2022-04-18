@@ -36,8 +36,6 @@ const useStyles = makeStyles((theme) => ({
 	titleContainer: { display: 'flex', justifyContent: 'space-between', marginTop: '30px' },
 }));
 
-const saveWishListToDB = (wishList) => axios.put(`${config.PIGGY_DB_URL}/children/WishList/62171cef74e8cac9530dcaac`, { wishes: wishList.map(({ id, priority }) => ({ id, priority })) });
-
 const ChildWishList = () => {
 	const classes = useStyles();
 	const { state } = useLocation();
@@ -46,6 +44,7 @@ const ChildWishList = () => {
 	const goToAddWish = () => navigate(routes.ChildAddWish, { state });
 
 	const [wishList, setWishList] = useState([]);
+	const [idsToRemove, setIdsToRemove] = useState([]);
 	const [isEditing, setIsEditing] = useState(false);
 	const [isSaving, setIsSaving] = useState(false);
 
@@ -75,7 +74,27 @@ const ChildWishList = () => {
 		[wishList]
 	);
 
-	const renderDraggableWish = (wish, index) => (isEditing ? <DraggableWish key={wish.id} index={index} id={wish.id} wish={wish} moveCard={moveWish} /> : <Wish key={wish.id} name={wish.name} pic={wish.pic} cost={wish.cost} currAmount={wish.currAmount} priority={wish.priority} />);
+	const renderDraggableWish = (wish, index) => (isEditing ? <DraggableWish key={wish.id} index={index} id={wish.id} wish={wish} removeWish={checkIfSureToRemove} moveCard={moveWish} /> : <Wish key={wish.id} name={wish.name} pic={wish.pic} cost={wish.cost} currAmount={wish.currAmount} priority={wish.priority} />);
+
+	const saveWishListToDB = () => axios.put(`${config.PIGGY_DB_URL}/children/WishList/62171cef74e8cac9530dcaac`, { wishesUpdates: { priorities: wishList.map(({ id, priority }) => ({ id, priority })), idsToRemove } });
+
+	const removeWish = (wishId) => {
+		setWishList((prevWishList) => calcLeftAmounts(prevWishList.filter((wish) => wish.id !== wishId).map((wish, i) => ({ ...wish, priority: i + 1 }))));
+		setIdsToRemove((prevIdsToRemove) => [...prevIdsToRemove, wishId]);
+	};
+
+	const checkIfSureToRemove = (wish) => {
+		Swal.fire({
+			title: 'רק רגע...',
+			text: `בדוק שאתה רוצה למחוק את היעד ${wish.name}?`,
+			icon: 'warning',
+			width: '80%',
+			confirmButtonColor: '#781f63',
+			confirmButtonText: 'בדוק',
+			showDenyButton: true,
+			denyButtonText: `התחרטתי`,
+		}).then((result) => result.isConfirmed && removeWish(wish.id));
+	};
 
 	const toggleEdit = async () => {
 		if (isEditing) {
