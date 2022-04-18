@@ -1,13 +1,12 @@
-import express from 'express'
-import cors from 'cors'
-import config from './config.js'
-import {initializeDbConnection} from './DAL/mongoConnectios.js'
-import {getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCreditCardByChildrenId, registerChild, updateChildrenDisplayName} from './DAL/children.js'
-import {getChildrenByParentId, getParentById, registerParent, getParentByMail} from './DAL/parent.js'
-import {getAvatarById, getAllAvatars} from './DAL/avatar.js'
-import {getUserType} from './DAL/identity.js'
-import {getAllBackgroundColors, getBackgroundColorById} from './DAL/backgroudColor.js'
-
+import express from 'express';
+import cors from 'cors';
+import config from './config.js';
+import { initializeDbConnection } from './DAL/mongoConnectios.js';
+import { getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCreditCardByChildrenId, registerChild, updateChildrenDisplayName, updateChildrenSettings, addWish, updateWishList } from './DAL/children.js';
+import { getChildrenByParentId, getParentById, registerParent, getParentByMail } from './DAL/parent.js';
+import { getAvatarById, getAllAvatars } from './DAL/avatar.js';
+import { getUserType } from './DAL/identity.js';
+import { getAllBackgroundColors, getBackgroundColorById } from './DAL/backgroudColor.js';
 
 var port = process.env.PORT || config.app.port;
 const app = express();
@@ -53,14 +52,20 @@ app.post('/children/register', async (req, res) => {
 	const parentMail = req.body.parentMail;
 	let newChildResponse;
 
-	try {
-		newChildResponse = await registerChild(userMail, displayName, parentMail);
-	} catch (err) {
-		console.log(err);
-		res.status(500).send({ message: `Error creating child user with mail ${userMail}` });
-	}
+	const parent = await getParentByMail(userMail);
+	if (parent) {
+		console.log(`Parent existed! ${userMail}`);
+		res.status(500).send({ message: `A parent with this mail already exists: ${userMail}` });
+	} else {
+		try {
+			newChildResponse = await registerChild(userMail, displayName, parentMail);
+		} catch (err) {
+			console.log(err);
+			res.status(500).send({ message: `Error creating child user with mail ${userMail}` });
+		}
 
-	res.send(newChildResponse);
+		res.send(newChildResponse);
+	}
 });
 
 app.put('/children/AlertSettings/:id', async (req, res) => {
@@ -75,16 +80,16 @@ app.put('/children/DisplayName/:id', async (req, res) => {
 	res.send(`update ${countUpdated} documents`);
 });
 
-app.put('/children/AlertSettings/:id', async (req, res) => {
-    const newSettings = req.body;
-    const countUpdated = await updateChildrenSettings(req.params.id,newSettings);
-    res.send(`update ${countUpdated} documents`);
+app.post('/children/WishList/:id', async (req, res) => {
+	const newWish = req.body;
+	const countUpdated = await addWish(req.params.id, newWish);
+	res.send(`update ${countUpdated} documents`);
 });
 
-app.put('/children/DisplayName/:id', async (req, res) => {
-    const displayName = req.body.value;
-    const countUpdated = await updateChildrenDisplayName(req.params.id,displayName);
-    res.send(`update ${countUpdated} documents`);
+app.put('/children/WishList/:id', async (req, res) => {
+	const wishesUpdates = req.body.wishesUpdates;
+	const countUpdated = await updateWishList(req.params.id, wishesUpdates);
+	res.send(`update ${countUpdated} documents`);
 });
 
 // parent
@@ -108,14 +113,20 @@ app.post('/parent/register', async (req, res) => {
 	const childrensList = req.body.childrensList;
 	let newParentResponse;
 
-	try {
-		newParentResponse = await registerParent(userMail, displayName, creditCardNumber, childrensList);
-	} catch (err) {
-		console.log(err);
-		res.status(500).send({ message: `Error creating parent user with mail ${userMail}` });
-	}
+	const children = await getChildrenByMail(userMail);
+	if (children) {
+		console.log(`Child existed! ${userMail}`);
+		res.status(500).send({ message: `A child with this mail already exists: ${userMail}` });
+	} else {
+		try {
+			newParentResponse = await registerParent(userMail, displayName, creditCardNumber, childrensList);
+		} catch (err) {
+			console.log(err);
+			res.status(500).send({ message: `Error creating parent user with mail ${userMail}` });
+		}
 
-	res.send(newParentResponse);
+		res.send(newParentResponse);
+	}
 });
 
 app.post('/parent/child', async (req, res) => {
@@ -132,13 +143,10 @@ app.post('/parent/child', async (req, res) => {
 
 	res.send(newParentChild);
 });
+
 app.get('/user/type/:id', async (req, res) => {
 	const isParent = await getParentById(req.params.id);
 	res.send(isParent ? 'Parent' : 'Child');
-});
-app.get('/user/type/:id' , async (req, res) => {
-    const isParent = await getParentById(req.params.id);
-    res.send(isParent ? "Parent" : "Child");
 });
 
 // Avatars

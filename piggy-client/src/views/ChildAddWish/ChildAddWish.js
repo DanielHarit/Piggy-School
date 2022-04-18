@@ -10,6 +10,8 @@ import routes from '../../components/Router/Routes';
 import defaultPic from './defaultPic';
 import EditIcon from '@mui/icons-material/Edit';
 import Swal from 'sweetalert2';
+import axios from 'axios';
+import config from '../../conf.json';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -62,6 +64,8 @@ const convertBase64 = (file) => {
 	});
 };
 
+const saveWishToDB = (newWish) => axios.post(`${config.PIGGY_DB_URL}/children/WishList/62171cef74e8cac9530dcaac`, newWish);
+
 const ChildAddWish = () => {
 	const classes = useStyles();
 	const { state } = useLocation();
@@ -74,14 +78,8 @@ const ChildAddWish = () => {
 
 	const goToWishList = (newWish) => {
 		const newState = { ...state };
-		if (newWish) {
-			let nextPrioriy = 0;
-			Object.keys(state.wishes).forEach((priority) => {
-				if (+priority >= nextPrioriy) nextPrioriy = +priority + 1;
-			});
-			console.log(nextPrioriy);
-			newState.wishes = { ...state.wishes, [nextPrioriy]: newWish };
-		}
+		if (newWish) newState.wishes = { ...state.wishes, [newWish.priority]: newWish };
+
 		navigate(routes.ChildWishList, { state: newState });
 	};
 
@@ -91,17 +89,21 @@ const ChildAddWish = () => {
 		setPic(picInBase64);
 	};
 
-	const saveWish = () => {
-		setIsSaving(true);
+	const calcNextPriority = () => Object.keys(state.wishes).reduce((nextPriority, currPriority) => (+currPriority >= nextPriority ? +currPriority + 1 : nextPriority), 0);
 
-		setTimeout(() => {
-			setIsSaving(false);
-			const newWish = {
-				id: 4,
-				name,
-				pic,
-				cost: +cost,
-			};
+	const saveWish = async () => {
+		setIsSaving(true);
+		const newWish = {
+			id: new Date().getTime(),
+			name,
+			pic,
+			cost: +cost,
+			priority: calcNextPriority(),
+		};
+
+		try {
+			await saveWishToDB(newWish);
+
 			Swal.fire({
 				title: 'ווהו!',
 				text: 'היעד נשמר בהצלחה :)',
@@ -110,7 +112,18 @@ const ChildAddWish = () => {
 				confirmButtonColor: '#781f63',
 				confirmButtonText: 'ליעדים שלי',
 			}).then(() => goToWishList(newWish));
-		}, 2000);
+		} catch (err) {
+			Swal.fire({
+				title: 'אופס!',
+				text: 'משהו התפקשש... כדאי לנסות שוב!',
+				icon: 'error',
+				width: '80%',
+				confirmButtonColor: '#781f63',
+				confirmButtonText: 'הבנתי',
+			});
+		} finally {
+			setIsSaving(false);
+		}
 	};
 
 	return (
@@ -131,6 +144,10 @@ const ChildAddWish = () => {
 					onChange={(e) => setCost(e.target.value)}
 					InputProps={{
 						startAdornment: <InputAdornment position='start'>₪</InputAdornment>,
+					}}
+					inputProps={{
+						inputMode: 'numeric',
+						pattern: '[0-9]*',
 					}}
 				/>
 				<div className={classes.imgUpload}>

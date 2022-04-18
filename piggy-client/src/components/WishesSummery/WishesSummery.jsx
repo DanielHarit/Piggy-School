@@ -4,6 +4,7 @@ import Wish from '../Wish';
 import NoWishesMsg from './noWishesMsg';
 import { useNavigate } from 'react-router-dom';
 import routes from '../Router/Routes';
+import Skeleton from '@mui/material/Skeleton';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -17,9 +18,14 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'space-between',
 		maxHeight: '24px',
 	},
+	skelaton: {
+		width: '100%',
+		borderRadius: '5px',
+		height: '120px',
+	},
 }));
 
-const WishesSummery = ({ wishes, currAmount }) => {
+const WishesSummery = ({ wishes, currAmount, isLoadingUserData }) => {
 	const classes = useStyles();
 	const navigate = useNavigate();
 
@@ -38,7 +44,7 @@ const WishesSummery = ({ wishes, currAmount }) => {
 					</Button>
 				)}
 			</div>
-			{Object.keys(wishes).length > 0 ? <Wish name={wishes[1].name} pic={wishes[1].pic} cost={wishes[1].cost} currAmount={currAmount} /> : <NoWishesMsg goToWishList={goToWishList} />}
+			{isLoadingUserData ? <Skeleton variant='rectangular' className={classes.skelaton} /> : Object.keys(wishes).length > 0 ? <Wish name={wishes[1].name} pic={wishes[1].pic} cost={wishes[1].cost} currAmount={currAmount} /> : <NoWishesMsg goToWishList={goToWishList} />}
 		</div>
 	);
 };
