@@ -9,13 +9,12 @@ import ChildHomePage from './ChildHomePage';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
-import configData from '../conf.json';
+import config from '../conf.json';
 import ChildrenSettings from '../views/ChildrenSettings/ChildrenSettings';
 import routes from '../components/Router/Routes';
 import ChildWishList from './ChildWishList';
 import ChildAddWish from './ChildAddWish';
 import Store from './Store/Store';
-import { Calculate } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -29,10 +28,10 @@ const ChildIndex = () => {
 	const [user, setUser] = useState({});
 	const [showHelloMgs, setShowHelloMsg] = useState(true);
 
-	useEffect(() => {
-		axios.get(`${configData.PIGGY_DB_URL}/children/62171cef74e8cac9530dcaac`).then((res) => {
-			setUser(res.data);
-		});
+	useEffect(async () => {
+		const userMail = JSON.parse(sessionStorage.getItem('profileObj'))['email'];
+		const user = await axios.get(`${config.PIGGY_DB_URL}/children/mail/${userMail}`);
+		setUser(user.data);
 	}, []);
 
 	const navigate = useNavigate();
@@ -43,7 +42,7 @@ const ChildIndex = () => {
 				<HomepageHeader username={user.UserSettings?.DisplayName} caption='בוקר אש' showHelloMsg={showHelloMgs} />
 				<div className={classes.root}>
 					<Routes>
-						<Route path={routes.ChildLanding} element={<ChildHomePage />} />
+						<Route path={routes.ChildrenHomePage} element={<ChildHomePage />} />
 						<Route
 							path={routes.ChildSettings}
 							element={
@@ -65,20 +64,20 @@ const ChildIndex = () => {
 						<Route path={routes.ChildWishList} element={<ChildWishList />} />
 						<Route path={routes.ChildAddWish} element={<ChildAddWish />} />
 						<Route path={routes.Store} element={<Store />} />
-						<Route path='*' element={<Navigate to={routes.ChildLanding} />} />
+						<Route path='*' element={<Navigate to={'children'} />} />
 					</Routes>
 				</div>
 				<HomePageFooter
 					onBtnsClick={{
 						left: () => {
 							setShowHelloMsg(false);
-							navigate(routes.ChildSettings, {
+							navigate('/child' + routes.ChildSettings, {
 								state: { settings: user.UserSettings, mail: user.Mail },
 							});
 						},
 						middle: () => {
 							setShowHelloMsg(true);
-							navigate(routes.ChildLanding);
+							navigate('/child' + routes.ChildrenHomePage);
 						},
 					}}
 				/>

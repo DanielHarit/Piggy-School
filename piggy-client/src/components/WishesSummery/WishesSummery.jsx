@@ -30,7 +30,7 @@ const WishesSummery = ({ wishes, currAmount, isLoadingUserData }) => {
 	const navigate = useNavigate();
 
 	const goToWishList = () =>
-		navigate(routes.ChildWishList, {
+		navigate('/child' + routes.ChildWishList, {
 			state: { wishes, currAmount },
 		});
 

@@ -7,8 +7,9 @@ import { refreshTokenSetup } from '../../../utils/refreshToken';
 
 const clientId = config.CLIENT_ID;
 
-function Login() {
+function Login({successCallback=() => {}, btnText='ערך דיפולטי'}) {
   const onSuccess = async (res) => {
+    successCallback(res.profileObj.email, res.profileObj.name);
     sessionStorage.setItem("profileObj", JSON.stringify(res.profileObj));
     sessionStorage.setItem("tokenId", JSON.stringify(res.tokenId));
     refreshTokenSetup(res);
@@ -18,7 +19,7 @@ function Login() {
 
     if (user["data"]["type"] === 'parent') navigate("/parent");
     if (user["data"]["type"] === 'child') navigate("/child");
-    else console.log("None registered user");
+    navigate("/child");
   };
 
   const onFailure = (res) => {
@@ -34,7 +35,7 @@ function Login() {
     <div>
       <GoogleLogin
         clientId={clientId}
-        buttonText="Login"
+        buttonText={btnText}
         onSuccess={onSuccess}
         onFailure={onFailure}
         cookiePolicy={'single_host_origin'}

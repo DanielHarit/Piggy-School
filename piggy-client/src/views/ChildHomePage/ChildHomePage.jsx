@@ -17,27 +17,22 @@ const useStyles = makeStyles((theme) => ({
 const ChildHomePage = () => {
 	const classes = useStyles();
 	const [cardData, setCardData] = useState(null);
+	const [userName, setUserName] = useState('');
 	const [wishes, setWishes] = useState({});
 	const [amountLeftInCard, setAmountLeftInCard] = useState(0);
 	const [isLoadingUserData, setIsLoadingUserData] = useState(true);
 
 	useEffect(async () => {
-		//const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
-		const userMail = 'mika@gmail.com';
-		// console.log(userMail);
+		const userMail = JSON.parse(sessionStorage.getItem('profileObj'))['email'];
 		const user = await axios.get(`${config.PIGGY_DB_URL}/children/mail/${userMail}`);
-		// console.log(user.data);
-
+		setUserName(user.data.UserSettings.DisplayName);
 		const userWishes = {};
 		user.data.WishList.forEach((wish) => (userWishes[wish.priority] = wish));
 		setWishes(userWishes);
-
 		const userTotalBudget = Object.values(user.data.Budget).reduce((sum, categoryAmount) => sum + categoryAmount, 0);
-
 		const userCard = await axios.get(`${config.PAYMENT_SERVICE_URL}/card/${user.data._id}`);
 		setCardData(userCard.data);
 		setAmountLeftInCard(userCard.data.amount - userTotalBudget >= 0 ? userCard.data.amount - userTotalBudget : 0);
-
 		setIsLoadingUserData(false);
 	}, []);
 

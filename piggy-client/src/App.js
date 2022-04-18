@@ -10,6 +10,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import CssBaseline from '@mui/material/CssBaseline';
 import ParentIndex from './views/ParentIndex';
 import ChildIndex from './views/ChildrenIndex';
+import LoginIndex from './views/LoginIndex';
 import axios from 'axios';
 import config from './conf.json';
 import makeStyles from '@mui/styles/makeStyles';
@@ -34,26 +35,30 @@ const useStyles = makeStyles(() => ({
 function App() {
 
 	const classes = useStyles();
-
 	const [isChildren, setIsChildren] = useState(true);
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLanding, setIsLanding] = useState(true);
 
-
-	useEffect(() => {
-		axios
-		  .get(`${config.PIGGY_DB_URL}/user/type/62171cef74e8cac9530dcaac`)
-		  .then(({data}) => {
-			  data === "Parent" && setIsChildren(false)
-			  setIsLoading(false)
-			});
-	  }, []);
+	useEffect(async () => {
+		const user = JSON.parse(sessionStorage.getItem("profileObj"));
+		if (user) {
+		  const userMail = user["email"];
+		  const userObject = await axios.get(`${config.PIGGY_DB_URL}/identity/${userMail}`); 
+		  setIsLanding(false);
+	
+		  if (userObject["data"]["type"] === 'parent') setIsChildren(false);
+		  if (userObject["data"]["type"] === 'child') setIsChildren(true);
+		} else {
+			setIsLanding(true);
+			setIsChildren(true);
+		}
+	}, []);
 
 	return (
 		<BrowserRouter>
 			<CacheProvider value={cacheRtl}>
 				<ThemeProvider theme={theme}>
 					<CssBaseline/>
-					{isLoading ? <div className={classes.CircularProgress}><CircularProgress /></div> : isChildren ?<ChildIndex />  : <ParentIndex/>}
+					 <LoginIndex /> 				   
 				</ThemeProvider>
 			</CacheProvider>
 		</BrowserRouter>
