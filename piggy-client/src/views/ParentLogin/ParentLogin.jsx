@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import Button from '@mui/material/Button';
+import { makeStyles, Paper } from '@mui/material';
+import { Grid } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -12,92 +14,124 @@ import axios from 'axios';
 import config from '../../conf.json';
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4
+	position: 'absolute',
+	top: '50%',
+	left: '50%',
+	transform: 'translate(-50%, -50%)',
+	bgcolor: '#ede8e8',
+	p: 4,
+	width: '80%',
+};
+
+// const useStyles = makeStyles((theme) => ({
+// 	container: {
+// 		width: '60%',
+// 		margin: 'auto',
+// 		marginTop: '20vh',
+// 	},
+// 	item: {
+// 		marginTop: '20px',
+// 	},
+// 	bigFont: {
+// 		fontSize: '30px',
+// 	},
+// }));
+
+const containerStyle = {
+	width: '70%',
+	margin: 'auto',
+	marginTop: '20vh',
+};
+
+const itemStyle = {
+	marginTop: '20px',
+};
+
+const textFontStyle = {
+	fontSize: '25px',
+};
+
+const btnFontStyle = {
+	fontSize: '30px',
 };
 
 const ParentLogin = () => {
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 	const registerParent = async (userMail, userName) => {
-    const newCParent = {
-      mail: String(userMail),
-      displayName: String(userName),
-      creditCardNumber: String(creditCardNumber),
-      childrensList: []
-    };
+		const newCParent = {
+			mail: String(userMail),
+			displayName: String(userName),
+			creditCardNumber: String(creditCardNumber),
+			childrensList: [],
+		};
 
-    console.log(newCParent);
+		console.log(newCParent);
 
-    await axios.post(`${config.PIGGY_DB_URL}/parent/register`, newCParent)
-    .then((response) => console.log(response))
-    .catch((error) => console.log(error));
-  };
+		await axios
+			.post(`${config.PIGGY_DB_URL}/parent/register`, newCParent)
+			.then((response) => console.log(response))
+			.catch((error) => console.log(error));
+	};
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => {
-    setOpen(false);
-    setCreditCardNumber('');
-  };
+	const [open, setOpen] = React.useState(false);
+	const handleOpen = () => setOpen(true);
+	const handleClose = () => {
+		setOpen(false);
+		setCreditCardNumber('');
+	};
 
-  const [creditCardNumber, setCreditCardNumber] = React.useState('');
-  const handleCardNumberChange = (event) => {
-    setCreditCardNumber(event.target.value);
-  };
+	const [creditCardNumber, setCreditCardNumber] = React.useState('');
+	const handleCardNumberChange = (event) => {
+		setCreditCardNumber(event.target.value);
+	};
 
-  const loginAsParent = () => {
-    sessionStorage.setItem("profileObj", JSON.stringify({ 
-      "email": "shlomi@gmail.com"
-    }));
+	const loginAsParent = () => {
+		sessionStorage.setItem(
+			'profileObj',
+			JSON.stringify({
+				email: 'shlomi@gmail.com',
+			})
+		);
 
-    navigate("/parent");
-  };
+		navigate('/parent');
+	};
 
-  return (
-    <React.Fragment>
-      <CssBaseline />
-      <Container fixed>
-        כבר יש לכם חשבון?
-        <Login btnText="כניסה עם גוגל" />
-        חדשים בפיגי? בואו והצטרפו למשפחה
-        <Button onClick={handleOpen}>
-          הרשמה עם גוגל
-			  </Button>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box sx={style}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              אנא הכנס מספר אשראי
-            </Typography>
-            <TextField
-              id="parent-card-number"
-              placeholder="Card Number"
-              fullWidth
-              value={creditCardNumber}
-              onChange={handleCardNumberChange}
-            />
-            <Login btnText="הרשמה עם גוגל" successCallback={registerParent} />
-          </Box>
-        </Modal>
+	return (
+		<>
+			<Grid container style={containerStyle}>
+				<Grid item xs={12} style={itemStyle}>
+					<Typography style={textFontStyle}>כבר יש לכם חשבון?</Typography>
+				</Grid>
+				<Grid item xs={12} style={itemStyle}>
+					<Login fullWidth btnText='כניסה עם גוגל' />
+				</Grid>
 
-        <Button color='inherit' onClick={loginAsParent}>
-					אני הורה!
-				</Button>
-      </Container>
-    </React.Fragment>
+				<Grid item xs={12} style={itemStyle}>
+					<Typography style={textFontStyle}>חדשים בפיגי?</Typography>
+					<Typography style={textFontStyle}>בואו והצטרפו למשפחה</Typography>
+				</Grid>
+				<Grid item xs={12} style={itemStyle}>
+					<Button variant='contained' fullWidth style={btnFontStyle} onClick={handleOpen}>
+						הרשמה עם גוגל
+					</Button>
+				</Grid>
+				<Grid item xs={12} cstyle={itemStyle}>
+					<Button color='inherit' onClick={loginAsParent}>
+						אני הורה!
+					</Button>
+				</Grid>
+			</Grid>
 
-  );
-}
+			<Container fixed>
+				<Modal open={open} onClose={handleClose} aria-labelledby='modal-modal-title' aria-describedby='modal-modal-description'>
+					<Paper sx={style}>
+						<TextField id='parent-card-number' label='אנא הכנס מספר אשראי' fullWidth value={creditCardNumber} onChange={handleCardNumberChange} style={{ marginBottom: '15px' }} />
+						<Login btnText='הרשמה עם גוגל' successCallback={registerParent} />
+					</Paper>
+				</Modal>
+			</Container>
+		</>
+	);
+};
 
 export default ParentLogin;
