@@ -115,10 +115,12 @@ const ChildrenSettings = ({ onUserNameChange }) => {
   const [editName, setEditName] = useState(null);
   const navigate = useNavigate();
 
-  const handleChangeSettings = (prop) => {
+  const handleChangeSettings = async (prop) => {
+		const userMail = JSON.parse(sessionStorage.getItem('profileObj'))['email'];
+		const user = await axios.get(`${config.PIGGY_DB_URL}/children/mail/${userMail}`);
     axios
       .put(
-        `${config.PIGGY_DB_URL}/children/AlertSettings/62171cef74e8cac9530dcaac`,
+        `${config.PIGGY_DB_URL}/children/AlertSettings/${user.data._id}`,
         {
           [prop]: !alertSettings[prop],
         }
@@ -128,10 +130,12 @@ const ChildrenSettings = ({ onUserNameChange }) => {
       );
   };
 
-  const handleChangeDisplayName = (displayName) => {
+  const handleChangeDisplayName = async (displayName) => {
+    const userMail = JSON.parse(sessionStorage.getItem('profileObj'))['email'];
+		const user = await axios.get(`${config.PIGGY_DB_URL}/children/mail/${userMail}`);
     axios
       .put(
-        `${config.PIGGY_DB_URL}/children/DisplayName/62171cef74e8cac9530dcaac`,
+        `${config.PIGGY_DB_URL}/children/DisplayName/${user.data._id}`,
         {
           value: displayName,
         }
