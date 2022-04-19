@@ -64,7 +64,11 @@ const convertBase64 = (file) => {
 	});
 };
 
-const saveWishToDB = (newWish) => axios.post(`${config.PIGGY_DB_URL}/children/WishList/62171cef74e8cac9530dcaac`, newWish);
+const saveWishToDB = async (newWish) => {
+	const userMail = JSON.parse(sessionStorage.getItem('profileObj'))['email'];
+	const user = await axios.get(`${config.PIGGY_DB_URL}/children/mail/${userMail}`);
+	axios.post(`${config.PIGGY_DB_URL}/children/WishList/${user.data._id}`, newWish);
+}
 
 const ChildAddWish = () => {
 	const classes = useStyles();
@@ -89,7 +93,7 @@ const ChildAddWish = () => {
 		setPic(picInBase64);
 	};
 
-	const calcNextPriority = () => Object.keys(state.wishes).reduce((nextPriority, currPriority) => (+currPriority >= nextPriority ? +currPriority + 1 : nextPriority), 0);
+	const calcNextPriority = () => Object.keys(state.wishes).reduce((nextPriority, currPriority) => (+currPriority >= nextPriority ? +currPriority + 1 : nextPriority), 1);
 
 	const saveWish = async () => {
 		setIsSaving(true);

@@ -41,8 +41,13 @@ export const registerChild = async (userMail, displayName, parentMail) => {
 				DisplayName: displayName,
 				AvaterId: '62171cef74e8cac9530332b',
 				BackgroudColor: '62171cef74e8cac9530d56a',
+				AlertsSettings: {
+					WeeklyWatch: true,
+					NewStories: true,
+					Allowance: true
+				},
 			},
-			Budget: [],
+			Budget: {},
 			WatchList: [],
 			WishList: [],
 		};
