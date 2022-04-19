@@ -30,10 +30,19 @@ const ChildHomePage = () => {
 		user.data.WishList.forEach((wish) => (userWishes[wish.priority] = wish));
 		setWishes(userWishes);
 		const userTotalBudget = Object.values(user.data.Budget).reduce((sum, categoryAmount) => sum + categoryAmount, 0);
-		const userCard = await axios.get(`${config.PAYMENT_SERVICE_URL}/card/${user.data._id}`);
-		setCardData(userCard.data);
-		setAmountLeftInCard(userCard.data.amount - userTotalBudget >= 0 ? userCard.data.amount - userTotalBudget : 0);
-		setIsLoadingUserData(false);
+		try {
+			const userCard = await axios.get(`${config.PAYMENT_SERVICE_URL}/card/${user.data._id}`);
+			setCardData(userCard.data);
+			setAmountLeftInCard(userCard.data.amount - userTotalBudget >= 0 ? userCard.data.amount - userTotalBudget : 0);
+		}
+		catch(err) {
+			setCardData({
+				transactions: []
+			});
+		}
+		finally {
+			setIsLoadingUserData(false);
+		}
 	}, []);
 
 	return (
