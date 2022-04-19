@@ -18,6 +18,7 @@ const ChildHomePage = () => {
 	const classes = useStyles();
 	const [cardData, setCardData] = useState(null);
 	const [userName, setUserName] = useState('');
+	const [userBudget, setUserBudget] = useState(0);
 	const [wishes, setWishes] = useState({});
 	const [amountLeftInCard, setAmountLeftInCard] = useState(0);
 	const [isLoadingUserData, setIsLoadingUserData] = useState(true);
@@ -30,17 +31,16 @@ const ChildHomePage = () => {
 		user.data.WishList.forEach((wish) => (userWishes[wish.priority] = wish));
 		setWishes(userWishes);
 		const userTotalBudget = Object.values(user.data.Budget).reduce((sum, categoryAmount) => sum + categoryAmount, 0);
+		setUserBudget(userTotalBudget);
 		try {
 			const userCard = await axios.get(`${config.PAYMENT_SERVICE_URL}/card/${user.data._id}`);
 			setCardData(userCard.data);
 			setAmountLeftInCard(userCard.data.amount - userTotalBudget >= 0 ? userCard.data.amount - userTotalBudget : 0);
-		}
-		catch(err) {
+		} catch (err) {
 			setCardData({
-				transactions: []
+				transactions: [],
 			});
-		}
-		finally {
+		} finally {
 			setIsLoadingUserData(false);
 		}
 	}, []);
@@ -49,7 +49,7 @@ const ChildHomePage = () => {
 		<div className={classes.root}>
 			<CardDetails amount={cardData?.amount} details={cardData?.cardDetails} />
 			<WishesSummery wishes={wishes} currAmount={amountLeftInCard} isLoadingUserData={isLoadingUserData} />
-			<CardHistory card={cardData} />
+			<CardHistory card={cardData} userBudget={userBudget} isLoadingUserData={isLoadingUserData} />
 		</div>
 	);
 };

@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Card, Typography } from '@mui/material';
 import { Divider } from '@mui/material';
 import { List } from '@mui/material';
 import { ListItem } from '@mui/material';
@@ -9,10 +9,11 @@ import PropTypes from 'prop-types';
 const useStyles = makeStyles((theme) => ({
 	root: {
 		backgroundColor: '#FAFAFA',
-		borderRadius: 10,
+		borderRadius: 5,
 		marginTop: 15,
 		marginRight: 'auto',
 		marginLeft: 'auto',
+		marginBottom: '5px',
 	},
 }));
 
@@ -20,19 +21,22 @@ const Transactions = ({ transactionsList }) => {
 	const classes = useStyles();
 
 	return (
-		<div className={classes.root}>
+		<Card className={classes.root}>
 			<List disablePadding>
 				{transactionsList.map((transaction) => (
 					<>
 						<ListItem key={transaction.id}>
-							<ListItemText primary={transaction.description} secondary={new Date(transaction.timestamp).toLocaleDateString()} />
-							<Typography edge='end'> {transaction.amount} ₪ </Typography>
+							<ListItemText
+								primary={transaction.description}
+								secondary={new Date(transaction.timestamp).toLocaleDateString()}
+							/>
+							<Typography edge='end'> {transaction.amount}₪ </Typography>
 						</ListItem>
 						<Divider light />
 					</>
 				))}
 			</List>
-		</div>
+		</Card>
 	);
 };
 
