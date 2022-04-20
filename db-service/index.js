@@ -7,7 +7,7 @@ import { getChildrenByParentId, getParentById, registerParent, getParentByMail, 
 import { getAvatarById, getAllAvatars } from './DAL/avatar.js';
 import { getUserType } from './DAL/identity.js';
 import { getAllBackgroundColors, getBackgroundColorById , getBackgroundColorByChildrenMail} from './DAL/backgroudColor.js';
-
+import { getImageUrl, getImageListWithWatchIndicator, addPiggyCoinsAftetStroyWatch} from './DAL/story.js'
 var port = process.env.PORT || config.app.port;
 const app = express();
 app.use(express.json());
@@ -191,3 +191,23 @@ app.get('/backgroundColor', async (req, res) => {
 	const backgoundColors = await getAllBackgroundColors(req.params.id);
 	res.send(backgoundColors);
 });
+
+//stories
+
+app.get('/stories/getImageUrl/:iamgePath', async (req, res) => {
+    const imageUrl = await getImageUrl(req.params.iamgePath);
+    res.send(imageUrl);
+});
+
+//TODO:  this function beed to get user id - ask daniel where he save this detail
+app.get('/stories', (req, res) => {
+    getImageListWithWatchIndicator("mika@gmail.com", (storiesList) => {
+        res.send(storiesList);
+    });
+});
+
+app.post('/stories/addPiggyCoinsAftetStroyWatch', async (req, res) => {
+    const successMassege = await addPiggyCoinsAftetStroyWatch(req.body.sotryId, userId);
+    res.send(successMassege);
+});
+
