@@ -4,14 +4,13 @@ export default {
     },
     db:
     {
-        dbName : "piggyScool",
+        dbName : "piggySchool",
         collections : 
         {
             children : "children",
             parent : "parent",
             backgroundColor : "backgroundColors",
             avatar : "avatars"
-
         }
     }
 }
