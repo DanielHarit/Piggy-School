@@ -3,6 +3,7 @@ import config from '../config.js';
 import { v4 as uuidv4 } from 'uuid';
 import { inviteParent, inviteChild } from '../utilities/mailer.js';
 import { getAvatarById } from './avatar.js';
+import { getChildrenByMail } from './children.js';
 
 const collectionName = config.db.collections.parent;
 
@@ -112,6 +113,20 @@ export const updateParentCreditCard = async( parentId,newCreditCardNumber) => {
     )
 
     return resultUpdate.modifiedCount;
+}
+
+export const addChildren = async (parentId, childrenMail)=>{
+	let resultUpdate= {};
+	resultUpdate.modifiedCount = 0;
+	const children  =  await getChildrenByMail(childrenMail);
+	if(children){
+		resultUpdate = await db.collection(collectionName).updateOne(
+			{"_id": parentId} ,  { $push: {"Childrens" : children._id}}
+		)
+	}
+
+    return resultUpdate.modifiedCount;
+
 }
 
 
