@@ -3,6 +3,7 @@ import db from './mongoConnectios.js';
 import config from '../config.js';
 import { updateParentChildrens } from './parent.js';
 import { v4 as uuidv4 } from 'uuid';
+import { getAvatarById } from './avatar.js';
 
 const collectionName = config.db.collections.children;
 
@@ -39,7 +40,7 @@ export const registerChild = async (userMail, displayName, parentMail) => {
 			PurchesHistory: [],
 			UserSettings: {
 				DisplayName: displayName,
-				AvaterId: '62171cef74e8cac9530332b',
+				AvatarId: '62171cef74e8cac9530332b',
 				BackgroudColor: '62171cef74e8cac9530d56a',
 				AlertsSettings: {
 					WeeklyWatch: true,

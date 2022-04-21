@@ -6,9 +6,9 @@ import { getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCr
 import { getChildrenByParentId, getParentById, registerParent, getParentByMail, updateParentSettings, updateParentDisplayName } from './DAL/parent.js';
 import { getAvatarById, getAllAvatars } from './DAL/avatar.js';
 import { getUserType } from './DAL/identity.js';
-import { getAllBackgroundColors, getBackgroundColorById } from './DAL/backgroudColor.js';
+import { getAllBackgroundColors, getBackgroundColorById , getBackgroundColorByChildrenMail} from './DAL/backgroudColor.js';
 
-var port = process.env.PORT || config.app.port;
+var port = 3001;
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -178,6 +178,15 @@ app.get('/backgroundColor/:id', async (req, res) => {
 	res.send(backgoundColor);
 });
 
+app.get('/backgroundColor/childrenMail/:mail', async (req, res) => {
+	const backgoundColor = await getBackgroundColorByChildrenMail(req.params.mail);
+	res.send(backgoundColor);
+});
+
+app.get('/backgroundColorByChildren/:id', async (req, res) => {
+	const backgoundColor = await getBackgroundColorById(req.params.id);
+	res.send(backgoundColor);
+});
 app.get('/backgroundColor', async (req, res) => {
 	const backgoundColors = await getAllBackgroundColors(req.params.id);
 	res.send(backgoundColors);

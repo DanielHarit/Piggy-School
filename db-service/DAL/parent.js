@@ -35,7 +35,7 @@ export const getChildrenByParentId = async (id) => {
 	const children = parent[0].parentChildren;
 	return Promise.all(
 		children.map(async (child) => {
-			const avatar = await getAvatarById(child.UserSettings.AvaterId);
+			const avatar = await getAvatarById(child.UserSettings.AvatarId);
 			return { ...child, UserSettings: { ...child.UserSettings, avatarURL: avatar.URL } };
 		})
 	);

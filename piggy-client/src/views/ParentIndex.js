@@ -61,7 +61,7 @@ const ParentIndex = () => {
               },
           }}
         />
-        <div>
+        <div className={classes.root}>
           <Routes>
           <Route path={routes.ParentHomePage} element={<ParentHomePage/>} />
             <Route path={routes.ParentTransfer} element={<ParentTransferMoneyPage parentId={user?._id} />} />

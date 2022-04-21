@@ -7,15 +7,15 @@ import {
   DialogTitle,
   DialogContent,
 } from "@mui/material";
+import Skeleton from "@mui/material/Skeleton";
 import React, { useState, useEffect, useRef } from "react";
 import makeStyles from "@mui/styles/makeStyles";
 import SettingBox from "../../components/Commons/SettingBox";
 import { useNavigate } from "react-router-dom";
-import avatarImg from "../../assets/img/4043250_avatar_child_girl_kid_icon.png";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import DoneIcon from "@mui/icons-material/Done";
-import ClearIcon from '@mui/icons-material/Clear';
+import ClearIcon from "@mui/icons-material/Clear";
 import IconButton from "@mui/material/IconButton";
 import axios from "axios";
 import EditIcon from "@mui/icons-material/Edit";
@@ -102,7 +102,6 @@ const ChildrenSettings = ({ onUserNameChange }) => {
   } = useLocation();
 
   const classes = useStyles();
-  const AdornmentRef = useRef();
   const [alertSettings, setAlertSettings] = useState({
     WeeklyWatch: false,
     NewStories: false,
@@ -110,36 +109,35 @@ const ChildrenSettings = ({ onUserNameChange }) => {
   });
   const [userDetailsSettings, setUserDetailsSettings] = useState({
     DisplayName: "",
-    Mail: "",
+    mail: "",
+    avatarURL: "",
   });
   const [editName, setEditName] = useState(null);
   const navigate = useNavigate();
 
   const handleChangeSettings = async (prop) => {
-		const userMail = JSON.parse(sessionStorage.getItem('profileObj'))['email'];
-		const user = await axios.get(`${config.PIGGY_DB_URL}/children/mail/${userMail}`);
+    const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
+    const user = await axios.get(
+      `${config.PIGGY_DB_URL}/children/mail/${userMail}`
+    );
     axios
-      .put(
-        `${config.PIGGY_DB_URL}/children/AlertSettings/${user.data._id}`,
-        {
-          [prop]: !alertSettings[prop],
-        }
-      )
+      .put(`${config.PIGGY_DB_URL}/children/AlertSettings/${user.data._id}`, {
+        [prop]: !alertSettings[prop],
+      })
       .then((data) =>
         setAlertSettings((prev) => ({ ...prev, [prop]: !prev[prop] }))
       );
   };
 
   const handleChangeDisplayName = async (displayName) => {
-    const userMail = JSON.parse(sessionStorage.getItem('profileObj'))['email'];
-		const user = await axios.get(`${config.PIGGY_DB_URL}/children/mail/${userMail}`);
+    const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
+    const user = await axios.get(
+      `${config.PIGGY_DB_URL}/children/mail/${userMail}`
+    );
     axios
-      .put(
-        `${config.PIGGY_DB_URL}/children/DisplayName/${user.data._id}`,
-        {
-          value: displayName,
-        }
-      )
+      .put(`${config.PIGGY_DB_URL}/children/DisplayName/${user.data._id}`, {
+        value: displayName,
+      })
       .then((data) => {
         setUserDetailsSettings((prev) => ({
           ...prev,
@@ -153,9 +151,9 @@ const ChildrenSettings = ({ onUserNameChange }) => {
   useEffect(() => {
     setUserDetailsSettings((prev) => ({
       ...prev,
-      mail,
+      mail: JSON.parse(sessionStorage.getItem("profileObj"))["email"],
     }));
-  }, [mail]);
+  }, []);
 
   const handleInputChange = (event) => {
     const value = event.target.value;
@@ -167,9 +165,17 @@ const ChildrenSettings = ({ onUserNameChange }) => {
       setAlertSettings(settings.AlertsSettings);
       setUserDetailsSettings((prev) => ({
         ...prev,
-        DisplayName: settings.DisplayName,
+        ...settings,
       }));
     }
+  }, [settings]);
+
+  useEffect(() => {
+    axios
+      .get(`${config.PIGGY_DB_URL}/avatar/${settings.AvatarId}`)
+      .then((res) =>
+        setUserDetailsSettings((prev) => ({ ...prev, avatarURL: res.data.URL }))
+      );
   }, [settings]);
 
   return (
@@ -177,7 +183,20 @@ const ChildrenSettings = ({ onUserNameChange }) => {
       <SettingBox title="פרטים אישיים">
         <>
           <div className={classes.imgContainer}>
-            <img alt="logo" src={avatarImg} className={classes.img}></img>
+            {userDetailsSettings.avatarURL ? (
+              <img
+                alt="logo"
+                src={userDetailsSettings.avatarURL}
+                className={classes.img}
+              ></img>
+            ) : (
+              <Skeleton
+                variant="circular"
+                className={classes.skelaton}
+                width="20vmin"
+                height="20vmin"
+              />
+            )}
             <EditIcon
               className={classes.editImg}
               fontSize="small"
@@ -196,14 +215,21 @@ const ChildrenSettings = ({ onUserNameChange }) => {
                       onChange={handleInputChange}
                     />
                   </FormControl>
-                  <IconButton aria-label="send" edge="end" onClick={()=>handleChangeDisplayName(editName)}>
+                  <IconButton
+                    aria-label="send"
+                    edge="end"
+                    onClick={() => handleChangeDisplayName(editName)}
+                  >
                     <DoneIcon />
                   </IconButton>
-                  <IconButton aria-label="send" onClick={()=>setEditName(null)} edge="end">
+                  <IconButton
+                    aria-label="send"
+                    onClick={() => setEditName(null)}
+                    edge="end"
+                  >
                     <ClearIcon />
                   </IconButton>
                 </>
-                
               ) : (
                 <>
                   <Typography>{userDetailsSettings.DisplayName}</Typography>

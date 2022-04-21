@@ -21,9 +21,6 @@ const theme = createTheme({
     success: {
       main: "#00794c",
     },
-    background: {
-      default: '#ede8e8',
-    },
   },
   typography: {
     fontFamily: "Rubik",
