@@ -199,8 +199,8 @@ app.get('/stories/:userEmail', (req, res) => {
     });
 });
 
-app.post('/stories/addPiggyCoinsAftetStroyWatch', async (req, res) => {
-    const successMassege = await addPiggyCoinsAftetStroyWatch(req.body.userEmail, req.body.storyNumber);
+app.post('/stories/addToWatchList', async (req, res) => {
+    const successMassege = await addStroyIdToUserWatchList(req.body.userEmail, req.body.storyNumber);
     res.send(successMassege.toString());
 });
 
