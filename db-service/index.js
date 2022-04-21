@@ -192,22 +192,15 @@ app.get('/backgroundColor', async (req, res) => {
 	res.send(backgoundColors);
 });
 
-//stories
-
-app.get('/stories/getImageUrl/:iamgePath', async (req, res) => {
-    const imageUrl = await getImageUrl(req.params.iamgePath);
-    res.send(imageUrl);
-});
-
-//TODO:  this function beed to get user id - ask daniel where he save this detail
-app.get('/stories', (req, res) => {
-    getImageListWithWatchIndicator("mika@gmail.com", (storiesList) => {
+// stories
+app.get('/stories/:userEmail', (req, res) => {
+    getImageListWithWatchIndicator(req.params.userEmail, (storiesList) => {
         res.send(storiesList);
     });
 });
 
 app.post('/stories/addPiggyCoinsAftetStroyWatch', async (req, res) => {
-    const successMassege = await addPiggyCoinsAftetStroyWatch(req.body.sotryId, userId);
-    res.send(successMassege);
+    const successMassege = await addPiggyCoinsAftetStroyWatch(req.body.userEmail, req.body.storyNumber);
+    res.send(successMassege.toString());
 });
 

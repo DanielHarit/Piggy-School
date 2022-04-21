@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 import AWS from 'aws-sdk';
 import {getChildrenByMail} from './children.js'
 import config from '../config.js'
+import db from './mongoConnectios.js';
 
 const BUCKET_NAME = "piggy-stories";
 const childrenCollectionName = config.db.collections.children;
@@ -24,7 +25,7 @@ export const getImageListWithWatchIndicator = (userEmail, handleData) => {
             if (err) {
                 console.log(err);
             } else {
-                handleData(listObjectsToImageArray(result.watchList, data.Contents));
+                handleData(listObjectsToImageArray(result.WatchList, data.Contents));
             }
         })
     });
@@ -32,18 +33,23 @@ export const getImageListWithWatchIndicator = (userEmail, handleData) => {
 
 const listObjectsToImageArray = (watchList, listObjects) => {
     const images = [];
-    console.log(watchList);
-    listObjects.forEach(element => {
-        if(!element.Key.endsWith('/')) {
-            images.push({'imageUrl': getImageUrl(element.Key), 'imagePath': element.Key, 'seen' : false});
+    listObjects.forEach(imageObject => {
+        if(!imageObject.Key.endsWith('/')) {
+            let seen = false;
+            watchList.forEach(storyPrefixInWatchList => {
+                if(imageObject.Key.startsWith(storyPrefixInWatchList)){
+                    seen = true;
+                }
+            })
+            images.push({'imageUrl': getImageUrl(imageObject.Key), 'imagePath': imageObject.Key, 'seen' : seen});
         }
     });
     return images;
 }
 
-export const addPiggyCoinsAftetStroyWatch = (userEmail, storyPrefix) => {
-    const resultUpdate = db.collection(childrenCollectionName).updateOne(
-        {"Mail": userEmail} ,  { $set: {[propertySettings] : value}}
+export const addPiggyCoinsAftetStroyWatch = async (userEmail, storyPrefix) => {
+    const resultUpdate = await db.collection(childrenCollectionName).updateOne(
+        {"Mail": userEmail} ,  { $push: {WatchList: storyPrefix}}
     )
     return resultUpdate.modifiedCount;
 }
