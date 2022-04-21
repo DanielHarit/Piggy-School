@@ -50,23 +50,6 @@ export const updateParentSettings = async( parentId,settings) => {
     return resultUpdate.modifiedCount;
 }
 
-export const getChildrenByParentId = async (id) =>{
-    const parent =  await db.collection(collectionName).aggregate(
-        [{$match:{'_id': id}},
-            { $lookup:
-               {
-                 from: 'children',
-                 localField: 'Childrens',
-                 foreignField: '_id',
-                 as: 'parentChildren'
-               }
-             },
-             { $project : {  parentChildren : 1 }},
-        ]
-    ).toArray();
-    return parent[0].parentChildren;
-}
-
 export const registerParent = async (userMail, displayName, creditCardNumber, childrensList) => {
 	const parent = await db.collection(collectionName).findOne({ Mail: userMail });
 	if (parent) {

@@ -4,13 +4,14 @@ import makeStyles from "@mui/styles/makeStyles";
 import SettingBox from "../../components/Commons/SettingBox";
 import { useNavigate } from "react-router-dom";
 import FormGroup from "@mui/material/FormGroup";
+import Skeleton from "@mui/material/Skeleton";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Link from "@mui/material/Link";
 import DoneIcon from "@mui/icons-material/Done";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import axios from "axios";
-import ClearIcon from '@mui/icons-material/Clear';
+import ClearIcon from "@mui/icons-material/Clear";
 import EditIcon from "@mui/icons-material/Edit";
 import routes from "../../components/Router/Routes";
 import { Navigate, useLocation } from "react-router-dom";
@@ -26,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     overflow: "auto",
+    "& > .MuiSkeleton-root": {
+      margin: "0 8px",
+    },
   },
   container: {
     margin: "0 5%",
@@ -97,6 +101,8 @@ const ParentSettings = ({ onUserNameChange }) => {
   });
   const [editName, setEditName] = useState(null);
   const [childrens, setChildrens] = useState([]);
+  const [childrensLoding, setChildrensLoding] = useState(true);
+
   const navigate = useNavigate();
 
   const handleChangeSettings = (prop) => {
@@ -156,6 +162,7 @@ const ParentSettings = ({ onUserNameChange }) => {
     const childrens = await axios.get(
       `${config.PIGGY_DB_URL}/parentChild/62171cef74e8cac9530dcdsdacbw`
     );
+    setChildrensLoding(false);
     setChildrens(childrens.data);
   }, []);
 
@@ -164,18 +171,30 @@ const ParentSettings = ({ onUserNameChange }) => {
       <div>
         <Typography variant="h6">הילדים שלי</Typography>
         <div className={classes.childrenContainer}>
-          <ChildrenDisplay onClick={() => {}} name="+" />
-          {childrens.map((children) => (
-            <ChildrenDisplay
-              key={children._id}
-              onClick={() =>
-                navigate(routes.ChildrenQuickView, {
-                  state: { displayName: children.UserSettings?.DisplayName },
-                })
-              }
-              name={children.UserSettings?.DisplayName}
-            />
-          ))}
+          {childrensLoding ? (
+            <>
+              <Skeleton variant="circular" width={60} height={60} />
+              <Skeleton variant="circular" width={60} height={60} />
+              <Skeleton variant="circular" width={60} height={60} />
+            </>
+          ) : (
+            <>
+              <ChildrenDisplay onClick={() => {}} name="+" />
+              {childrens.map((children) => (
+                <ChildrenDisplay
+                  key={children._id}
+                  onClick={() =>
+                    navigate("/parent" + routes.ChildrenQuickView, {
+                      state: {
+                        displayName: children.UserSettings?.DisplayName,
+                      },
+                    })
+                  }
+                  name={children.UserSettings?.DisplayName}
+                />
+              ))}
+            </>
+          )}
         </div>
       </div>
       <SettingBox title="פרטים אישיים">
@@ -219,11 +238,8 @@ const ParentSettings = ({ onUserNameChange }) => {
               )}
             </div>
             <Typography>{userDetailsSettings.mail}</Typography>
-            <Link href="#" underline="none">
-              {"עדכון פרטי תשלום"}
-            </Link>
             <Button className={classes.btn} variant="contained">
-              הוספת הורה לחשבון
+              עדכון פרטי תשלום
             </Button>
           </div>
         </>
