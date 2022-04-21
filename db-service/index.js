@@ -3,11 +3,12 @@ import cors from 'cors';
 import config from './config.js';
 import { initializeDbConnection } from './DAL/mongoConnectios.js';
 import { getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCreditCardByChildrenId, registerChild, updateChildrenDisplayName, updateChildrenSettings, addWish, updateWishList } from './DAL/children.js';
-import { getChildrenByParentId, getParentById, registerParent, getParentByMail, updateParentSettings, updateParentDisplayName } from './DAL/parent.js';
+import { getChildrenByParentId, getParentById, registerParent, getParentByMail, updateParentSettings, updateParentDisplayName , updateParentCreditCard, updateParentChildrens, addChildren} from './DAL/parent.js';
 import { getAvatarById, getAllAvatars } from './DAL/avatar.js';
 import { getUserType } from './DAL/identity.js';
 import { getAllBackgroundColors, getBackgroundColorById , getBackgroundColorByChildrenMail} from './DAL/backgroudColor.js';
 import { getImageListWithWatchIndicator, addStroyIdToUserWatchList} from './DAL/story.js'
+import { inviteChild } from './utilities/mailer.js'
 var port = process.env.PORT || config.app.port;
 const app = express();
 app.use(express.json());
@@ -38,6 +39,11 @@ app.get('/children/mail/:mail', async (req, res) => {
 app.get('/children/creditCard/:id', async (req, res) => {
 	const creditCard = await getCreditCardByChildrenId(req.params.id);
 	res.send(creditCard);
+});
+
+app.post('/children/invite/:parentMail', async (req, res) => {
+	await inviteChild(req.body.childrenMail,req.params.parentMail);
+	res.send('send mail');
 });
 
 app.put('/children/creditCard/:id', async (req, res) => {
@@ -110,6 +116,21 @@ app.put('/parent/AlertSettings/:id', async (req, res) => {
     const newSettings = req.body;
     const countUpdated = await updateParentSettings(req.params.id,newSettings);
     res.send(`update ${countUpdated} documents`);
+});
+
+app.put('/parent/creditCardNumber/:id', async (req, res) => {
+    const creditCardNewNumber = req.body.value;
+    const countUpdated = await updateParentCreditCard(req.params.id,creditCardNewNumber);
+    res.send(`update ${countUpdated} documents`);
+});
+
+app.put('/parent/addChildren/:id', async (req, res) => {
+	const childrenMail = req.body.value;
+	const countUpdated = await addChildren(req.params.id, childrenMail);
+	if(countUpdated === 0)
+		res.send('')
+	else
+	res.send(`update ${countUpdated} documents`);
 });
 
 app.put('/parent/DisplayName/:id', async (req, res) => {
