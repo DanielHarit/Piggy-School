@@ -7,7 +7,7 @@ import { getChildrenByParentId, getParentById, registerParent, getParentByMail, 
 import { getAvatarById, getAllAvatars } from './DAL/avatar.js';
 import { getUserType } from './DAL/identity.js';
 import { getAllBackgroundColors, getBackgroundColorById , getBackgroundColorByChildrenMail} from './DAL/backgroudColor.js';
-import { getImageUrl, getImageListWithWatchIndicator, addPiggyCoinsAftetStroyWatch} from './DAL/story.js'
+import { getImageListWithWatchIndicator, addStroyIdToUserWatchList} from './DAL/story.js'
 var port = process.env.PORT || config.app.port;
 const app = express();
 app.use(express.json());
