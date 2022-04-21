@@ -4,9 +4,17 @@ import makeStyles from "@mui/styles/makeStyles";
 import SettingBox from "../../components/Commons/SettingBox";
 import { useNavigate } from "react-router-dom";
 import FormGroup from "@mui/material/FormGroup";
+import Container from "@mui/material/Container";
+import Swal from 'sweetalert2';
+import { Paper } from "@mui/material";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
 import Skeleton from "@mui/material/Skeleton";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Link from "@mui/material/Link";
+import TextField from "@mui/material/TextField";
+import DialogTitle from "@mui/material/DialogTitle";
 import DoneIcon from "@mui/icons-material/Done";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -102,8 +110,14 @@ const ParentSettings = ({ onUserNameChange }) => {
   const [editName, setEditName] = useState(null);
   const [childrens, setChildrens] = useState([]);
   const [childrensLoding, setChildrensLoding] = useState(true);
+  const [isCreditCardUpdateOpen, setIsCreditCardUpdateOpen] = useState(false);
+  const [creditCardNumber, setCreditCardNumber] = useState();
 
   const navigate = useNavigate();
+
+  const handleCardNumberChange = (event) => {
+    setCreditCardNumber(event.target.value);
+  };
 
   const handleChangeSettings = (prop) => {
     axios
@@ -157,6 +171,37 @@ const ParentSettings = ({ onUserNameChange }) => {
       }));
     }
   }, [settings]);
+
+  const updateCreditCard = () =>{
+    axios
+    .put(
+      `${config.PIGGY_DB_URL}/parednt/creditCardNumber/62171cef74e8cac9530dcdsdacbw`,
+      {
+        value: creditCardNumber,
+      }
+    ).then(()=>{
+      setIsCreditCardUpdateOpen(false)
+      setCreditCardNumber('');
+      Swal.fire({
+				title: 'פרטי האשראי עודכנו בהצלחה',
+				icon: 'success',
+				width: '80%',
+				confirmButtonColor: '#781f63',
+        confirmButtonText: 'המשך',
+
+			})
+    }).catch(err =>{
+      setIsCreditCardUpdateOpen(false)
+      Swal.fire({
+				title: 'אופס!',
+				text: 'משהו התפקשש... כדאי לנסות שוב!',
+				icon: 'error',
+				width: '80%',
+				confirmButtonColor: '#781f63',
+				confirmButtonText: 'הבנתי',
+			}).then(() =>   setIsCreditCardUpdateOpen(true));
+    });
+  }
 
   useEffect(async () => {
     const childrens = await axios.get(
@@ -238,7 +283,11 @@ const ParentSettings = ({ onUserNameChange }) => {
               )}
             </div>
             <Typography>{userDetailsSettings.mail}</Typography>
-            <Button className={classes.btn} variant="contained">
+            <Button
+              className={classes.btn}
+              variant="contained"
+              onClick={() => setIsCreditCardUpdateOpen(true)}
+            >
               עדכון פרטי תשלום
             </Button>
           </div>
@@ -275,6 +324,30 @@ const ParentSettings = ({ onUserNameChange }) => {
           />
         </FormGroup>
       </SettingBox>
+      <Container fixed>
+        <Dialog
+          open={isCreditCardUpdateOpen}
+          onClose={() => setIsCreditCardUpdateOpen(false)}
+        >
+          <DialogTitle>הכנס מספר כרטיס חדש</DialogTitle>
+          <DialogContent>
+            <TextField
+              id="parent-card-number"
+              autoFocus
+              fullWidth
+              value={creditCardNumber}
+              onChange={handleCardNumberChange}
+              style={{ marginBottom: "15px" }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setIsCreditCardUpdateOpen(false)}>
+              ביטול
+            </Button>
+            <Button onClick={updateCreditCard}>אישור</Button>
+          </DialogActions>
+        </Dialog>
+      </Container>
     </div>
   );
 };

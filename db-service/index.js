@@ -3,7 +3,7 @@ import cors from 'cors';
 import config from './config.js';
 import { initializeDbConnection } from './DAL/mongoConnectios.js';
 import { getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCreditCardByChildrenId, registerChild, updateChildrenDisplayName, updateChildrenSettings, addWish, updateWishList } from './DAL/children.js';
-import { getChildrenByParentId, getParentById, registerParent, getParentByMail, updateParentSettings, updateParentDisplayName } from './DAL/parent.js';
+import { getChildrenByParentId, getParentById, registerParent, getParentByMail, updateParentSettings, updateParentDisplayName , updateParentCreditCard} from './DAL/parent.js';
 import { getAvatarById, getAllAvatars } from './DAL/avatar.js';
 import { getUserType } from './DAL/identity.js';
 import { getAllBackgroundColors, getBackgroundColorById , getBackgroundColorByChildrenMail} from './DAL/backgroudColor.js';
@@ -109,6 +109,12 @@ app.get('/parent/mail/:mail', async (req, res) => {
 app.put('/parent/AlertSettings/:id', async (req, res) => {
     const newSettings = req.body;
     const countUpdated = await updateParentSettings(req.params.id,newSettings);
+    res.send(`update ${countUpdated} documents`);
+});
+
+app.put('/parent/creditCardNumber/:id', async (req, res) => {
+    const creditCardNewNumber = req.body.value;
+    const countUpdated = await updateParentCreditCard(req.params.id,creditCardNewNumber);
     res.send(`update ${countUpdated} documents`);
 });
 

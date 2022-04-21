@@ -105,3 +105,13 @@ export const updateParentDisplayName = async( parentId,newName) => {
 
     return resultUpdate.modifiedCount;
 }
+
+export const updateParentCreditCard = async( parentId,newCreditCardNumber) => {
+    const resultUpdate = await db.collection(collectionName).updateOne(
+        {"_id": parentId} ,  { $set: {"CreditCard" : newCreditCardNumber}}
+    )
+
+    return resultUpdate.modifiedCount;
+}
+
+
