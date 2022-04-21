@@ -3,7 +3,7 @@ import cors from 'cors';
 import config from './config.js';
 import { initializeDbConnection } from './DAL/mongoConnectios.js';
 import { getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCreditCardByChildrenId, registerChild, updateChildrenDisplayName, updateChildrenSettings, addWish, updateWishList } from './DAL/children.js';
-import { getChildrenByParentId, getParentById, registerParent, getParentByMail } from './DAL/parent.js';
+import { getChildrenByParentId, getParentById, registerParent, getParentByMail, updateParentSettings, updateParentDisplayName } from './DAL/parent.js';
 import { getAvatarById, getAllAvatars } from './DAL/avatar.js';
 import { getUserType } from './DAL/identity.js';
 import { getAllBackgroundColors, getBackgroundColorById } from './DAL/backgroudColor.js';
@@ -104,6 +104,18 @@ app.get('/parent/:id', async (req, res) => {
 app.get('/parent/mail/:mail', async (req, res) => {
 	const parent = await getParentByMail(req.params.mail);
 	res.send(parent);
+});
+
+app.put('/parent/AlertSettings/:id', async (req, res) => {
+    const newSettings = req.body;
+    const countUpdated = await updateParentSettings(req.params.id,newSettings);
+    res.send(`update ${countUpdated} documents`);
+});
+
+app.put('/parent/DisplayName/:id', async (req, res) => {
+	const displayName = req.body.value;
+	const countUpdated = await updateParentDisplayName(req.params.id, displayName);
+	res.send(`update ${countUpdated} documents`);
 });
 
 app.post('/parent/register', async (req, res) => {

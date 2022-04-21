@@ -27,8 +27,8 @@ export const useFooterLinks = (footerType) => {
       case HOMEPAGE_CONSTANTS.PARENT_FOOTER:
         return {
           rightLink: {
-            label: 'דף בית',
-            icon: <Home/>,
+            label: 'הגדרות',
+            icon:<DensityMediumIcon/>,
           },
           middleLink: {
             label: 'פרופיל',

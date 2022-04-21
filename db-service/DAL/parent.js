@@ -40,6 +40,15 @@ export const getChildrenByParentId = async (id) => {
 		})
 	);
 };
+export const updateParentSettings = async( parentId,settings) => {
+    const property = Object.keys(settings)[0];
+    const value = settings[property];
+    const propertySettings = "NotificationsSettings." + property;
+    const resultUpdate = await db.collection(collectionName).updateOne(
+        {"_id": parentId} ,  { $set: {[propertySettings] : value}}
+    )
+    return resultUpdate.modifiedCount;
+}
 
 export const registerParent = async (userMail, displayName, creditCardNumber, childrensList) => {
 	const parent = await db.collection(collectionName).findOne({ Mail: userMail });
@@ -88,3 +97,11 @@ export const updateParentChildrens = async (childId, childMail, parentMail) => {
 		id: childId,
 	};
 };
+
+export const updateParentDisplayName = async( parentId,newName) => {
+    const resultUpdate = await db.collection(collectionName).updateOne(
+        {"_id": parentId} ,  { $set: {"DisplayName" : newName}}
+    )
+
+    return resultUpdate.modifiedCount;
+}
