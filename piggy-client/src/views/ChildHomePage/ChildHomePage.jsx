@@ -8,6 +8,7 @@ import CardDetails from "../../components/CardInfo/CardDetails";
 import { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { Box,Link,Typography } from '@mui/material'
 
 import axios from "axios";
 import configData from "../../conf.json";
@@ -19,6 +20,10 @@ import routes from "../../components/Router/Routes";
 const useStyles = makeStyles((theme) => ({
   //     root:{
   //     },
+  titles:{
+    marginTop:'15px',
+    marginRight:'25px',
+}
 }));
 
 const ChildHomePage = () => {
@@ -37,10 +42,20 @@ const ChildHomePage = () => {
 
   return (
     <div className={classes.root}>
-      <CardDetails
+
+      {/* <CardDetails
         amount={cardData?.amount}
         details={cardData?.cardDetails}
-      ></CardDetails>
+      ></CardDetails> */}
+
+       <Typography className={classes.titles}>לחסוך זה לא story</Typography>
+            
+       <Typography className={classes.titles}>היעדים שלי</Typography>
+
+       <Box sx={{display:'flex',justifyContent: 'space-between',width:'90%'}}>
+        <Typography className={classes.titles}>השבוע הוצאתי..</Typography>
+        <Link className={classes.titles} href="#">לפירוט המלא</Link>
+      </Box>
       <CardHistory card={cardData}></CardHistory>
     </div>
   );

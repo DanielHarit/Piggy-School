@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const HomepageHeader = ({ username, caption,headerType }) => {
+const HomepageHeader = ({ username, caption,headerType,coins}) => {
   const classes = useStyles()
 
   return (
@@ -49,7 +49,7 @@ const HomepageHeader = ({ username, caption,headerType }) => {
      
       { headerType === HOMEPAGE_CONSTANTS.CHILD &&
         <div className={classes.coins}>
-           <CurrentCoins></CurrentCoins>
+           <CurrentCoins total={coins}></CurrentCoins>
         </div>
        }
 
@@ -72,11 +72,14 @@ const HomepageHeader = ({ username, caption,headerType }) => {
 HomepageHeader.propTypes = {
   username: PropTypes.string,
   caption: PropTypes.string,
+  coins:PropTypes.number,
   headerType: PropTypes.string,
+
 }
 HomepageHeader.defaultProps = {
   username: '',
   caption: '',
+  coins:0,
   headerType: HOMEPAGE_CONSTANTS.CHILD,
 }
 

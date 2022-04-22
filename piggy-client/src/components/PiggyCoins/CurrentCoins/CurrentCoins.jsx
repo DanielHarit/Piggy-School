@@ -13,16 +13,14 @@ const useStyles = makeStyles((theme) => ({
     },
     coinImg:{
         display: 'flex',
-        height:31
+        height:35
     },
     sum: {
         color:'gold',
         fontWeight:'bold',
-        fontSize:'17px',
-        height:'100%',
+        fontSize:'22px',
         width:'100%',
-        margin:'auto',
-        // lineHeight: '100%',
+        textAlign:'center',
     }
   }))
 
@@ -31,9 +29,9 @@ const useStyles = makeStyles((theme) => ({
   
     return (
         <div className={classes.root}>
-            <Card className={classes.ellipse} sx={{borderRadius: 5,width:80,height:35 }}>
+            <Card className={classes.ellipse} sx={{borderRadius: 5,minWidth:90,height:38 }}>
             <Box sx={{ display: 'flex',justifyContent:'space-between',height:'100%',alignItems: 'center', }}>
-                <Typography align = 'center' className={classes.sum}>1000</Typography>
+                <Typography className={classes.sum}>{total}</Typography>
                 <img className={classes.coinImg} src={PiggyCoin} alt="PiggyCoin" />
             </Box>
             </Card>

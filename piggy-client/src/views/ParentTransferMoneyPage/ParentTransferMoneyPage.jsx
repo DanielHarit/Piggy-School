@@ -37,9 +37,9 @@ const ActionStatus = Object.freeze({
 
 const ParentHomePage = () => {
   const [actionStatus, setActionStatus] = useState(ActionStatus.NONE);
-  const { amount, setAmount, setSelectedChildrenId, selectedChildrenId } =
+  const { amount, setAmount, selectedChildrenId, setSelectedChildrenId } =
     useContext(ParentContext);
-
+    
   const classes = useStyles();
 
   const [childrens, setChildrens] = useState([]);
@@ -61,6 +61,7 @@ const ParentHomePage = () => {
     );
     setChildrens(childrens.data);
     setSelectedChildrenId(childrens.data[0]._id);
+   
   }, []);
 
   const handleTransferMoney = () => {
@@ -89,6 +90,7 @@ const ParentHomePage = () => {
             onClick={() => setSelectedChildrenId(children._id)}
             selected={selectedChildrenId === children._id}
             name={children.UserSettings?.DisplayName}
+            avatarId={children.UserSettings?.AvaterId}
           />
         ))}
       </div>

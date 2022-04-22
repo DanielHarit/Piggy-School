@@ -37,6 +37,7 @@ const ChildIndex = () => {
         <HomepageHeader
           username={user.UserSettings?.DisplayName}
           caption="בוקר אש"
+          coins={user?.PiggyCoins}
         />
         <div>
           <Routes>
