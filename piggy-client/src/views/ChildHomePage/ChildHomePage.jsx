@@ -47,7 +47,7 @@ const ChildHomePage = () => {
 
 	return (
 		<div className={classes.root}>
-			<CardDetails amount={cardData?.amount} details={cardData?.cardDetails} />
+			{/* <CardDetails amount={cardData?.amount} details={cardData?.cardDetails} /> */}
 			<WishesSummery wishes={wishes} currAmount={amountLeftInCard} isLoadingUserData={isLoadingUserData} />
 			<CardHistory card={cardData} userBudget={userBudget} isLoadingUserData={isLoadingUserData} />
 		</div>

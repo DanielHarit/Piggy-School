@@ -1,8 +1,11 @@
 import React from "react";
+import ChildrenBoard from "../../components/ChildrenBoardData/ChildrenBoard";
 
 const ParentHomePage = () => {
   return (
-    <div>דף בית הורה</div>
+    <div>
+      {/* <ChildrenBoard></ChildrenBoard> */}
+    </div>
   );
 };
 

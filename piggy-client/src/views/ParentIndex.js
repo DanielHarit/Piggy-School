@@ -44,9 +44,9 @@ const ParentIndex = () => {
       <HomePage
         title="PIGGY"
       >
-        <HomepageHeader username={user?.DisplayName} caption="בוקר טיל" />
+        <HomepageHeader username={user?.DisplayName} caption="בוקר טיל" headerType={HOMEPAGE_CONSTANTS.PARENT}/>
         <HomePageFooter
-         footerType={HOMEPAGE_CONSTANTS.PARENT_FOOTER}
+         footerType={HOMEPAGE_CONSTANTS.PARENT}
          onBtnsClick={{
             left: () => {
               navigate( '/parent' + routes.ParentTransfer, {
