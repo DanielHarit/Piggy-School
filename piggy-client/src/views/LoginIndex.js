@@ -4,7 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import ParentLogin from "./ParentLogin";
 import ChildLogin from "./ChildLogin";
 import UserTypeSelect from "./UserTypeSelect";
-import ChidlrenIndex from "./ChildrenIndex";
+import ChildrenIndex from "./ChildrenIndex";
 import ParentIndex from "./ParentIndex";
 
 const LoginIndex = ({setBackGroungColor}) => {
@@ -12,7 +12,7 @@ const LoginIndex = ({setBackGroungColor}) => {
     <div>
       <Routes>
         <Route path={"/parent/*"} element={<ParentIndex />} />
-        <Route path={"/child/*"} element={<ChidlrenIndex />} />
+        <Route path={"/child/*"} element={<ChildrenIndex />} />
         <Route path={routes.LoginParent} element={<ParentLogin />} />
         <Route path={routes.LoginChild} element={<ChildLogin />} />
         <Route path={routes.Landing} element={<UserTypeSelect setBackGroungColor={setBackGroungColor}/>} />
