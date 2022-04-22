@@ -39,7 +39,7 @@ const ChildIndex = () => {
 	return (
 		<div>
 			<HomePage title='PIGGY'>
-				<HomepageHeader username={user.UserSettings?.DisplayName} caption='בוקר אש' showHelloMsg={showHelloMgs} />
+				<HomepageHeader username={user.UserSettings?.DisplayName} caption='בוקר אש' showHelloMsg={showHelloMgs} coins={user?.PiggyCoins}/>
 				<div className={classes.root}>
 					<Routes>
 						<Route path={routes.ChildrenHomePage} element={<ChildHomePage />} />

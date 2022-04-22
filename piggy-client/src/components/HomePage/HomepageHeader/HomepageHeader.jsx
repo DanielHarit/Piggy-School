@@ -2,16 +2,22 @@ import { Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Piggy from "../../../assets/img/piggy-hero.svg";
 import PropTypes from "prop-types";
+import CurrentCoins from '../../../components/PiggyCoins/CurrentCoins'
+import { HOMEPAGE_CONSTANTS } from '../../../constants'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: 150,
-    backgroundColor: "#9D9D9D",
-    borderRadius: "0 0 48px 48px",
+    minHeight: 150,
+    backgroundColor: '#9D9D9D',
+    borderRadius: '0 0 48px 48px',
+  },
+
+  allContent:{
+    minHeight: 180,
     padding: theme.spacing(0, 3, 0, 8),
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
   piggy: {
     maxWidth: 174,
@@ -28,35 +34,56 @@ const useStyles = makeStyles((theme) => ({
   boldText: {
     fontWeight: "bold",
   },
+  coins:{
+    display: 'flex',
+    justifyContent:'end',
+    paddingTop:'10px',
+    paddingLeft:'10px'
+  },
 }));
 
-const HomepageHeader = ({ username, caption, showHelloMsg = true }) => {
+const HomepageHeader = ({ username, caption, headerType ,coins, showHelloMsg = true }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
+    
+
+      { headerType === HOMEPAGE_CONSTANTS.CHILD &&
+        <div className={classes.coins}>
+           <CurrentCoins total={coins}></CurrentCoins>
+        </div>
+       }
+      
+      <div className={classes.allContent}>
       <div className={classes.titles}>
-        {showHelloMsg && (
-          <>
-            <Typography className={classes.title}>{caption}</Typography>
-            <Typography className={classes.title} fontWeight="fontWeightBold">
-              {username}!
-            </Typography>
-          </>
-        )}
+          {showHelloMsg && (
+            <>
+              <Typography className={classes.title}>{caption}</Typography>
+              <Typography className={classes.title} fontWeight="fontWeightBold">
+                {username}!
+              </Typography>
+            </>
+          )}
+        </div>
+        <img className={classes.piggy} src={Piggy} alt="Piggy" />
+        </div>
       </div>
-      <img className={classes.piggy} src={Piggy} alt="Piggy" />
-    </div>
+   
   );
 };
 
 HomepageHeader.propTypes = {
   username: PropTypes.string,
   caption: PropTypes.string,
+  coins:PropTypes.number,
+  headerType: PropTypes.string,
 };
 HomepageHeader.defaultProps = {
   username: "",
   caption: "",
+  coins:0,
+  headerType: HOMEPAGE_CONSTANTS.CHILD,
 };
 
 export default HomepageHeader;

@@ -1,5 +1,5 @@
 import { Skeleton, Typography } from '@mui/material';
-import { Card } from '@mui/material';
+import { Card,Box } from '@mui/material'
 import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import Transactions from '../Transactions';
@@ -21,6 +21,18 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: '5px',
 		marginBottom: '15px',
 	},
+	z:{
+		display:'inline-flex',
+		direction:'ltr',
+		alignItems:'center'
+	   },
+	   drawdown:{
+		fontSize :'35px',
+	   },
+	   amount:{
+		fontSize :'20px',
+	   }
+	  
 }));
 
 const CardHistory = ({ card, userBudget, isLoadingUserData }) => {
@@ -28,7 +40,7 @@ const CardHistory = ({ card, userBudget, isLoadingUserData }) => {
 
 	return (
 		<div className={classes.root}>
-			<Typography>החודש הוצאתי..</Typography>
+			{/* <Typography>החודש הוצאתי..</Typography> */}
 
 			{isLoadingUserData ? (
 				<>

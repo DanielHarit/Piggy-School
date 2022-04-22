@@ -200,7 +200,7 @@ const ChildrenSettings = ({ onUserNameChange }) => {
             <EditIcon
               className={classes.editImg}
               fontSize="small"
-              onClick={() => navigate(routes.Store)}
+              onClick={() => navigate("/child" + routes.Store)}
             />
           </div>
           <div className={classes.userDetails}>
@@ -250,7 +250,7 @@ const ChildrenSettings = ({ onUserNameChange }) => {
         <div
           className={classes.color}
           onClick={() => {
-            navigate(routes.Store);
+            navigate("/child" + routes.Store);
           }}
         ></div>
       </SettingBox>
