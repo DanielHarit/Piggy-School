@@ -1,10 +1,10 @@
 import useStyles from './useStyles'
-import { useMemo } from 'react'
-import { Button, Typography } from '@mui/material'
+import cx from 'classnames'
+import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import routes from '../../components/Router/Routes'
 
-const StoriesBar = () => {
+const StoriesBar = ({ isAllStoriesSeen }) => {
   const classes = useStyles()
   const navigate = useNavigate()
   const goToStories = () => {
@@ -16,7 +16,9 @@ const StoriesBar = () => {
       <Button
         color="inherit"
         onClick={goToStories}
-        className={classes.storyBtn}
+        className={cx(classes.storyBtn, {
+          [classes.storyNotSeenBtn]: !isAllStoriesSeen,
+        })}
       ></Button>
     </div>
   )
