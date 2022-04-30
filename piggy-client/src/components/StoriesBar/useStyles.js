@@ -22,4 +22,5 @@ export default makeStyles(() => ({
   storyNotSeenBtn: {
     border: '2px solid purple'
   },
+  storyNotSeenBtn: {},
 }))

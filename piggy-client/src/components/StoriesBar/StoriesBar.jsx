@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import routes from '../../components/Router/Routes'
 import { useStories, useStoriesUpdate } from '../../StoriesContext'
 
-const StoriesBar = () => {
+const StoriesBar = ({ isAllStoriesSeen }) => {
   const classes = useStyles()
   const navigate = useNavigate()
   const goToStories = (storyPrefix) => {
