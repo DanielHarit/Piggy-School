@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import { Typography, Button } from '@mui/material';
 import config from '../../conf.json';
 import CardDetails from '../../components/CardInfo/CardDetails';
 import { useEffect, useState } from 'react';
@@ -12,6 +12,10 @@ import WishesSummery from '../../components/WishesSummery';
 const useStyles = makeStyles((theme) => ({
 	//     root:{
 	//     },
+	title: {
+		// justifyContent: 'space-between',
+		// maxHeight: '24px',
+	},
 }));
 
 const ChildHomePage = () => {
@@ -49,7 +53,10 @@ const ChildHomePage = () => {
 		<div className={classes.root}>
 			{/* <CardDetails amount={cardData?.amount} details={cardData?.cardDetails} /> */}
 			<WishesSummery wishes={wishes} currAmount={amountLeftInCard} isLoadingUserData={isLoadingUserData} />
-			<CardHistory card={cardData} userBudget={userBudget} isLoadingUserData={isLoadingUserData} />
+			<div className={classes.title}>
+				<Typography>השבוע הוצאתי</Typography>
+				<CardHistory card={cardData} userBudget={userBudget} isLoadingUserData={isLoadingUserData} daysNum={7}/>
+			</div>
 		</div>
 	);
 };

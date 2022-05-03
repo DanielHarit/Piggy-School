@@ -11,10 +11,12 @@ import axios from "axios";
 import ParentContext from '../ParentContext';
 import { HOMEPAGE_CONSTANTS } from "../constants";
 import routes from "../components/Router/Routes";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate,useLocation } from "react-router-dom";
 import ParentHomePage from "./ParentHomePage/ParentHomePage";
 import ParentSettings from "./ParentSettings/ParentSettings";
 import ChildrenQuickView from "./ChildrenQuickView/ChildrenQuickView";
+import ChildrenDisplayAll from "../components/ChildrenBoardData/ChildrenDisplayAll";
+import { Typography } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -25,18 +27,26 @@ const useStyles = makeStyles((theme) => ({
 
 const ParentIndex = () => {
 	const classes = useStyles();
+  const location = useLocation();  
+
+
 	const [selectedChildrenId, setSelectedChildrenId] = useState('');
 	const [amount, setAmount] = useState(0);
 	const [user, setUser] = useState(null);
+  const [pageHeadline, setHeadline] = useState("אני רוצה לבדוק את המצב של");
+  const [isSettings, setIsSettings] = useState(false);
+  const [SelectedFunction, setSelectedFunction] = useState(null);
+  const [func, setFunc] = useState(()=>{});
+  const [currPage, setCurrPage] = useState(()=>{});
 
 	useEffect(async () => {
 		const userMail = JSON.parse(sessionStorage.getItem('profileObj'))['email'];
-		// const userMail = "shlomi@gmail.com";
 		const user = await axios.get(`${config.PIGGY_DB_URL}/parent/mail/${userMail}`);
 		setUser(user.data);
+    
 	}, []);
 	const navigate = useNavigate();
-
+  
   return (
     <ParentContext.Provider
       value={{ amount, setAmount, selectedChildrenId, setSelectedChildrenId }}
@@ -45,6 +55,7 @@ const ParentIndex = () => {
         title="PIGGY"
       >
         <HomepageHeader username={user?.DisplayName} caption="בוקר טיל" headerType={HOMEPAGE_CONSTANTS.PARENT}/>
+
         <HomePageFooter
          footerType={HOMEPAGE_CONSTANTS.PARENT}
          onBtnsClick={{

@@ -35,12 +35,14 @@ const useStyles = makeStyles((theme) => ({
 	  
 }));
 
-const CardHistory = ({ card, userBudget, isLoadingUserData }) => {
+const CardHistory = ({ card, userBudget, isLoadingUserData, daysNum}) => {
 	const classes = useStyles();
+
+	const today = new Date();
+	const lastDate = new Date(today.getFullYear(), today.getMonth(), today.getDate()-daysNum);
 
 	return (
 		<div className={classes.root}>
-			{/* <Typography>החודש הוצאתי..</Typography> */}
 
 			{isLoadingUserData ? (
 				<>
@@ -52,11 +54,15 @@ const CardHistory = ({ card, userBudget, isLoadingUserData }) => {
 					<Card className={classes.total}>
 						<Typography component='span' fontSize='22px'>{`${userBudget}₪ / `}</Typography>
 						<Typography component='span' fontSize='35px'>
-							{`${card?.transactions.map((transaction) => transaction.amount).reduce((a, b) => a + b, 0)}₪`}
+							{`${card?.transactions
+							.filter((tran) => (
+								new Date(tran.timestamp) >= lastDate
+						   ))
+							.map((transaction) => transaction.amount).reduce((a, b) => a + b, 0)}₪`}
 						</Typography>
 					</Card>
 
-					<Transactions transactionsList={card?.transactions}></Transactions>
+					<Transactions transactionsList={card?.transactions} lastDate = {lastDate}></Transactions>
 				</>
 			)}
 		</div>

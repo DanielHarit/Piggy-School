@@ -1,3 +1,4 @@
+import { Tram } from '@mui/icons-material';
 import { Card, Typography } from '@mui/material';
 import { Divider } from '@mui/material';
 import { List } from '@mui/material';
@@ -17,13 +18,17 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Transactions = ({ transactionsList }) => {
+const Transactions = ({ transactionsList , lastDate}) => {
 	const classes = useStyles();
 
 	return (
 		<Card className={classes.root}>
 			<List disablePadding>
-				{transactionsList.map((transaction) => (
+				{transactionsList
+				.filter((tran) => (
+					 new Date(tran.timestamp) >= lastDate
+				))
+				.map((transaction) => (
 					<>
 						<ListItem key={transaction.id}>
 							<ListItemText

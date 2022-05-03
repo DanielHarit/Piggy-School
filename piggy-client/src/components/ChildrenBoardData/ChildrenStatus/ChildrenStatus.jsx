@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import LinearProgress, { LinearProgressProps,linearProgressClasses } from '@mui/material/LinearProgress';
 import axios from 'axios';
 import config from '../../../conf.json';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root:{
@@ -34,10 +34,18 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
   
-  const ChildrenStatus = ({child}) => {
+  const ChildrenStatus = ({child, lastDate}) => {
     const classes = useStyles()
     const [cardData, setCardData] = useState(null);
 
+    const userExpenses = useMemo(()=>cardData?.transactions
+    .filter((tran) => (
+      new Date(tran.timestamp) >= lastDate
+     ))
+    .map((transaction) => transaction.amount).reduce((a, b) => a + b, 0),[cardData]);
+    
+    const percent = useMemo(()=>cardData?.amount && Math.min(userExpenses / cardData?.amount * 100, 100),[userExpenses,cardData]);
+   
     useEffect(async () => {
           const userCard = await axios.get(`${config.PAYMENT_SERVICE_URL}/card/${child._id}`);
           setCardData(userCard.data);
@@ -47,10 +55,16 @@ const useStyles = makeStyles((theme) => ({
       <div className={classes.root}>
         <Box sx={{display:'flex',justifyContent: 'space-between',width:'100%'}}>
                 <Typography className={classes.childText} > {child.UserSettings.DisplayName} </Typography>
-                <Typography className={classes.targetText} > 50/{cardData?.amount} </Typography>
+                <Typography className={classes.targetText} >  
+                ₪ {cardData?.amount} /  
+                  {userExpenses}
+                </Typography>
               </Box>
               <Box sx={{ width: '100%'}}>
-              <BorderLinearProgress variant="determinate" value={80} />
+              <BorderLinearProgress 
+                variant="determinate" 
+            value={percent || 0}
+            />
         </Box>
     </div>
     )

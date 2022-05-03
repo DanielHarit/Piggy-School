@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import Typography from '@mui/material/Typography';
 import makeStyles from '@mui/styles/makeStyles';
-import ChildrenDisplay from './ChildrenDisplay';
+import ChildrenDisplayAll from "../../components/ChildrenBoardData/ChildrenDisplayAll";
 import axios from 'axios';
 import ParentContext from '../../ParentContext';
 import config from '../../conf.json';
@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 
 import configData from '../../conf.json';
 import NumbersKeyboard from './NumbersKeyboard';
+import { ContactSupportOutlined } from '@mui/icons-material';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -45,19 +46,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ParentTransferMoneyPage = ({ parentId }) => {
-	const { amount, setAmount, setSelectedChildrenId, selectedChildrenId } = useContext(ParentContext);
+	// const { amount, setAmount, setSelectedChildrenId, selectedChildrenId } = useContext(ParentContext);
+	const { amount, setAmount } = useContext(ParentContext);
+	const [selectedChildrenId, setSelectedChildrenId] = useState();
 	const [isChildrenLoading, setIsChildrenLoading] = useState(true);
 	const [isTransferLoading, setIsTransferLoading] = useState(false);
-
-	const classes = useStyles();
-
 	const [childrens, setChildrens] = useState([]);
+	
+	const classes = useStyles();
 
 	useEffect(async () => {
 		if (parentId) {
 			const childrens = await axios.get(`${config.PIGGY_DB_URL}/parentChild/${parentId}`);
 			setChildrens(childrens.data);
-			setSelectedChildrenId(childrens.data[0]._id);
+			// setSelectedChildrenId(childrens.data[0]._id);
 			setIsChildrenLoading(false);
 		}
 	}, [parentId]);
@@ -95,8 +97,15 @@ const ParentTransferMoneyPage = ({ parentId }) => {
 	return (
 		<div className={classes.container}>
 			<Typography>העברה לחשבון של...</Typography>
-			<div className={classes.childrenContainer}>
-				{parentId && !isChildrenLoading ? (
+			<ChildrenDisplayAll 
+				parentId={parentId}
+				childrens = {childrens}
+				selectedChildrenId={setSelectedChildrenId}
+				isChildrenLoading ={isChildrenLoading}
+      		/>
+			{/* <div className={classes.childrenContainer}> */}
+
+				{/* {parentId && !isChildrenLoading ? (
 					childrens.map((children) => (
 						<ChildrenDisplay
 							key={children._id}
@@ -114,8 +123,8 @@ const ParentTransferMoneyPage = ({ parentId }) => {
 							</Grid>
 						))}
 					</Grid>
-				)}
-			</div>
+				)} */}
+			{/* </div> */}
 
 			<NumbersKeyboard />
 			{isTransferLoading ? (
