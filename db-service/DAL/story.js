@@ -32,18 +32,27 @@ export const getImageListWithWatchIndicator = (userEmail, handleData) => {
 }
 
 const listObjectsToImageArray = (watchList, listObjects) => {
-    const images = [];
+    const storiesData = [];
     listObjects.forEach(imageObject => {
-        if(!imageObject.Key.endsWith('/')) {
-            let seen = false;
-            watchList.forEach(storyPrefixInWatchList => {
-                if(imageObject.Key.startsWith(storyPrefixInWatchList)){
-                    seen = true;
-                }
-            })
-            images.push({'imageUrl': getImageUrl(imageObject.Key), 'imagePath': imageObject.Key, 'seen' : seen});
+        if(imageObject.Key.endsWith('/')) {
+            const storyPrefix = imageObject.Key.substring(0, imageObject.Key.indexOf('/'));
+            const seen = watchList.includes(storyPrefix);
+            const storyBatchItem = {
+                "storyPrefix": storyPrefix,
+                "seen": seen,
+                "photos": []
+            }
+            storiesData.push(storyBatchItem);
         }
     });
+    listObjects.forEach(imageObject => {
+        if(!imageObject.Key.endsWith('/')) {
+            const storyPrefix = imageObject.Key.substring(0, imageObject.Key.indexOf('/'));
+            const storyBatchIndex = storiesData.findIndex((storyBatchItem) => storyBatchItem.storyPrefix == storyPrefix);
+            storiesData[storyBatchIndex].photos.push(getImageUrl(imageObject.Key));
+        }
+    });
+
     return images;
 }
 
