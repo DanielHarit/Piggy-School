@@ -14,6 +14,8 @@ export const getChildrenById = async (id) => {
 
 export const getChildrenByMail = async (mail) => {
 	const children = await db.collection(collectionName).findOne({ Mail: mail });
+	if(!children)
+		return null
 	const avatar = await getAvatarById(children.UserSettings.AvatarId);
 			return { ...children, UserSettings: { ...children.UserSettings, avatarURL: avatar.URL } };
 };

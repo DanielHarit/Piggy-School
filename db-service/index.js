@@ -3,12 +3,12 @@ import cors from 'cors';
 import config from './config.js';
 import { initializeDbConnection } from './DAL/mongoConnectios.js';
 import { getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCreditCardByChildrenId, registerChild, updateChildrenDisplayName, updateChildrenSettings, addWish, updateWishList } from './DAL/children.js';
-import { getChildrenByParentId, getParentById, registerParent, getParentByMail, updateParentSettings, updateParentDisplayName , updateParentCreditCard, updateParentChildrens, addChildren} from './DAL/parent.js';
+import { getChildrenByParentId, getParentById, registerParent, getParentByMail, updateParentSettings, updateParentDisplayName , updateParentCreditCard, updateParentChildrens, addChildren, getWishlistAlertData} from './DAL/parent.js';
 import { getAvatarById, getAllAvatars } from './DAL/avatar.js';
 import { getUserType } from './DAL/identity.js';
 import { getAllBackgroundColors, getBackgroundColorById , getBackgroundColorByChildrenMail} from './DAL/backgroudColor.js';
 import { getImageListWithWatchIndicator, addStroyIdToUserWatchList} from './DAL/story.js'
-import { inviteChild } from './utilities/mailer.js'
+import { inviteChild, alertParentMail , alertChildrenMail} from './utilities/mailer.js'
 var port = process.env.PORT || config.app.port;
 const app = express();
 app.use(express.json());
@@ -42,8 +42,11 @@ app.get('/children/creditCard/:id', async (req, res) => {
 });
 
 app.post('/children/invite/:parentMail', async (req, res) => {
-	await inviteChild(req.body.childrenMail,req.params.parentMail);
-	res.send('send mail');
+		const str = await inviteChild(req.body.childrenMail,req.params.parentMail);
+		if(str==="error")
+			res.status(500).send("error")
+		else
+			res.send('send mail');
 });
 
 app.put('/children/creditCard/:id', async (req, res) => {
@@ -88,7 +91,10 @@ app.put('/children/DisplayName/:id', async (req, res) => {
 
 app.post('/children/WishList/:id', async (req, res) => {
 	const newWish = req.body;
-	const countUpdated = await addWish(req.params.id, newWish);
+	const parents = await getWishlistAlertData(req.params.id);
+	const childrenName = await getChildrenById(req.params.id);
+	alertParentMail(parents, childrenName.UserSettings.DisplayName, "newAim")
+	const countUpdated = 1;
 	res.send(`update ${countUpdated} documents`);
 });
 
@@ -223,5 +229,12 @@ app.get('/stories/:userEmail', (req, res) => {
 app.post('/stories/addToWatchList', async (req, res) => {
     const successMassege = await addStroyIdToUserWatchList(req.body.userEmail, req.body.storyNumber);
     res.send(successMassege.toString());
+});
+
+// alerts
+app.post('/children/alert',async (req, res)=>{
+	const {alertType, childrenName , childrenMail} = req.body;
+	const sendMsg = await  alertChildrenMail(childrenMail ,childrenName, alertType)
+	res.send('msg sent')
 });
 

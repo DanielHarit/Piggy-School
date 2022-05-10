@@ -87,14 +87,26 @@ const ChildrenDisplayAll = ({ parentId,childrens,isSettings,selectedChildrenId,i
 				  `${config.PIGGY_DB_URL}/children/invite/${JSON.parse(sessionStorage.getItem("profileObj"))["email"]}`,{
 					childrenMail: addedChildrenMail
 				  }
-				) && Swal.fire({
-				  title: `ברגע שיאושר תוכל להוסיף אותו לרשימת הצפייה!${addedChildrenMail}שלחנו מייל ל`,
-				  icon: "info",
-				  width: "80%",
-				  confirmButtonColor: "#781f63",
-				  confirmButtonText: `המשך`,
-				}));
-				setAddedChildrenMail("");
+				).then(()=> {
+				  Swal.fire({
+					title: `שלחנו מייל ל!${addedChildrenMail}  \n ברגע שיאושר תוכל להוסיף אותו לרשימת הצפייה`,
+					icon: "info",
+					width: "80%",
+					confirmButtonColor: "#781f63",
+					confirmButtonText: `המשך`,
+				  })
+				setAddedChildrenMail("");}
+				)).catch((err)=>{
+				  setIsAddNewChildrenOpen(false);
+				  Swal.fire({
+					title: "אופס!",
+					text: "משהו התפקשש... כדאי לנסות שוב!",
+					icon: "error",
+					width: "80%",
+					confirmButtonColor: "#781f63",
+					confirmButtonText: "הבנתי",
+				  }).then(() => setIsAddNewChildrenOpen(true));
+				});
 			  }
 			})
 			.catch((err) => {
