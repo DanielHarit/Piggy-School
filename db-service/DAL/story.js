@@ -35,7 +35,7 @@ const listObjectsToImageArray = (watchList, listObjects) => {
     const storiesData = [];
     listObjects.forEach(imageObject => {
         if(imageObject.Key.endsWith('/')) {
-            const storyPrefix = imageObject.Key.substring(0, imageObject.Key.indexOf('/'));
+            const storyPrefix = Number(imageObject.Key.substring(0, imageObject.Key.indexOf('/')));
             const seen = watchList.includes(storyPrefix);
             const storyBatchItem = {
                 "storyPrefix": storyPrefix,
