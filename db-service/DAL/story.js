@@ -53,7 +53,7 @@ const listObjectsToImageArray = (watchList, listObjects) => {
         }
     });
 
-    return images;
+    return storiesData;
 }
 
 export const addStroyIdToUserWatchList = async (userEmail, storyPrefix) => {
