@@ -91,10 +91,10 @@ app.put('/children/DisplayName/:id', async (req, res) => {
 
 app.post('/children/WishList/:id', async (req, res) => {
 	const newWish = req.body;
+	const countUpdated = await addWish(req.params.id, newWish);
 	const parents = await getWishlistAlertData(req.params.id);
 	const childrenName = await getChildrenById(req.params.id);
 	alertParentMail(parents, childrenName.UserSettings.DisplayName, "newAim")
-	const countUpdated = 1;
 	res.send(`update ${countUpdated} documents`);
 });
 
