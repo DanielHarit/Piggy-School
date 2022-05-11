@@ -33,13 +33,15 @@ export const getChildrenByParentId = async (id) => {
 			{ $project: { parentChildren: 1 } },
 		])
 		.toArray();
-	const children = parent[0].parentChildren;
+	const children = parent[0]?.parentChildren;
+	if(children)
 	return Promise.all(
-		children.map(async (child) => {
+		children?.map(async (child) => {
 			const avatar = await getAvatarById(child.UserSettings.AvatarId);
 			return { ...child, UserSettings: { ...child.UserSettings, avatarURL: avatar.URL } };
 		})
 	);
+	else return null
 };
 export const updateParentSettings = async( parentId,settings) => {
     const property = Object.keys(settings)[0];
@@ -127,6 +129,11 @@ export const addChildren = async (parentId, childrenMail)=>{
 
     return resultUpdate.modifiedCount;
 
+}
+
+export const getWishlistAlertData = async (childrenId) =>{
+	const parents = await db.collection(collectionName).find({ Childrens: childrenId }).toArray();
+	return parents.map(p =>p.Mail);
 }
 
 

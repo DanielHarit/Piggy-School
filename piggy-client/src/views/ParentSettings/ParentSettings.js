@@ -137,9 +137,6 @@ const ParentSettings = ({ onUserNameChange }) => {
     setCreditCardNumber(event.target.value);
   };
 
-  // const handleChildrenMailChange = (event) => {
-  //   setAddedChildrenMail(event.target.value);
-  // };
 
   const handleChangeSettings = (prop) => {
     axios
@@ -186,7 +183,7 @@ const ParentSettings = ({ onUserNameChange }) => {
         DisplayName: settings.DisplayName,
       }));
     }
-  }, [settings]);
+  }, [settings]); 
 
   const updateCreditCard = () => {
     axios
