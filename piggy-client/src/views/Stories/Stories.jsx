@@ -1,73 +1,49 @@
-import { useCallback, useMemo } from 'react'
 import InstaStories from 'react-insta-stories'
-import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2';	
+import { useNavigate, useParams } from 'react-router-dom'
 import routes from '../../components/Router/Routes'
 import { useStories, useStoriesUpdate } from '../../StoriesContext'
 import useStyles from './useStyles'
-
-const mockStories = [
-  {
-    url: 'https://i.postimg.cc/RVYndNBW/story1-1.png',
-  },
-  {
-    url: 'https://i.postimg.cc/d1dKbNkM/story1-2.png',
-  },
-  {
-    url: 'https://i.postimg.cc/RVYndNBW/story1-1.png',
-  },
-  {
-    url: 'https://i.postimg.cc/d1dKbNkM/story1-2.png',
-  },
-  {
-    url: 'https://i.postimg.cc/d1dKbNkM/story1-2.png',
-  },
-  {
-    url: 'https://i.postimg.cc/d1dKbNkM/story1-2.png',
-  },
-]
+import PiggyCoin from '../../assets/img/piggy-coin.svg';
 
 const Stories = () => {
+  const {storyPrefix} = useParams();
   const navigate = useNavigate()
   const classes = useStyles()
-  const stories = useStories()
-  const { markStoryAsSeen, markStorySetAsSeen } = useStoriesUpdate()
-  const handleCloseStories = () => navigate(`child${routes.ChildrenHomePage}`)
+  const allStories = useStories();
+  const storyToDisplay = allStories.find((item)=>item.storyPrefix==Number(storyPrefix));
+  const { markStorySetAsSeen } = useStoriesUpdate()
 
-  const handleFinishStorySet = useCallback(() => {
-    markStorySetAsSeen().then(() => {
-      handleCloseStories()
-    })
-  }, [markStorySetAsSeen])
-
-  const handleStoryStart = useCallback(
-    (storyIndex) => {
-      markStoryAsSeen(storyIndex)
-    },
-    [markStoryAsSeen]
-  )
-
-  const storiesForDisplay = useMemo(() => {
-    return stories && !!stories.length
-      ? stories.map((story) => {
-          return { url: story.imageUrl }
+  const handleFinishStorySet = () => {
+    if(storyToDisplay.seen) {
+      navigate(`child${routes.ChildrenHomePage}`);
+    } else {
+      markStorySetAsSeen(storyPrefix).then(()=>{
+        Swal.fire({
+          title: "הרווחת!",
+          text: "כמה? 30 מטבעות ועוד ידע פיננסי ששווה זהב",
+          width: "80%",
+          icon: PiggyCoin,
+          imageUrl:{PiggyCoin},
+          showConfirmButton: false,
+          timer : 3000
+        }).then(()=>{
+          navigate(`child${routes.ChildrenHomePage}`)
         })
-      : []
-  }, [stories])
+      })
+  }
+}
 
   return (
-    mockStories &&
-    mockStories.length && (
       <div className={classes.root}>
         <InstaStories
-          stories={mockStories}
+          stories={storyToDisplay.photos}
           defaultInterval={3500}
           width={'100%'}
           height={'100%'}
-          onStoryStart={handleStoryStart}
           onAllStoriesEnd={handleFinishStorySet}
         />
       </div>
     )
-  )
 }
 export default Stories

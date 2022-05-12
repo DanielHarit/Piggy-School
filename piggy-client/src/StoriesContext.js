@@ -38,37 +38,27 @@ export const StoriesContextProvider = ({ children }) => {
     }
   }, [])
 
-  const markStoryAsSeen = useCallback((index) => {
-    setStories((prevStories) => {
-      return prevStories.map((story, idx) =>
-        idx === index ? { ...story, seen: true } : story
-      )
-    })
-  }, [])
-
-  const markStorySetAsSeen = useCallback(async () => {
+  const markStorySetAsSeen = async (storySetIndex) => {
     const user = sessionStorageService.get('profileObj')
     if (!user || !user.email) {
       return
     }
-    const [storySetDirectoryNumber] = stories[0].imagePath.split('/')
-
     try {
       const res = await axios.post(
         `${config.PIGGY_DB_URL}/stories/addToWatchList`,
         {
           userEmail: user.email,
-          storyNumber: parseInt(storySetDirectoryNumber),
+          storyNumber: Number(storySetIndex),
         }
       )
+      fetchStories();
       return res.data
     } catch (err) {
       console.log('Failed to update watched story set')
     }
-  }, [stories])
+  }
 
   const storiesUpdateActions = {
-    markStoryAsSeen,
     markStorySetAsSeen,
   }
 

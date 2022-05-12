@@ -3,23 +3,32 @@ import cx from 'classnames'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import routes from '../../components/Router/Routes'
+import { useStories, useStoriesUpdate } from '../../StoriesContext'
 
-const StoriesBar = ({ isAllStoriesSeen }) => {
+const StoriesBar = () => {
   const classes = useStyles()
   const navigate = useNavigate()
-  const goToStories = () => {
-    navigate(`/child${routes.Stories}`)
+  const goToStories = (storyPrefix) => {
+    navigate(`/child${routes.Stories}/${storyPrefix}`)
   }
-
+  const allStories = useStories();
+  const renderStoriesBar = (allStories) => {
+    return allStories.map(story =>{
+      return (
+          <Button
+          key={story.storyPrefix}
+          color="inherit"
+          onClick={()=>goToStories(story.storyPrefix)}
+          className={cx(classes.storyBtn, {
+            [classes.storyNotSeenBtn]: !story.seen,
+          })}
+        ></Button>
+      )
+    })
+  }
   return (
     <div className={classes.root}>
-      <Button
-        color="inherit"
-        onClick={goToStories}
-        className={cx(classes.storyBtn, {
-          [classes.storyNotSeenBtn]: !isAllStoriesSeen,
-        })}
-      ></Button>
+      {renderStoriesBar(allStories)}
     </div>
   )
 }

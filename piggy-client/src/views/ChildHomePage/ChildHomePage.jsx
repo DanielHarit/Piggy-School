@@ -30,12 +30,6 @@ const ChildHomePage = () => {
 	const [isLoadingUserData, setIsLoadingUserData] = useState(true);
 	const stories = useStories()
 
-	const isAllStoriesSeen = React.useMemo(() => {
-    return stories && stories.length
-      ? stories.every((story) => story.seen)
-      : false
-  }, [stories])
-
 	useEffect(async () => {
 		const userMail = JSON.parse(sessionStorage.getItem('profileObj'))['email'];
 		const user = await axios.get(`${config.PIGGY_DB_URL}/children/mail/${userMail}`);
@@ -60,7 +54,7 @@ const ChildHomePage = () => {
 
 	return (
 		<div className={classes.root}>
-      		<StoriesBar isAllStoriesSeen={isAllStoriesSeen} />
+      		<StoriesBar />
 			<CardDetails amount={cardData?.amount} details={cardData?.cardDetails} />
 			<WishesSummery wishes={wishes} currAmount={amountLeftInCard} isLoadingUserData={isLoadingUserData} />
 			<div className={classes.title}>

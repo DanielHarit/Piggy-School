@@ -3,18 +3,23 @@ import { makeStyles } from '@mui/styles'
 export default makeStyles(() => ({
   root: {
     width: '85%',
-    margin: '15px auto 0',
+    margin: '25px auto 0',
+    overflowX: 'auto',
+    whiteSpace: 'nowrap',
+    '&::-webkit-scrollbar': {
+      display: 'none'
+    }
   },
   storyBtn: {
     padding: 0,
-    minWidth: 40,
-    width: 40,
-    height: 40,
+    minWidth: 50,
+    width: 50,
+    height: 50,
     borderRadius: '50%',
     backgroundColor: 'salmon',
-    '&$storyNotSeenBtn': {
-      border: '2px solid purple',
-    },
+    marginLeft: 10
   },
-  storyNotSeenBtn: {},
+  storyNotSeenBtn: {
+    border: '2px solid purple'
+  },
 }))
