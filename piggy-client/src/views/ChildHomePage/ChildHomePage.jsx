@@ -8,6 +8,8 @@ import axios from 'axios';
 
 import CardHistory from '../../components/CardInfo/CardHistory';
 import WishesSummery from '../../components/WishesSummery';
+import StoriesBar from '../../components/StoriesBar';
+import { useStories } from '../../StoriesContext';
 
 const useStyles = makeStyles((theme) => ({
 	//     root:{
@@ -26,6 +28,7 @@ const ChildHomePage = () => {
 	const [wishes, setWishes] = useState({});
 	const [amountLeftInCard, setAmountLeftInCard] = useState(0);
 	const [isLoadingUserData, setIsLoadingUserData] = useState(true);
+	const stories = useStories()
 
 	useEffect(async () => {
 		const userMail = JSON.parse(sessionStorage.getItem('profileObj'))['email'];
@@ -51,7 +54,8 @@ const ChildHomePage = () => {
 
 	return (
 		<div className={classes.root}>
-			{/* <CardDetails amount={cardData?.amount} details={cardData?.cardDetails} /> */}
+      		<StoriesBar />
+			<CardDetails amount={cardData?.amount} details={cardData?.cardDetails} />
 			<WishesSummery wishes={wishes} currAmount={amountLeftInCard} isLoadingUserData={isLoadingUserData} />
 			<div className={classes.title}>
 				<Typography>השבוע הוצאתי</Typography>
