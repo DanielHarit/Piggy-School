@@ -27,6 +27,7 @@ steps:
     # deploy to Cloud Run
   - name: "gcr.io/cloud-builders/gcloud"
     args: ['run', 'deploy', 'piggy-client', '--image', 'gcr.io/$PROJECT_ID/piggy-client', '--region', 'asia-east1', '--platform', 'managed', '--allow-unauthenticated']
+timeout: 3600s
 images:
   - gcr.io/piggy-school/payments-service
   - gcr.io/piggy-school/db-service
