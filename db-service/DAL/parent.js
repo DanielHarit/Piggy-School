@@ -133,7 +133,8 @@ export const addChildren = async (parentId, childrenMail)=>{
 
 export const getWishlistAlertData = async (childrenId) =>{
 	const parents = await db.collection(collectionName).find({ Childrens: childrenId }).toArray();
-	return parents.map(p =>p.Mail);
+	return parents.filter(p=>p.NotificationsSettings.
+		newAim).map(p =>p.Mail);
 }
 
 

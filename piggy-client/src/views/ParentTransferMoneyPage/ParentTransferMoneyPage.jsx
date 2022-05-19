@@ -73,10 +73,11 @@ const ParentTransferMoneyPage = ({ parentId }) => {
 			})
 			.then((res) => {
 				const selectedChildren =childrens.find(c=> c._id===selectedChildrenId);
+				selectedChildren.UserSettings.AlertsSettings.Allowance &&
 				axios
 			   .post(`${configData.PIGGY_DB_URL}/children/alert`, {
 				alertType: "Allawance", childrenName: selectedChildren.UserSettings.DisplayName, childrenMail: selectedChildren.Mail
-			})
+			})	
 				Swal.fire({
 					title: 'ווהו!',
 					text: 'ההעברה בוצעה בהצלחה :)',
