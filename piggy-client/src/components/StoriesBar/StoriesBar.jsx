@@ -5,20 +5,20 @@ import { useNavigate } from 'react-router-dom'
 import routes from '../../components/Router/Routes'
 import { useStories, useStoriesUpdate } from '../../StoriesContext'
 
-const StoriesBar = ({ isAllStoriesSeen }) => {
+const StoriesBar = () => {
   const classes = useStyles()
   const navigate = useNavigate()
   const goToStories = (storyPrefix) => {
     navigate(`/child${routes.Stories}/${storyPrefix}`)
   }
-  const allStories = useStories();
+  const allStories = useStories()
   const renderStoriesBar = (allStories) => {
-    return allStories.map(story =>{
+    return allStories.map((story) => {
       return (
-          <Button
+        <Button
           key={story.storyPrefix}
           color="inherit"
-          onClick={()=>goToStories(story.storyPrefix)}
+          onClick={() => goToStories(story.storyPrefix)}
           className={cx(classes.storyBtn, {
             [classes.storyNotSeenBtn]: !story.seen,
           })}
@@ -26,11 +26,7 @@ const StoriesBar = ({ isAllStoriesSeen }) => {
       )
     })
   }
-  return (
-    <div className={classes.root}>
-      {renderStoriesBar(allStories)}
-    </div>
-  )
+  return <div className={classes.root}>{renderStoriesBar(allStories)}</div>
 }
 
 export default StoriesBar
