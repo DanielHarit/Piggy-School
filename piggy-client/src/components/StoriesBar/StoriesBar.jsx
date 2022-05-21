@@ -3,7 +3,7 @@ import cx from 'classnames'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import routes from '../../components/Router/Routes'
-import { useStories, useStoriesUpdate } from '../../StoriesContext'
+import { useStories } from '../../StoriesContext'
 
 const StoriesBar = () => {
   const classes = useStyles()
@@ -11,7 +11,8 @@ const StoriesBar = () => {
   const goToStories = (storyPrefix) => {
     navigate(`/child${routes.Stories}/${storyPrefix}`)
   }
-  const allStories = useStories()
+  const { stories: allStories } = useStories()
+
   const renderStoriesBar = (allStories) => {
     return allStories.map((story) => {
       return (

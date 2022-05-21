@@ -28,7 +28,6 @@ const ChildHomePage = () => {
 	const [wishes, setWishes] = useState({});
 	const [amountLeftInCard, setAmountLeftInCard] = useState(0);
 	const [isLoadingUserData, setIsLoadingUserData] = useState(true);
-	const stories = useStories()
 
 	useEffect(async () => {
 		const userMail = JSON.parse(sessionStorage.getItem('profileObj'))['email'];
