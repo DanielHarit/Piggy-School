@@ -14,10 +14,9 @@ export const getChildrenById = async (id) => {
 
 export const getChildrenByMail = async (mail) => {
 	const children = await db.collection(collectionName).findOne({ Mail: mail });
-	if(!children)
-		return null
+	if (!children) return null;
 	const avatar = await getAvatarById(children.UserSettings.AvatarId);
-			return { ...children, UserSettings: { ...children.UserSettings, avatarURL: avatar.URL } };
+	return { ...children, UserSettings: { ...children.UserSettings, avatarURL: avatar.URL } };
 };
 
 export const getCreditCardByChildrenId = async (id) => {
@@ -40,6 +39,7 @@ export const registerChild = async (userMail, displayName, parentMail) => {
 			Mail: userMail,
 			CardId: '',
 			PiggyCoins: 0,
+			totalPiggyCoins: 0,
 			PurchesHistory: [],
 			UserSettings: {
 				DisplayName: displayName,
@@ -48,7 +48,7 @@ export const registerChild = async (userMail, displayName, parentMail) => {
 				AlertsSettings: {
 					WeeklyWatch: true,
 					NewStories: true,
-					Allowance: true
+					Allowance: true,
 				},
 			},
 			Budget: {},
@@ -66,25 +66,34 @@ export const updateChildrenSettings = async (childrenId, settings) => {
 	const property = Object.keys(settings)[0];
 	const value = settings[property];
 	const propertySettings = 'UserSettings.AlertsSettings.' + property;
-	const resultUpdate = await db.collection(collectionName).updateOne({ _id: childrenId }, { $set: { [propertySettings]: value } });
+	const resultUpdate = await db
+		.collection(collectionName)
+		.updateOne({ _id: childrenId }, { $set: { [propertySettings]: value } });
 	return resultUpdate.modifiedCount;
 };
 
 export const updateChildrenDisplayName = async (childrenId, newName) => {
-	const resultUpdate = await db.collection(collectionName).updateOne({ _id: childrenId }, { $set: { 'UserSettings.DisplayName': newName } });
+	const resultUpdate = await db
+		.collection(collectionName)
+		.updateOne({ _id: childrenId }, { $set: { 'UserSettings.DisplayName': newName } });
 
 	return resultUpdate.modifiedCount;
 };
 
 export const addWish = async (childrenId, newWish) => {
-	const resultUpdate = await db.collection(collectionName).updateOne({ _id: childrenId }, { $push: { WishList: newWish } });
+	const resultUpdate = await db
+		.collection(collectionName)
+		.updateOne({ _id: childrenId }, { $push: { WishList: newWish } });
 
 	return resultUpdate.modifiedCount;
 };
 
 export const updateWishList = async (childrenId, wishListUpdates) => {
 	const idsToRemove = wishListUpdates.idsToRemove;
-	if (idsToRemove.length) await db.collection(collectionName).updateMany({ _id: childrenId }, { $pull: { WishList: { id: { $in: idsToRemove } } } });
+	if (idsToRemove.length)
+		await db
+			.collection(collectionName)
+			.updateMany({ _id: childrenId }, { $pull: { WishList: { id: { $in: idsToRemove } } } });
 
 	const { WishList } = await db.collection(collectionName).findOne({ _id: childrenId });
 
@@ -92,7 +101,9 @@ export const updateWishList = async (childrenId, wishListUpdates) => {
 	wishListUpdates.priorities.forEach(({ id, priority }) => (prioritiesMap[id] = priority));
 
 	const newWishList = WishList.map((wish) => ({ ...wish, priority: prioritiesMap[wish.id] }));
-	const resultUpdate = await db.collection(collectionName).updateOne({ _id: childrenId }, { $set: { WishList: newWishList } });
+	const resultUpdate = await db
+		.collection(collectionName)
+		.updateOne({ _id: childrenId }, { $set: { WishList: newWishList } });
 
 	return resultUpdate.modifiedCount;
 };
