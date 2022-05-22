@@ -73,7 +73,10 @@ const ChildIndex = () => {
 							<Route path={routes.ChildWishList} element={<ChildWishList />} />
 							<Route path={routes.ChildAddWish} element={<ChildAddWish />} />
 							<Route path={routes.Store} element={<Store />} />
-							<Route path={routes.Stories + '/:storyPrefix'} element={<Stories />} />
+							<Route
+								path={routes.Stories + '/:storyPrefix'}
+								element={<Stories totalPiggyCoins={user?.totalPiggyCoins} />}
+							/>
 							<Route path='*' element={<Navigate to={'children'} />} />
 						</Routes>
 					</div>
