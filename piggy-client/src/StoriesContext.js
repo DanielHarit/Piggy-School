@@ -22,6 +22,7 @@ export const useStoriesUpdate = () => {
 
 export const StoriesContextProvider = ({ children }) => {
   const [stories, setStories] = useState([])
+  const [showWatchPrizePopup, setShowWatchPrizePopup] = useState(false)
 
   const fetchStories = useCallback(async () => {
     const user = sessionStorageService.get('profileObj')
@@ -51,15 +52,20 @@ export const StoriesContextProvider = ({ children }) => {
           storyNumber: Number(storySetIndex),
         }
       )
-      fetchStories();
+      fetchStories()
       return res.data
     } catch (err) {
       console.log('Failed to update watched story set')
     }
   }
 
+  const toggleSetShowWatchPrizePopup = useCallback((shouldShow) => {
+    setShowWatchPrizePopup(shouldShow)
+  }, [])
+
   const storiesUpdateActions = {
     markStorySetAsSeen,
+    toggleSetShowWatchPrizePopup,
   }
 
   useEffect(() => {
@@ -67,7 +73,7 @@ export const StoriesContextProvider = ({ children }) => {
   }, [fetchStories])
 
   return (
-    <StoriesContext.Provider value={stories}>
+    <StoriesContext.Provider value={{ stories, showWatchPrizePopup }}>
       <StoriesUpdateContext.Provider value={storiesUpdateActions}>
         {children}
       </StoriesUpdateContext.Provider>

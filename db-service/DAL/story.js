@@ -57,8 +57,11 @@ const listObjectsToImageArray = (watchList, listObjects) => {
 }
 
 export const addStroyIdToUserWatchList = async (userEmail, storyPrefix) => {
-    const resultUpdate = await db.collection(childrenCollectionName).updateOne(
-        {"Mail": userEmail} ,  { $push: {WatchList: storyPrefix}}
+  const resultUpdate = await db
+    .collection(childrenCollectionName)
+    .updateOne(
+      { Mail: userEmail },
+      { $push: { WatchList: storyPrefix }, $inc: { PiggyCoins: 12 } }
     )
-    return resultUpdate.modifiedCount;
+  return resultUpdate.modifiedCount
 }

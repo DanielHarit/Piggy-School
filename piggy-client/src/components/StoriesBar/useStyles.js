@@ -16,8 +16,8 @@ export default makeStyles(() => ({
     width: 50,
     height: 50,
     borderRadius: '50%',
-    backgroundColor: 'salmon',
-    marginLeft: 10
+    backgroundColor: '#d9d9d9',
+    marginLeft: 10,
   },
   storyNotSeenBtn: {
     border: '2px solid purple'
