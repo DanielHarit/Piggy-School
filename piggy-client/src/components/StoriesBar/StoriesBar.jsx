@@ -4,6 +4,7 @@ import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import routes from '../../components/Router/Routes'
 import { useStories } from '../../StoriesContext'
+import {ReactComponent as StoryBtnIcon} from '../../assets/img/piggy-story-icon.svg'
 
 const StoriesBar = () => {
   const classes = useStyles()
@@ -23,7 +24,9 @@ const StoriesBar = () => {
           className={cx(classes.storyBtn, {
             [classes.storyNotSeenBtn]: !story.seen,
           })}
-        ></Button>
+        >
+          <StoryBtnIcon/>
+        </Button>
       )
     })
   }
