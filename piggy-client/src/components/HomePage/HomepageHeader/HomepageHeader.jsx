@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import CurrentCoins from '../../../components/PiggyCoins/CurrentCoins';
 import { HOMEPAGE_CONSTANTS } from '../../../constants';
 import CurrentLevel from '../../PiggyCoins/CurrentLevel';
+import { useContext } from 'react';
+import CoinsContext from '../../../contexts/coinsContext';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -44,8 +46,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const HomepageHeader = ({ username, caption, headerType, coins, totalCoins, showHelloMsg = true }) => {
+const HomepageHeader = ({ username, caption, headerType, showHelloMsg = true }) => {
 	const classes = useStyles();
+	const { coins, totalCoins } = useContext(CoinsContext);
 
 	return (
 		<div className={classes.root}>

@@ -3,7 +3,8 @@ import cx from 'classnames'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import routes from '../../components/Router/Routes'
-import { useStories, useStoriesUpdate } from '../../StoriesContext'
+import { useStories } from '../../StoriesContext'
+import {ReactComponent as StoryBtnIcon} from '../../assets/img/piggy-story-icon.svg'
 
 const StoriesBar = () => {
   const classes = useStyles()
@@ -11,26 +12,25 @@ const StoriesBar = () => {
   const goToStories = (storyPrefix) => {
     navigate(`/child${routes.Stories}/${storyPrefix}`)
   }
-  const allStories = useStories();
+  const { stories: allStories } = useStories()
+
   const renderStoriesBar = (allStories) => {
-    return allStories.map(story =>{
+    return allStories.map((story) => {
       return (
-          <Button
+        <Button
           key={story.storyPrefix}
           color="inherit"
-          onClick={()=>goToStories(story.storyPrefix)}
+          onClick={() => goToStories(story.storyPrefix)}
           className={cx(classes.storyBtn, {
             [classes.storyNotSeenBtn]: !story.seen,
           })}
-        ></Button>
+        >
+          <StoryBtnIcon/>
+        </Button>
       )
     })
   }
-  return (
-    <div className={classes.root}>
-      {renderStoriesBar(allStories)}
-    </div>
-  )
+  return <div className={classes.root}>{renderStoriesBar(allStories)}</div>
 }
 
 export default StoriesBar

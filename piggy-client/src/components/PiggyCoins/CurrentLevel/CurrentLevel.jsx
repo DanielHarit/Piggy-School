@@ -41,7 +41,7 @@ const CurrentLevel = ({ total }) => {
 						alt='PiggyCoin'
 					/>
 					<Typography className={classes.sum}>{`חזירון   ${
-						total > 500 ? 'תותח' : total > 250 ? 'מתקדם' : total > 0 ? 'מתחיל' : ''
+						total > 500 ? 'תותח' : total > 250 ? 'מתקדם' : total >= 0 ? 'מתחיל' : ''
 					}`}</Typography>
 				</Box>
 			</Card>
