@@ -61,7 +61,7 @@ export const addStroyIdToUserWatchList = async (userEmail, storyPrefix) => {
 		.collection(childrenCollectionName)
 		.updateOne(
 			{ Mail: userEmail },
-			{ $push: { WatchList: storyPrefix }, $inc: { PiggyCoins: 12 }, $inc: { totalPiggyCoins: 12 } }
+			{ $push: { WatchList: storyPrefix }, $inc: { PiggyCoins: 12, totalPiggyCoins: 12 } }
 		);
 	return resultUpdate.modifiedCount;
 };
