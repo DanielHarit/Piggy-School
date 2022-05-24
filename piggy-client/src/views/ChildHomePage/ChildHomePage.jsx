@@ -10,6 +10,9 @@ import CardHistory from '../../components/CardInfo/CardHistory';
 import WishesSummery from '../../components/WishesSummery';
 import StoriesBar from '../../components/StoriesBar';
 import { useStories } from '../../StoriesContext';
+import Confetti from 'react-confetti';
+import { useLocation } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const useStyles = makeStyles((theme) => ({
 	//     root:{
@@ -28,6 +31,9 @@ const ChildHomePage = () => {
 	const [wishes, setWishes] = useState({});
 	const [amountLeftInCard, setAmountLeftInCard] = useState(0);
 	const [isLoadingUserData, setIsLoadingUserData] = useState(true);
+	const stories = useStories();
+	const [confettiNum, setConfettiNum] = useState(0);
+	const { state } = useLocation();
 
 	useEffect(async () => {
 		const userMail = JSON.parse(sessionStorage.getItem('profileObj'))['email'];
@@ -51,14 +57,24 @@ const ChildHomePage = () => {
 		}
 	}, []);
 
+	useEffect(() => {
+		if (state?.swalObj) {
+			Swal.fire(state.swalObj);
+			setConfettiNum(200);
+			setTimeout(() => setConfettiNum(0), 3000);
+		}
+	}, [state]);
+
 	return (
 		<div className={classes.root}>
-      		<StoriesBar />
+			<Confetti numberOfPieces={confettiNum} />
+
+			<StoriesBar />
 			<CardDetails amount={cardData?.amount} details={cardData?.cardDetails} />
 			<WishesSummery wishes={wishes} currAmount={amountLeftInCard} isLoadingUserData={isLoadingUserData} />
 			<div className={classes.title}>
 				<Typography>השבוע הוצאתי</Typography>
-				<CardHistory card={cardData} userBudget={userBudget} isLoadingUserData={isLoadingUserData} daysNum={7}/>
+				<CardHistory card={cardData} userBudget={userBudget} isLoadingUserData={isLoadingUserData} daysNum={7} />
 			</div>
 		</div>
 	);
