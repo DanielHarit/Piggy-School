@@ -62,6 +62,8 @@ const ParentLogin = () => {
 			mail: String(userMail),
 			displayName: String(userName),
 			creditCardNumber: String(creditCardNumber),
+			creditCardExperation: String(creditCardExperation),
+			creditCardCVV: String(creditCardCVV),
 			childrensList: [],
 		};
 
@@ -78,11 +80,22 @@ const ParentLogin = () => {
 	const handleClose = () => {
 		setOpen(false);
 		setCreditCardNumber('');
+		setCreditCardExperation('');
+		setCreditCardCVV('');
 	};
 
 	const [creditCardNumber, setCreditCardNumber] = React.useState('');
+	const [creditCardExperation, setCreditCardExperation] = React.useState('');
+	const [creditCardCVV, setCreditCardCVV] = React.useState('');
+
 	const handleCardNumberChange = (event) => {
 		setCreditCardNumber(event.target.value);
+	};
+	const handleCardExperationChange = (event) => {
+		setCreditCardExperation(event.target.value);
+	};
+	const handleCardCVVChange = (event) => {
+		setCreditCardCVV(event.target.value);
 	};
 
 	const loginAsParent = () => {
@@ -126,6 +139,8 @@ const ParentLogin = () => {
 				<Modal open={open} onClose={handleClose} aria-labelledby='modal-modal-title' aria-describedby='modal-modal-description'>
 					<Paper sx={style}>
 						<TextField id='parent-card-number' label='אנא הכנס מספר אשראי' fullWidth value={creditCardNumber} onChange={handleCardNumberChange} style={{ marginBottom: '15px' }} />
+						<TextField id='parent-card-experation' label='אנא הכנס תוקף אשראי' fullWidth value={creditCardExperation} onChange={handleCardExperationChange} style={{ marginBottom: '15px' }} />
+						<TextField id='parent-card-cvv' label='אנא הכנס CVV' fullWidth value={creditCardCVV} onChange={handleCardCVVChange} style={{ marginBottom: '15px' }} />
 						<Login btnText='הרשמה עם גוגל' successCallback={registerParent} />
 					</Paper>
 				</Modal>
