@@ -20,7 +20,7 @@ import { Typography } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		height: 'calc(100vh - 330px)',
+		height: 'calc(100vh - 280px)',
 		overflowY: 'auto',
 	},
 }));

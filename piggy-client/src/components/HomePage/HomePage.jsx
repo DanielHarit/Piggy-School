@@ -32,7 +32,7 @@ const HomePage = ({ title, btnText, btnLink, children }) => {
 
 	return (
 		<Box>
-			<AppBar position='static'>
+			{/* <AppBar position='static'>
 				<Toolbar>
 					<div className={classes.titles}>
 						<Typography variant='h6' component='div' className={classes.mainTitle}>
@@ -44,7 +44,7 @@ const HomePage = ({ title, btnText, btnLink, children }) => {
 						</Button>
 					</div>
 				</Toolbar>
-			</AppBar>
+			</AppBar> */}
 			<div className={classes.pageContent}>{children}</div>
 		</Box>
 	);
