@@ -34,15 +34,15 @@ const CurrentLevel = ({ total }) => {
 	return (
 		<div className={classes.root}>
 			<Card className={classes.ellipse} sx={{ borderRadius: 5, minWidth: 90, height: 38 }}>
-				<Box sx={{ display: 'flex', justifyContent: 'space-between', height: '100%', alignItems: 'center' }}>
+				<Box sx={{ display: 'flex', height: '100%', alignItems: 'center', width: '190px' }}>
 					<img
 						className={classes.coinImg}
 						src={total > 500 ? Best : total > 250 ? Advenced : Beginner}
 						alt='PiggyCoin'
 					/>
-					<Typography className={classes.sum}>{`חזירון   ${
+					<h6 className={classes.sum}>{`חזירון   ${
 						total > 500 ? 'תותח' : total > 250 ? 'מתקדם' : total >= 0 ? 'מתחיל' : ''
-					}`}</Typography>
+					}`}</h6>
 				</Box>
 			</Card>
 		</div>
