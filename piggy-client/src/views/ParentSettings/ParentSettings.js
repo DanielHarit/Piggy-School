@@ -120,6 +120,8 @@ const ParentSettings = ({ onUserNameChange }) => {
   const [isChildrenLoading, setIsChildrensLoding] = useState(true);
   const [isCreditCardUpdateOpen, setIsCreditCardUpdateOpen] = useState(false);
   const [creditCardNumber, setCreditCardNumber] = useState();
+  const [creditCardExperation, setCreditCardExperation] = useState('');
+	const [creditCardCVV, setCreditCardCVV] = useState('');
   // const [addedChildrenMail, setAddedChildrenMail] = useState("");
   // const [isAddNewChildrenOpen, setIsAddNewChildrenOpen] = useState(false);
 
@@ -136,7 +138,12 @@ const ParentSettings = ({ onUserNameChange }) => {
   const handleCardNumberChange = (event) => {
     setCreditCardNumber(event.target.value);
   };
-
+	const handleCardExperationChange = (event) => {
+		setCreditCardExperation(event.target.value);
+	};
+	const handleCardCVVChange = (event) => {
+		setCreditCardCVV(event.target.value);
+	};
 
   const handleChangeSettings = (prop) => {
     axios
@@ -193,6 +200,8 @@ const ParentSettings = ({ onUserNameChange }) => {
       .then(() => {
         setIsCreditCardUpdateOpen(false);
         setCreditCardNumber("");
+        setCreditCardExperation("");
+        setCreditCardCVV("");
         Swal.fire({
           title: "פרטי האשראי עודכנו בהצלחה",
           icon: "success",
@@ -331,14 +340,30 @@ const ParentSettings = ({ onUserNameChange }) => {
           open={isCreditCardUpdateOpen}
           onClose={() => setIsCreditCardUpdateOpen(false)}
         >
-          <DialogTitle>הכנס מספר כרטיס חדש</DialogTitle>
+          <DialogTitle>הכנס פרטי כרטיס חדשים</DialogTitle>
           <DialogContent>
             <TextField
               id="parent-card-number"
-              autoFocus
+              label='אנא הכנס מספר אשראי'
               fullWidth
               value={creditCardNumber}
               onChange={handleCardNumberChange}
+              style={{ marginBottom: "15px" }}
+            />
+            <TextField
+              id="parent-card-experation"
+              label='אנא הכנס תוקף אשראי'
+              fullWidth
+              value={creditCardExperation}
+              onChange={handleCardExperationChange}
+              style={{ marginBottom: "15px" }}
+            />
+            <TextField
+              id="parent-card-cvv"
+              label='אנא הכנס CVV'
+              fullWidth
+              value={creditCardCVV}
+              onChange={handleCardCVVChange}
               style={{ marginBottom: "15px" }}
             />
           </DialogContent>
