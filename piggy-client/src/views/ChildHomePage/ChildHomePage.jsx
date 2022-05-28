@@ -42,7 +42,7 @@ const ChildHomePage = () => {
 		const userWishes = {};
 		user.data.WishList.forEach((wish) => (userWishes[wish.priority] = wish));
 		setWishes(userWishes);
-		const userTotalBudget = Object.values(user.data.Budget).reduce((sum, categoryAmount) => sum + categoryAmount, 0);
+		const userTotalBudget = Object.values(user.data.Budget).reduce((sum, categoryAmount) => sum + +categoryAmount, 0);
 		setUserBudget(userTotalBudget);
 		try {
 			const userCard = await axios.get(`${config.PAYMENT_SERVICE_URL}/card/${user.data._id}`);
@@ -68,12 +68,10 @@ const ChildHomePage = () => {
 	return (
 		<div className={classes.root}>
 			<Confetti numberOfPieces={confettiNum} />
-
 			<StoriesBar />
 			<CardDetails amount={cardData?.amount} details={cardData?.cardDetails} />
 			<WishesSummery wishes={wishes} currAmount={amountLeftInCard} isLoadingUserData={isLoadingUserData} />
 			<div className={classes.title}>
-				<Typography>השבוע הוצאתי</Typography>
 				<CardHistory card={cardData} userBudget={userBudget} isLoadingUserData={isLoadingUserData} daysNum={7} />
 			</div>
 		</div>

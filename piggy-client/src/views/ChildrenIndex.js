@@ -17,6 +17,7 @@ import Store from './Store/Store';
 import Stories from './Stories';
 import { StoriesContextProvider } from '../StoriesContext';
 import CoinsContext from '../contexts/coinsContext';
+import { BudgetView } from './BudgetView';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -70,6 +71,7 @@ const ChildIndex = () => {
 						<Route path={routes.ChildAddWish} element={<ChildAddWish />} />
 						<Route path={routes.Store} element={<Store />} />
 						<Route path={routes.Stories + '/:storyPrefix'} element={<Stories />} />
+						<Route path={routes.Budget} element={<BudgetView />} />
 						<Route path='*' element={<Navigate to={'children'} />} />
 					</Routes>
 				</div>

@@ -1,7 +1,10 @@
-import { Skeleton, Typography } from '@mui/material';
+import { Button, Skeleton, Typography } from '@mui/material';
 import { Card,Box } from '@mui/material'
 import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
+import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import routes from '../../Router/Routes';
 import Transactions from '../Transactions';
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +34,12 @@ const useStyles = makeStyles((theme) => ({
 	   },
 	   amount:{
 		fontSize :'20px',
-	   }
+	},
+	summaryTitles:{
+		display:'flex',
+		justifyContent:'space-between',
+		maxHeight: '24px',
+	}
 	  
 }));
 
@@ -40,6 +48,10 @@ const CardHistory = ({ card, userBudget, isLoadingUserData, daysNum}) => {
 
 	const today = new Date();
 	const lastDate = new Date(today.getFullYear(), today.getMonth(), today.getDate()-daysNum);
+
+	const navigate = useNavigate();
+
+	const goToBudget = () => navigate('/child' + routes.Budget)
 
 	return (
 		<div className={classes.root}>
@@ -51,6 +63,12 @@ const CardHistory = ({ card, userBudget, isLoadingUserData, daysNum}) => {
 				</>
 			) : (
 				<>
+				<div className={classes.summaryTitles}>
+					<Typography>השבוע הוצאתי</Typography>
+					<Button variant='text' onClick={goToBudget}>
+						הצג עוד...
+					</Button>
+				</div>
 					<Card className={classes.total}>
 						<Typography component='span' fontSize='22px'>{`${userBudget}₪ / `}</Typography>
 						<Typography component='span' fontSize='35px'>
