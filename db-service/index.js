@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import config from './config.js';
 import { initializeDbConnection } from './DAL/mongoConnectios.js';
-import { getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCreditCardByChildrenId, registerChild, updateChildrenDisplayName, updateChildrenSettings, addWish, updateWishList } from './DAL/children.js';
+import { getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCreditCardByChildrenId, registerChild, updateChildrenDisplayName, updateChildrenSettings, addWish, updateWishList, updateChildBudget} from './DAL/children.js';
 import { getChildrenByParentId, getParentById, registerParent, getParentByMail, updateParentSettings, updateParentDisplayName , updateParentCreditCard, updateParentChildrens, addChildren, getWishlistAlertData} from './DAL/parent.js';
 import { getAvatarById, getAllAvatars } from './DAL/avatar.js';
 import { getUserType } from './DAL/identity.js';
@@ -103,6 +103,13 @@ app.put('/children/WishList/:id', async (req, res) => {
 	const countUpdated = await updateWishList(req.params.id, wishesUpdates);
 	res.send(`update ${countUpdated} documents`);
 });
+
+app.put('/children/Budget/:id', async (req, res) => {
+  const { id: childId } = req.params
+  const { newBudget } = req.body
+  const countUpdated = await updateChildBudget(childId, newBudget)
+  res.send(`update ${countUpdated} documents`)
+})
 
 // parent
 app.get('/parentChild/:id', async (req, res) => {
