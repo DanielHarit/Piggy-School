@@ -22,7 +22,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import TextField from "@mui/material/TextField";
 import routes from "../../components/Router/Routes";
 import { useLocation } from "react-router-dom";
-
+import Logout from '../../components/Auth/Logout';
 import config from "../../conf.json";
 
 const useStyles = makeStyles((theme) => ({
@@ -285,6 +285,8 @@ const ChildrenSettings = ({ onUserNameChange }) => {
           />
         </FormGroup>
       </SettingBox>
+
+      <Logout />
     </div>
   );
 };

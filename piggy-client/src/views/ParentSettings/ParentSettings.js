@@ -27,6 +27,7 @@ import ChildrenDisplay from "../ParentTransferMoneyPage/ChildrenDisplay";
 import Button from "@mui/material/Button";
 import config from "../../conf.json";
 import ChildrenDisplayAll from "../../components/ChildrenBoardData/ChildrenDisplayAll";
+import Logout from '../../components/Auth/Logout';
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -335,6 +336,9 @@ const ParentSettings = ({ onUserNameChange }) => {
           />
         </FormGroup>
       </SettingBox>
+
+      <Logout />
+
       <Container fixed>
         <Dialog
           open={isCreditCardUpdateOpen}
