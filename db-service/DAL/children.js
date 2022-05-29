@@ -138,3 +138,35 @@ export const updateChildBudget = async (childId, newBudget) => {
 
   return resultUpdate.modifiedCount
 }
+	
+export const addItemToPurchaseHistory = async (childrenId, purchesdItem) => {
+	const resultUpdate = await db
+		.collection(collectionName)
+		.updateOne({ _id: childrenId }, { $push: { PurchesHistory: purchesdItem } });
+
+	return resultUpdate.modifiedCount;
+};
+
+export const chargePiggyCoins = async (childrenId, coinsAmount) => {
+	const resultUpdate = await db
+		.collection(collectionName)
+		.updateOne({ _id: childrenId }, { $inc: { PiggyCoins: (0-coinsAmount) } });
+
+	return resultUpdate.modifiedCount;
+}
+
+export const setAvatar = async (childrenId, avatarId) => {
+	const resultUpdate = await db
+		.collection(collectionName)
+		.updateOne({ _id: childrenId }, {$set: { ['UserSettings.AvatarId'] : avatarId }} );
+
+	return resultUpdate.modifiedCount;
+};
+
+export const setBackgroundColor = async (childrenId, backgroundColorId) => {
+	const resultUpdate = await db
+		.collection(collectionName)
+		.updateOne({ _id: childrenId }, {$set: { ['UserSettings.BackgroudColor'] : backgroundColorId }} );
+
+	return resultUpdate.modifiedCount;
+};
