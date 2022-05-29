@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import config from './config.js';
+import { handleAvatarPurchase, handleBackgroundColorPurchase } from './piggyStore.js'
 import { initializeDbConnection } from './DAL/mongoConnectios.js';
 import { getChildrenById, getChildrenByMail, getCreditCardByChildrenId, updateCreditCardByChildrenId, registerChild, updateChildrenDisplayName, updateChildrenSettings, addWish, updateWishList, updateChildBudget} from './DAL/children.js';
 import { getChildrenByParentId, getParentById, registerParent, getParentByMail, updateParentSettings, updateParentDisplayName , updateParentCreditCard, updateParentChildrens, addChildren, getWishlistAlertData} from './DAL/parent.js';
@@ -245,3 +246,15 @@ app.post('/children/alert',async (req, res)=>{
 	res.send('msg sent')
 });
 
+// store
+app.post('/purchase/avatar',async (req, res) => {
+	const { childrenMail, itemId } = req.body;
+	const result = await handleAvatarPurchase(childrenMail , itemId)
+	res.send(result);
+});
+
+app.post('/purchase/backgroundColor',async (req, res) => {
+	const { childrenMail, itemId } = req.body;
+	const result = await handleBackgroundColorPurchase(childrenMail , itemId)
+	res.send(result);
+});
