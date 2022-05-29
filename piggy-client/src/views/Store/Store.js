@@ -21,10 +21,33 @@ const Store = () => {
     ).then((result)=>setUser(result.data))
   }
 
+  const handleColorPurchase = (itemId) => {
+    axios.post(`${config.PIGGY_DB_URL}/purchase/backgroundColor`, {childrenMail: user.Mail, itemId: itemId})
+    .then(() => {
+      Swal.fire({
+        title: `הרקע הוחלף בהצלחה`,
+        width: "80%",
+        confirmButtonColor: "#781f63",
+        confirmButtonText: "המשך",
+      }).then(() => loadUserDetailes());
+    })
+  }
+
+  const handleAvatarPurchase = (itemId) => {
+    axios.post(`${config.PIGGY_DB_URL}/purchase/avatar`, {childrenMail: user.Mail, itemId: itemId})
+    .then(() => {
+      Swal.fire({
+        title: `האוואטר הוחלף בהצלחה`,
+        width: "80%",
+        confirmButtonColor: "#781f63",
+        confirmButtonText: "המשך",
+      }).then(() => loadUserDetailes());
+    })
+  }
+
   const purchaseColor = (itemId, price, coinAmount, purchased) => {
     if(purchased) {
-      //call server to change bacgkground then
-      loadUserDetailes();
+      handleColorPurchase(itemId);
     } else if(price > coinAmount) {
       Swal.fire({
         title: `חסרים לך ${price-coinAmount} מטבעות`,
@@ -42,8 +65,7 @@ const Store = () => {
         cancelButtonText: "אולי בפעם אחרת"
       }).then((result) => {
         if (result.isConfirmed) {
-          //call server to change bacgkground then
-          loadUserDetailes();
+          handleColorPurchase(itemId);
         }
       });
     }
@@ -51,8 +73,7 @@ const Store = () => {
 
   const purchaseAvatar = (itemId, price, coinAmount, purchased) => {
     if(purchased) {
-      //call server to change bacgkground then
-      loadUserDetailes();
+      handleAvatarPurchase(itemId);
     } else if(price > coinAmount) {
       Swal.fire({
         title: `חסרים לך ${price-coinAmount} מטבעות`,
@@ -70,8 +91,7 @@ const Store = () => {
         cancelButtonText: "אולי בפעם אחרת"
       }).then((result) => {
         if (result.isConfirmed) {
-          //call server to change bacgkground then
-          loadUserDetailes();
+          handleAvatarPurchase(itemId);
         }
       });
     }
