@@ -83,6 +83,12 @@ const ChildIndex = () => {
 								state: { settings: user.UserSettings, mail: user.Mail },
 							});
 						},
+						right: () => {
+							setShowHelloMsg(false);
+							navigate('/child' + routes.Store, {
+								state: { settings: user.UserSettings, mail: user.Mail },
+							});
+						},
 						middle: () => {
 							setShowHelloMsg(true);
 							navigate('/child' + routes.ChildrenHomePage);

@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 import { HOMEPAGE_CONSTANTS } from '../../../constants'
-import { Home,AccountCircle  } from '@mui/icons-material'
+import { AccountCircle } from '@mui/icons-material'
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import DensityMediumIcon from '@mui/icons-material/DensityMedium';
 import SendIcon from '@mui/icons-material/Send';
@@ -12,8 +12,8 @@ export const useFooterLinks = (footerType) => {
       case HOMEPAGE_CONSTANTS.CHILD:
         return {
           rightLink: {
-            label: 'דף בית',
-            icon: <Home/>,
+            label: 'חנות',
+            icon: <StorefrontIcon/>,
           },
           middleLink: {
             label: 'פרופיל',
