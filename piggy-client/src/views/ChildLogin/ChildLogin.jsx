@@ -145,7 +145,7 @@ const ChildLogin = () => {
 							  ההורים כבר הזמינו אותך?
 						  </Typography>
 					  </Grid>
-					  <Grid item xs={12}>
+					  <Grid item xs={12} onClick={()=> setIsLoading(true)}>
 						  <Login setIsLoding={setIsLoading} fullWidth btnText="כניסה עם גוגל" />
 					  </Grid>
 

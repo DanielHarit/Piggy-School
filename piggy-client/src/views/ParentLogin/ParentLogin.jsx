@@ -171,7 +171,7 @@ const ParentLogin = () => {
 				<Grid item xs={12} className={classes.item}>
 					<Typography className={classes.MDtextFont}>כבר יש לכם חשבון?</Typography>
 				</Grid>
-				<Grid item xs={12} >
+				<Grid item xs={12} onClick={()=> setIsLoading(true)}>
 					<Login setIsLoding={setIsLoading} fullWidth btnText='כניסה עם גוגל' />
 				</Grid>
 
