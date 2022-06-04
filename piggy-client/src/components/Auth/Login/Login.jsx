@@ -4,15 +4,44 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { GoogleLogin } from 'react-google-login';
 import { refreshTokenSetup } from '../../../utils/refreshToken';
+import { ClassNames } from '@emotion/react';
+import makeStyles from '@mui/styles/makeStyles';
+
+
 
 const clientId = config.CLIENT_ID;
+const useStyles = makeStyles((theme) => ({
+  googleBtn: {
+    height: '8vh',
+    display: 'flex !important',
+    justifyContent: 'center',
+    width: '100%',
+    borderRadius: '50px !important',
+    '& :nth-child(1)' : {
+      marginRight: '0px !important',
+      padding: '0px !important'
+      },
+    '& :nth-child(2)' : {
+      fontSize: '25px',
+      display: 'flex'
+      },
+  },
+  container: {
+ //   width: '90vw'
+  }
+  
+    
+}));
 
 function Login({successCallback=() => {}, btnText='ערך דיפולטי'}) {
+  const classes = useStyles();
+
   const onSuccess = async (res) => {
     successCallback(res.profileObj.email, res.profileObj.name);
     sessionStorage.setItem("profileObj", JSON.stringify(res.profileObj));
     sessionStorage.setItem("tokenId", JSON.stringify(res.tokenId));
     refreshTokenSetup(res);
+
 
     const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
     const user = await axios.get(`${config.PIGGY_DB_URL}/identity/${userMail}`); 
@@ -32,14 +61,15 @@ function Login({successCallback=() => {}, btnText='ערך דיפולטי'}) {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className={classes.container}>
       <GoogleLogin
         clientId={clientId}
         buttonText={btnText}
         onSuccess={onSuccess}
         onFailure={onFailure}
+        className={classes.googleBtn}
         cookiePolicy={'single_host_origin'}
-        style={{ marginTop: '100px' }}
+        //style={{ marginTop: '100px' }}
         isSignedIn={true}
       />
     </div>
