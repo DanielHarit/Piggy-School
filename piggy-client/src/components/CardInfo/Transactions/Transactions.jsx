@@ -11,35 +11,32 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		backgroundColor: '#FAFAFA',
 		borderRadius: 5,
-		marginTop: 15,
 		marginRight: 'auto',
 		marginLeft: 'auto',
 		marginBottom: '5px',
 	},
 }));
 
-const Transactions = ({ transactionsList , lastDate}) => {
+const Transactions = ({ transactionsList, lastDate }) => {
 	const classes = useStyles();
 
 	return (
 		<Card className={classes.root}>
 			<List disablePadding>
 				{transactionsList
-				.filter((tran) => (
-					 new Date(tran.timestamp) >= lastDate
-				))
-				.map((transaction) => (
-					<>
-						<ListItem key={transaction.id}>
-							<ListItemText
-								primary={transaction.description}
-								secondary={new Date(transaction.timestamp).toLocaleDateString()}
-							/>
-							<Typography edge='end'> {transaction.amount}₪ </Typography>
-						</ListItem>
-						<Divider light />
-					</>
-				))}
+					.filter((tran) => new Date(tran.timestamp) >= lastDate)
+					.map((transaction) => (
+						<>
+							<ListItem key={transaction.id}>
+								<ListItemText
+									primary={transaction.description}
+									secondary={new Date(transaction.timestamp).toLocaleDateString()}
+								/>
+								<Typography edge='end'> {transaction.amount}₪ </Typography>
+							</ListItem>
+							<Divider light />
+						</>
+					))}
 			</List>
 		</Card>
 	);
