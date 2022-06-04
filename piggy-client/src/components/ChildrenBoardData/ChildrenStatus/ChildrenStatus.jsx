@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
      ))
     .map((transaction) => transaction.amount).reduce((a, b) => a + b, 0),[cardData]);
     
-    const percent = useMemo(()=>cardData?.amount && Math.min(userExpenses / cardData?.amount * 100, 100),[userExpenses,cardData]);
+    const percent = useMemo(()=>cardData?.amount && Math.min(userExpenses / (cardData?.amount + userExpenses)* 100, 100),[userExpenses,cardData]);
    
     useEffect(async () => {
           const userCard = await axios.get(`${config.PAYMENT_SERVICE_URL}/card/${child._id}`);
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
         <Box sx={{display:'flex',justifyContent: 'space-between',width:'100%'}}>
                 <Typography className={classes.childText} > {child.UserSettings.DisplayName} </Typography>
                 <Typography className={classes.targetText} >  
-                ₪ {cardData?.amount} /  
+                ₪ {cardData?.amount + userExpenses} /  
                   {userExpenses}
                 </Typography>
               </Box>
