@@ -6,7 +6,7 @@ import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import PiggyCoin from "../../assets/img/piggy-coin.svg";
+import PiggyCoin from "../../assets/img/login.png";
 import CircularProgress from '@mui/material/CircularProgress';
 
 import TextField from '@mui/material/TextField';
@@ -77,8 +77,8 @@ const useclassNames = makeStyles((theme) => ({
 	  marginTop: "40px",
 	},
 	imgContainer: {
-	  width: "45vw",
-	  height: "20vh",
+	  width: '74vw',
+	  height: '25vh',
 	  margin: "auto",
 	},
   }));

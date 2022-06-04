@@ -7,7 +7,7 @@ import Container from "@mui/material/Container";
 import CircularProgress from '@mui/material/CircularProgress';
 
 import Login from "../../components/Auth/Login";
-import PiggyCoin from "../../assets/img/piggy-coin.svg";
+import PiggyCoin from "../../assets/img/login.png";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -62,8 +62,8 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "40px",
   },
   imgContainer: {
-    width: "45vw",
-    height: "20vh",
+    width: '74vw',
+	height: '25vh',
     margin: "auto",
   },
   loadingContainer: {
