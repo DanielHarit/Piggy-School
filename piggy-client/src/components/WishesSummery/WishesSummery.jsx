@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 	skelaton: {
 		width: '100%',
 		borderRadius: '5px',
-		height: '120px',
+		height: '108.5px',
 	},
 }));
 
@@ -44,7 +44,13 @@ const WishesSummery = ({ wishes, currAmount, isLoadingUserData }) => {
 					</Button>
 				)}
 			</div>
-			{isLoadingUserData ? <Skeleton variant='rectangular' className={classes.skelaton} /> : Object.keys(wishes).length > 0 ? <Wish name={wishes[1].name} pic={wishes[1].pic} cost={wishes[1].cost} currAmount={currAmount} /> : <NoWishesMsg goToWishList={goToWishList} />}
+			{isLoadingUserData ? (
+				<Skeleton variant='rectangular' className={classes.skelaton} />
+			) : Object.keys(wishes).length > 0 ? (
+				<Wish name={wishes[1].name} pic={wishes[1].pic} cost={wishes[1].cost} currAmount={currAmount} />
+			) : (
+				<NoWishesMsg goToWishList={goToWishList} />
+			)}
 		</div>
 	);
 };
