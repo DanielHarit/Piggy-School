@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
         <Box sx={{display:'flex',justifyContent: 'space-between',width:'100%'}}>
                 <Typography className={classes.childText} > {child.UserSettings.DisplayName} </Typography>
                 <Typography className={classes.targetText} >  
-                ₪ {cardData?.amount} /  
+                ₪ {cardData?.amount + userExpenses} /  
                   {userExpenses}
                 </Typography>
               </Box>
