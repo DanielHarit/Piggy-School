@@ -81,6 +81,17 @@ const useclassNames = makeStyles((theme) => ({
 	  height: '25vh',
 	  margin: "auto",
 	},
+	loadingContainer: {
+		width: 'inherit',
+		height: '100vh',
+		justifyContent: 'center',
+		alignItems: 'center',
+		display: 'flex',
+		'& span': {
+			width: '90px !important',
+			height: '90px !important'
+		}
+	}
   }));
 
 const ParentLogin = () => {
