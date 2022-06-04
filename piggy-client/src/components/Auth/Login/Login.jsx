@@ -33,10 +33,11 @@ const useStyles = makeStyles((theme) => ({
     
 }));
 
-function Login({successCallback=() => {}, btnText='ערך דיפולטי'}) {
+function Login({successCallback=() => {}, btnText='ערך דיפולטי', setIsLoding}) {
   const classes = useStyles();
 
   const onSuccess = async (res) => {
+    setIsLoding(true);
     successCallback(res.profileObj.email, res.profileObj.name);
     sessionStorage.setItem("profileObj", JSON.stringify(res.profileObj));
     sessionStorage.setItem("tokenId", JSON.stringify(res.tokenId));
@@ -69,7 +70,6 @@ function Login({successCallback=() => {}, btnText='ערך דיפולטי'}) {
         onFailure={onFailure}
         className={classes.googleBtn}
         cookiePolicy={'single_host_origin'}
-        //style={{ marginTop: '100px' }}
         isSignedIn={true}
       />
     </div>

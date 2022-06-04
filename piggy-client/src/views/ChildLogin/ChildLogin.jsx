@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import makeStyles from "@mui/styles/makeStyles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
+import CircularProgress from '@mui/material/CircularProgress';
+
 import Login from "../../components/Auth/Login";
 import PiggyCoin from "../../assets/img/piggy-coin.svg";
 import Modal from "@mui/material/Modal";
@@ -64,11 +66,23 @@ const useStyles = makeStyles((theme) => ({
     height: "20vh",
     margin: "auto",
   },
+  loadingContainer: {
+	width: 'inherit',
+    height: '100vh',
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: 'flex',
+	'& span': {
+		width: '90px !important',
+		height: '90px !important'
+	}
+  }
 }));
 
 const ChildLogin = () => {
   const navigate = useNavigate();
   const classes = useStyles();
+  const [isLoading,setIsLoading] = useState(false);
   const registerChild = async (userMail, userName) => {
     const newChild = {
       mail: String(userMail),
@@ -109,78 +123,79 @@ const ChildLogin = () => {
 
   return (
     <>
-	 <div className={classes.backwordIcon}>
-          <IconButton aria-label="Example" onClick={()=>navigate("/login")} >
-            <ArrowBackIosNewIcon fontSize="large" />
-          </IconButton>
-        </div>
-      <Grid container className={classes.container}>      
-        <Grid item xs={12} className={classes.item}>
-          <div className={classes.imgContainer}>
-            <img className={classes.image} src={PiggyCoin} alt="PiggyCoin" />
-          </div>
-        </Grid>
-        <Grid item xs={12} className={classes.item}>
-          <Typography className={classes.textFont}>שווה לראות אותך!</Typography>
-        </Grid>
-        <Grid item xs={12} className={classes.divider}>
-          <Typography className={classes.MDtextFont}>
-            ההורים כבר הזמינו אותך?
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Login fullWidth btnText="כניסה עם גוגל" />
-        </Grid>
+	{isLoading ? 
+	<div className={classes.loadingContainer}>
+		<CircularProgress color="primary" />
+	</div>:
+	 <><div className={classes.backwordIcon}>
+				  <IconButton aria-label="Example" onClick={() => navigate("/login")}>
+					  <ArrowBackIosNewIcon fontSize="large" />
+				  </IconButton>
+			  </div><Grid container className={classes.container}>
+					  <Grid item xs={12} className={classes.item}>
+						  <div className={classes.imgContainer}>
+							  <img className={classes.image} src={PiggyCoin} alt="PiggyCoin" />
+						  </div>
+					  </Grid>
+					  <Grid item xs={12} className={classes.item}>
+						  <Typography className={classes.textFont}>שווה לראות אותך!</Typography>
+					  </Grid>
+					  <Grid item xs={12} className={classes.divider}>
+						  <Typography className={classes.MDtextFont}>
+							  ההורים כבר הזמינו אותך?
+						  </Typography>
+					  </Grid>
+					  <Grid item xs={12}>
+						  <Login setIsLoding={setIsLoading} fullWidth btnText="כניסה עם גוגל" />
+					  </Grid>
 
-        <Grid item xs={12} className={classes.divider}>
-          <Typography className={classes.textFont}>חדשים בפיגי?</Typography>
-          <Typography className={classes.MDtextFont}>
-            כדי להירשם לאפליקציה על אחד ההורים שלך להירשם ולשלוח לך הזמנה לחשבון
-            המשותף
-          </Typography>
-        </Grid>
-        <Grid item xs={12} className={classes.item}>
-          <Button
-            variant="contained"
-            fullWidth
-            className={classes.btnFont}
-            onClick={handleOpen}
-          >
-            שליחת הזמנה להורה
-          </Button>
-        </Grid>
-        <Grid item xs={12} className={classes.item}>
-          <Typography variant="caption">
-            * ניתן להשתמש באפליקציה מגיל 14
-          </Typography>
-        </Grid>
-        <Grid item xs={12} className={classes.item}>
-          <Button color="inherit" onClick={loginAsChild}>
-            אני נער!
-          </Button>
-        </Grid>
-      </Grid>
-
-      <Container fixed>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Paper sx={style}>
-            <TextField
-              id="parent-mail"
-              label="לאיזה מייל נשלח את ההזמנה?"
-              fullWidth
-              value={parentMail}
-              onChange={handleMailChange}
-              style={{ marginBottom: "15px" }}
-            />
-            <Login btnText="הרשם" successCallback={registerChild} />
-          </Paper>
-        </Modal>
-      </Container>
+					  <Grid item xs={12} className={classes.divider}>
+						  <Typography className={classes.textFont}>חדשים בפיגי?</Typography>
+						  <Typography className={classes.MDtextFont}>
+							  כדי להירשם לאפליקציה על אחד ההורים שלך להירשם ולשלוח לך הזמנה לחשבון
+							  המשותף
+						  </Typography>
+					  </Grid>
+					  <Grid item xs={12} className={classes.item}>
+						  <Button
+							  variant="contained"
+							  fullWidth
+							  className={classes.btnFont}
+							  onClick={handleOpen}
+						  >
+							  שליחת הזמנה להורה
+						  </Button>
+					  </Grid>
+					  <Grid item xs={12} className={classes.item}>
+						  <Typography variant="caption">
+							  * ניתן להשתמש באפליקציה מגיל 14
+						  </Typography>
+					  </Grid>
+					  <Grid item xs={12} className={classes.item}>
+						  <Button color="inherit" onClick={loginAsChild}>
+							  אני נער!
+						  </Button>
+					  </Grid>
+				  </Grid><Container fixed>
+					  <Modal
+						  open={open}
+						  onClose={handleClose}
+						  aria-labelledby="modal-modal-title"
+						  aria-describedby="modal-modal-description"
+					  >
+						  <Paper sx={style}>
+							  <TextField
+								  id="parent-mail"
+								  label="לאיזה מייל נשלח את ההזמנה?"
+								  fullWidth
+								  value={parentMail}
+								  onChange={handleMailChange}
+								  style={{ marginBottom: "15px" }} />
+							  <Login btnText="הרשם" successCallback={registerChild} />
+						  </Paper>
+					  </Modal>
+				  </Container></>
+}
     </>
   );
 };

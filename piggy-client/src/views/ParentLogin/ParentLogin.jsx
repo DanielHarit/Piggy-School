@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import { Paper } from '@mui/material';
 import { Grid } from '@mui/material';
@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import PiggyCoin from "../../assets/img/piggy-coin.svg";
+import CircularProgress from '@mui/material/CircularProgress';
 
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -105,6 +106,8 @@ const ParentLogin = () => {
 
 	const [open, setOpen] = React.useState(false);
 	const handleOpen = () => setOpen(true);
+	const [isLoading,setIsLoading] = useState(false);
+
 	const handleClose = () => {
 		setOpen(false);
 		setCreditCardNumber('');
@@ -139,7 +142,11 @@ const ParentLogin = () => {
 
 	return (
 		<>
-		<div className={classes.backwordIcon}>
+		{isLoading ? 
+	<div className={classes.loadingContainer}>
+		<CircularProgress color="primary" />
+	</div>:
+		<><div className={classes.backwordIcon}>
           <IconButton aria-label="Example" onClick={()=>navigate("/login")} >
             <ArrowBackIosNewIcon fontSize="large" />
           </IconButton>
@@ -154,7 +161,7 @@ const ParentLogin = () => {
 					<Typography className={classes.MDtextFont}>כבר יש לכם חשבון?</Typography>
 				</Grid>
 				<Grid item xs={12} >
-					<Login fullWidth btnText='כניסה עם גוגל' />
+					<Login setIsLoding={setIsLoading} fullWidth btnText='כניסה עם גוגל' />
 				</Grid>
 
 				<Grid item xs={12} className={classes.divider}>
@@ -183,6 +190,8 @@ const ParentLogin = () => {
 					</Paper>
 				</Modal>
 			</Container>
+		</>
+		}
 		</>
 	);
 };
