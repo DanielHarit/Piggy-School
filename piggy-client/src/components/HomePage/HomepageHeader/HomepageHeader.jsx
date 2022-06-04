@@ -9,13 +9,13 @@ import { useContext } from 'react';
 import CoinsContext from '../../../contexts/coinsContext';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    minHeight: 150,
-    backgroundColor: theme.palette.primary.main,
-    borderRadius: '0 0 48px 48px',
-  },
+	root: {
+		minHeight: 150,
+		backgroundColor: theme.palette.primary.main,
+		borderRadius: '0 0 48px 48px',
+	},
 	allContent: {
-		minHeight: 180,
+		minHeight: 150,
 		padding: theme.spacing(0, 3, 0, 8),
 		display: 'flex',
 		justifyContent: 'space-between',
@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 		maxWidth: 174,
 		display: 'inline-block',
 		marginBottom: -29,
+		zIndex: '1000',
 	},
 	titles: {
 		marginBottom: 25,

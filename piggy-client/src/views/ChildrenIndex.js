@@ -21,7 +21,7 @@ import { BudgetView } from './BudgetView';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		height: 'calc(100vh - 280px)',
+		height: 'calc(100vh - 320px)',
 		overflowY: 'auto',
 	},
 }));
