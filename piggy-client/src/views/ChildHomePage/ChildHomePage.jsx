@@ -14,14 +14,7 @@ import Confetti from 'react-confetti';
 import { useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-const useStyles = makeStyles((theme) => ({
-	//     root:{
-	//     },
-	title: {
-		// justifyContent: 'space-between',
-		// maxHeight: '24px',
-	},
-}));
+const useStyles = makeStyles((theme) => ({}));
 
 const ChildHomePage = () => {
 	const classes = useStyles();
@@ -65,11 +58,26 @@ const ChildHomePage = () => {
 		}
 	}, [state]);
 
+	const getSpendingsSum = (card) =>
+		card?.transactions
+			.filter(
+				(tran) =>
+					new Date(tran.timestamp) >=
+					new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 7)
+			)
+			.map((transaction) => transaction.amount)
+			.reduce((a, b) => a + b, 0);
+
 	return (
 		<div className={classes.root}>
 			<Confetti numberOfPieces={confettiNum} />
-			<StoriesBar />
-			<CardDetails amount={cardData?.amount} details={cardData?.cardDetails} />
+			<StoriesBar isLoadingUserData={isLoadingUserData} />
+			<CardDetails
+				amount={cardData?.amount}
+				budget={userBudget}
+				spendings={getSpendingsSum(cardData)}
+				isLoadingUserData={isLoadingUserData}
+			/>
 			<WishesSummery wishes={wishes} currAmount={amountLeftInCard} isLoadingUserData={isLoadingUserData} />
 			<div className={classes.title}>
 				<CardHistory card={cardData} userBudget={userBudget} isLoadingUserData={isLoadingUserData} daysNum={7} />
