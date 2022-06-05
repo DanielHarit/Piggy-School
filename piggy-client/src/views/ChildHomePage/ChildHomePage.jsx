@@ -22,7 +22,6 @@ const ChildHomePage = () => {
 	const [userName, setUserName] = useState('');
 	const [userBudget, setUserBudget] = useState(0);
 	const [wishes, setWishes] = useState({});
-	const [amountLeftInCard, setAmountLeftInCard] = useState(0);
 	const [isLoadingUserData, setIsLoadingUserData] = useState(true);
 	const stories = useStories();
 	const [confettiNum, setConfettiNum] = useState(0);
@@ -40,7 +39,6 @@ const ChildHomePage = () => {
 		try {
 			const userCard = await axios.get(`${config.PAYMENT_SERVICE_URL}/card/${user.data._id}`);
 			setCardData(userCard.data);
-			setAmountLeftInCard(userCard.data.amount - userTotalBudget >= 0 ? userCard.data.amount - userTotalBudget : 0);
 		} catch (err) {
 			setCardData({
 				transactions: [],
@@ -78,7 +76,7 @@ const ChildHomePage = () => {
 				spendings={getSpendingsSum(cardData)}
 				isLoadingUserData={isLoadingUserData}
 			/>
-			<WishesSummery wishes={wishes} currAmount={amountLeftInCard} isLoadingUserData={isLoadingUserData} />
+			<WishesSummery wishes={wishes} currAmount={cardData?.amount} isLoadingUserData={isLoadingUserData} />
 			<div className={classes.title}>
 				<CardHistory card={cardData} userBudget={userBudget} isLoadingUserData={isLoadingUserData} daysNum={7} />
 			</div>
