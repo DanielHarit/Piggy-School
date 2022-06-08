@@ -11,8 +11,6 @@ export const BudgetView = () => {
   const [user, setUser] = useState(null)
   const [card, setCard] = useState(null)
 
-  console.log(user)
-
   const fetchUser = useCallback(() => {
     const userMail = JSON.parse(sessionStorage.getItem('profileObj'))['email']
     axios
@@ -29,7 +27,6 @@ export const BudgetView = () => {
     axios
       .get(`${config.PAYMENT_SERVICE_URL}/card/${user._id}`)
       .then((res) => {
-        console.log(res.data)
         setCard(res.data)
       })
       .catch((err) => {
@@ -54,6 +51,15 @@ export const BudgetView = () => {
     if (!card) {
       return null
     }
+    const now = new Date();
+    const lastWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7);
+    card.transactions = card.transactions.filter((d) => {
+      let currTranTime = new Date(d.timestamp);
+      if (currTranTime.getTime() >= lastWeek.getTime()) {
+        return d;
+      }
+    });
+    console.log(card.transactions);
     return card.transactions.reduce((acc, t) => {
       if (!acc[t.type]) {
         acc[t.type] = t.amount
