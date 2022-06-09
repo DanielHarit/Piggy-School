@@ -17,6 +17,7 @@ import ParentSettings from "./ParentSettings/ParentSettings";
 import ChildrenQuickView from "./ChildrenQuickView/ChildrenQuickView";
 import ChildrenDisplayAll from "../components/ChildrenBoardData/ChildrenDisplayAll";
 import { Typography } from "@mui/material";
+import { BudgetView } from "./BudgetView/BudgetView";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -78,6 +79,7 @@ const ParentIndex = () => {
             <Route path={routes.ParentTransfer} element={<ParentTransferMoneyPage parentId={user?._id} />} />
             <Route path={routes.ParentSettings} element={<ParentSettings />} />
             <Route path={routes.ChildrenQuickView} element={<ChildrenQuickView />} />
+            <Route path={routes.Budget} element={<BudgetView />} />
             <Route
               path="*"
               element={<Navigate to={'parent'} />}

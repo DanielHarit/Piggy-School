@@ -165,7 +165,9 @@ const ChildrenQuickView = () => {
 				card={cardData}
 				userBudget={userBudget}
 				isLoadingUserData={isLoadingUserData}
-				daysNum={7}></CardHistory>
+				daysNum={7}
+				selectedChildrenId={selectedChildrenId}
+				></CardHistory>
 		</div>
 	);
 };

@@ -42,15 +42,24 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const CardHistory = ({ card, userBudget, isLoadingUserData, daysNum }) => {
+const CardHistory = ({ card, userBudget, isLoadingUserData, daysNum, selectedChildrenId }) => {
 	const classes = useStyles();
 
 	const today = new Date();
 	const lastDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - daysNum);
 
 	const navigate = useNavigate();
-
-	const goToBudget = () => navigate('/child' + routes.Budget);
+	const goToBudget = () => {
+		if (selectedChildrenId) {
+			navigate('/parent' + routes.Budget, {
+				state: { selectedChildrenId },
+			});
+		} else {
+			navigate('/child' + routes.Budget)
+		}
+	}
+	
+	
 
 	return (
 		<div className={classes.root}>
