@@ -5,8 +5,12 @@ import PropTypes from 'prop-types';
 import CurrentCoins from '../../../components/PiggyCoins/CurrentCoins';
 import { HOMEPAGE_CONSTANTS } from '../../../constants';
 import CurrentLevel from '../../PiggyCoins/CurrentLevel';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import CoinsContext from '../../../contexts/coinsContext';
+import BackgroundColorContext from '../../../contexts/backgroundColorContext';
+import axios from 'axios';
+import config from '../../../conf.json';
+
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -46,12 +50,22 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+
 const HomepageHeader = ({ username, caption, headerType, showHelloMsg = true }) => {
 	const classes = useStyles();
+	const { setBackgroundColor, backgroundColor } = useContext(BackgroundColorContext);
 	const { coins, totalCoins } = useContext(CoinsContext);
 
+	useEffect(() => {
+		const user = JSON.parse(sessionStorage.getItem('profileObj'));
+		const userMail = user['email'];
+		axios.get(`${config.PIGGY_DB_URL}/backgroundColor/childrenMail/${userMail}`).then((res) => {
+			setBackgroundColor(res.data);
+		});
+	}, []);
+
 	return (
-		<div className={classes.root}>
+		<div className={classes.root} style={{backgroundColor: backgroundColor?backgroundColor:"#781F63"}}>
 			{headerType === HOMEPAGE_CONSTANTS.CHILD && (
 				<div className={classes.coins}>
 					<CurrentLevel total={totalCoins}></CurrentLevel>

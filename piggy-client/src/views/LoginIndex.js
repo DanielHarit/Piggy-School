@@ -7,7 +7,7 @@ import UserTypeSelect from "./UserTypeSelect";
 import ChildrenIndex from "./ChildrenIndex";
 import ParentIndex from "./ParentIndex";
 
-const LoginIndex = ({setBackGroungColor}) => {
+const LoginIndex = () => {
   return (
     <div>
       <Routes>
@@ -15,7 +15,7 @@ const LoginIndex = ({setBackGroungColor}) => {
         <Route path={"/child/*"} element={<ChildrenIndex />} />
         <Route path={routes.LoginParent} element={<ParentLogin />} />
         <Route path={routes.LoginChild} element={<ChildLogin />} />
-        <Route path={routes.Landing} element={<UserTypeSelect setBackGroungColor={setBackGroungColor}/>} />
+        <Route path={routes.Landing} element={<UserTypeSelect />} />
         <Route path="*" element={<Navigate to={routes.Landing} />} />
       </Routes>
     </div>

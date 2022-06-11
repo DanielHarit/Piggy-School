@@ -8,7 +8,7 @@ import {
   DialogContent,
 } from "@mui/material";
 import Skeleton from "@mui/material/Skeleton";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import makeStyles from "@mui/styles/makeStyles";
 import SettingBox from "../../components/Commons/SettingBox";
 import { useNavigate } from "react-router-dom";
@@ -24,6 +24,8 @@ import routes from "../../components/Router/Routes";
 import { useLocation } from "react-router-dom";
 import Logout from '../../components/Auth/Logout';
 import config from "../../conf.json";
+import BackgroundColorContext from '../../contexts/backgroundColorContext';
+
 
 const useStyles = makeStyles((theme) => ({
   body: {
@@ -67,7 +69,6 @@ const useStyles = makeStyles((theme) => ({
   },
   color: {
     width: "70px",
-    backgroundColor: theme.palette.background.default,
     border: "1px solid black",
     borderRadius: "10px",
     maxHeight: "70px",
@@ -102,6 +103,7 @@ const ChildrenSettings = ({ onUserNameChange }) => {
   } = useLocation();
 
   const classes = useStyles();
+  const { backgroundColor } = useContext(BackgroundColorContext);
   const [alertSettings, setAlertSettings] = useState({
     WeeklyWatch: false,
     NewStories: false,
@@ -249,6 +251,7 @@ const ChildrenSettings = ({ onUserNameChange }) => {
         <Typography className={classes.colorText}>אני רוצה רקע בצבע</Typography>
         <div
           className={classes.color}
+          style={{backgroundColor: backgroundColor?backgroundColor:"#781F63"}}
           onClick={() => {
             navigate("/child" + routes.Store);
           }}
