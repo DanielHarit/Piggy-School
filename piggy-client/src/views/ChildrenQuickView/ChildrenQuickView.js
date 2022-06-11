@@ -51,7 +51,6 @@ const ChildrenQuickView = () => {
 
 	const [cardData, setCardData] = useState(null);
 	const [userBudget, setUserBudget] = useState(0);
-	const [amountLeftInCard, setAmountLeftInCard] = useState(0);
 	const [isLoadingUserData, setIsLoadingUserData] = useState(true);
 	const [userId, setUserId] = useState('');
 	const [childName, setChildName] = useState('');
@@ -82,9 +81,7 @@ const ChildrenQuickView = () => {
 			const userCard = await axios.get(`${config.PAYMENT_SERVICE_URL}/card/${selectedChildrenId}`);
 			setCardData(userCard.data);
 
-			let leftInCard = userCard.data.amount - userTotalBudget >= 0 ? userCard.data.amount - userTotalBudget : 0;
-			setAmountLeftInCard(leftInCard);
-
+			let leftInCard = userCard.data.amount;
 			const userWishes = {};
 			child.data.WishList.sort((a, b) => a.priority - b.priority).forEach((wish) => {
 				const currAmount = leftInCard;
