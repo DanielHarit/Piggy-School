@@ -2,6 +2,7 @@ import { getChildrenByMail, setAvatar, setBackgroundColor, chargePiggyCoins, add
 import { getAvatarById } from './DAL/avatar.js';
 import { getBackgroundColorById } from './DAL/backgroudColor.js';
 
+
 export const handleAvatarPurchase = async (childrenMail, itemId) => {
     const userDetailes = await getChildrenByMail(childrenMail);
     const avatar = await getAvatarById(itemId);

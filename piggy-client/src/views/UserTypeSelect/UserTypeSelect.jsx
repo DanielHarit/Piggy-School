@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const UserTypeSelect = ({setBackGroungColor}) => {
+const UserTypeSelect = () => {
 	const navigate = useNavigate();
 	const classes = useStyles();
 	const goToParentLogin = () => navigate('/login/parent');
@@ -45,7 +45,6 @@ const UserTypeSelect = ({setBackGroungColor}) => {
 		} else {
 			setIsLanding(true);
 			setIsChildren(true);
-			setBackGroungColor('#ede8e8');
 		}
 	}, []);
 
