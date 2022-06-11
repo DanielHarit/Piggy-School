@@ -55,16 +55,14 @@ const CardHistory = ({ card, userBudget, isLoadingUserData, daysNum, selectedChi
 				state: { selectedChildrenId },
 			});
 		} else {
-			navigate('/child' + routes.Budget)
+			navigate('/child' + routes.Budget);
 		}
-	}
-	
-	
+	};
 
 	return (
 		<div className={classes.root}>
 			<div className={classes.summaryTitles}>
-				<Typography>השבוע הוצאתי</Typography>
+				{selectedChildrenId ? <Typography>הוצאות השבוע</Typography> : <Typography>השבוע הוצאתי</Typography>}
 				{!isLoadingUserData && (
 					<Button variant='text' onClick={goToBudget}>
 						לצפייה בתקציב...

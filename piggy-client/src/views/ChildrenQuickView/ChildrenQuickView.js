@@ -158,16 +158,12 @@ const ChildrenQuickView = () => {
 				<Skeleton variant='rectangular' className={classes.skelaton} />
 			)}
 
-			<div className={classes.title}>
-				<Typography> הוצאות השבוע </Typography>
-			</div>
 			<CardHistory
 				card={cardData}
 				userBudget={userBudget}
 				isLoadingUserData={isLoadingUserData}
 				daysNum={7}
-				selectedChildrenId={selectedChildrenId}
-				></CardHistory>
+				selectedChildrenId={selectedChildrenId}></CardHistory>
 		</div>
 	);
 };
