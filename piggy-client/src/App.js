@@ -17,6 +17,8 @@ import { createTheme } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
 import { StoriesContextProvider } from './StoriesContext';
 import { CoinsContextProvider } from './contexts/coinsContext';
+import BackgroundColorContext, { BackgroundColorContextProvider } from './contexts/backgroundColorContext';
+
 
 // Create rtl cache
 const cacheRtl = createCache({
@@ -36,9 +38,9 @@ const useStyles = makeStyles(() => ({
 }));
 
 function App() {
+	const { setBackgroundColor } = React.useContext(BackgroundColorContext);
 	const classes = useStyles();
 	const [isChildren, setIsChildren] = useState(true);
-	const [backgroungColor, setBackGroungColor] = useState('#ede8e8');
 	const [isLanding, setIsLanding] = useState(true);
 
 	useEffect(async () => {
@@ -51,9 +53,6 @@ function App() {
 			if (userObject['data']['type'] === 'parent') setIsChildren(false);
 			if (userObject['data']['type'] === 'child') {
 				setIsChildren(true);
-				axios.get(`${config.PIGGY_DB_URL}/backgroundColor/childrenMail/${userMail}`).then((res) => {
-					setBackGroungColor(res.data);
-				});
 			}
 		} else {
 			setIsLanding(true);
@@ -71,17 +70,16 @@ function App() {
 								...theme,
 								palette: {
 									...theme.palette,
-									background: {
-										default: backgroungColor,
-									},
 								},
 							})
 						}>
 						<CoinsContextProvider>
-							<StoriesContextProvider>
-								<CssBaseline />
-								<LoginIndex setBackGroungColor={setBackGroungColor} />
-							</StoriesContextProvider>
+							<BackgroundColorContextProvider>
+								<StoriesContextProvider>
+									<CssBaseline />
+									<LoginIndex />
+								</StoriesContextProvider>
+							</BackgroundColorContextProvider>
 						</CoinsContextProvider>
 					</ThemeProvider>
 				</ThemeProvider>

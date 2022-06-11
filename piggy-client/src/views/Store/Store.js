@@ -6,13 +6,17 @@ import BackgroundColor from './BackgroundColor';
 import axios from 'axios';
 import config from '../../conf.json';
 import Swal from 'sweetalert2';
-
+import BackgroundColorContext from '../../contexts/backgroundColorContext';
+import CoinsContext from '../../contexts/coinsContext';
 
 const Store = () => {
   const classes = useStyles();
   const [user, setUser] = useState([]);
   const [avatars, setAvatars] = useState([]);
   const [backgroundColors, setBackgroundColors] = useState([]);
+  const { setBackgroundColor } = React.useContext(BackgroundColorContext);
+  const { setCoins, coins } = React.useContext(CoinsContext);
+
 
   const loadUserDetailes = () => {
     const userMail = JSON.parse(sessionStorage.getItem('profileObj'))['email']
@@ -21,9 +25,10 @@ const Store = () => {
     ).then((result)=>setUser(result.data))
   }
 
-  const handleColorPurchase = (itemId) => {
+  const handleColorPurchase = (itemId, color) => {
     axios.post(`${config.PIGGY_DB_URL}/purchase/backgroundColor`, {childrenMail: user.Mail, itemId: itemId})
     .then(() => {
+      setBackgroundColor(color);
       Swal.fire({
         title: `הרקע הוחלף בהצלחה`,
         width: "80%",
@@ -45,9 +50,9 @@ const Store = () => {
     })
   }
 
-  const purchaseColor = (itemId, price, coinAmount, purchased) => {
+  const purchaseColor = (itemId, color, price, coinAmount, purchased) => {
     if(purchased) {
-      handleColorPurchase(itemId);
+      handleColorPurchase(itemId, color);
     } else if(price > coinAmount) {
       Swal.fire({
         title: `חסרים לך ${price-coinAmount} מטבעות`,
@@ -65,7 +70,8 @@ const Store = () => {
         cancelButtonText: "אולי בפעם אחרת"
       }).then((result) => {
         if (result.isConfirmed) {
-          handleColorPurchase(itemId);
+          setCoins(coins-price)
+          handleColorPurchase(itemId, color);
         }
       });
     }
@@ -91,6 +97,7 @@ const Store = () => {
         cancelButtonText: "אולי בפעם אחרת"
       }).then((result) => {
         if (result.isConfirmed) {
+          setCoins(coins-price)
           handleAvatarPurchase(itemId);
         }
       });
@@ -149,7 +156,7 @@ const Store = () => {
           price={color.Cost}
           color={color.Color}
           handleClick={() => {
-            purchaseColor(color._id, color.Cost, user.PiggyCoins, color.purchased);
+            purchaseColor(color._id, color.Color, color.Cost, user.PiggyCoins, color.purchased);
           }}
           purchased={color.purchased}
         />)

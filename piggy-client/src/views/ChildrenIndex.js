@@ -1,8 +1,7 @@
-import * as React from 'react';
 import HomePage from '../components/HomePage';
 import HomepageHeader from '../components/HomePage/HomepageHeader';
 import HomePageFooter from '../components/HomePage/HomePageFooter';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ChildHomePage from './ChildHomePage';
@@ -18,13 +17,14 @@ import Stories from './Stories';
 import { StoriesContextProvider } from '../StoriesContext';
 import CoinsContext from '../contexts/coinsContext';
 import { BudgetView } from './BudgetView';
-
+ 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		height: 'calc(100vh - 320px)',
 		overflowY: 'auto',
 	},
 }));
+
 
 const ChildIndex = () => {
 	const classes = useStyles();
@@ -46,7 +46,7 @@ const ChildIndex = () => {
 		<StoriesContextProvider>
 			<HomePage title='PIGGY'>
 				<HomepageHeader username={user.UserSettings?.DisplayName} caption='בוקר אש' showHelloMsg={showHelloMgs} />
-				<div className={classes.root}>
+				<div className={classes.root} >
 					<Routes>
 						<Route path={routes.ChildrenHomePage} element={<ChildHomePage />} />
 						<Route
