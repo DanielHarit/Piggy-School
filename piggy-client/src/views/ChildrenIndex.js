@@ -84,7 +84,7 @@ const ChildIndex = () => {
 							});
 						},
 						right: () => {
-							setShowHelloMsg(false);
+							setShowHelloMsg(true);
 							navigate('/child' + routes.Store, {
 								state: { settings: user.UserSettings, mail: user.Mail },
 							});

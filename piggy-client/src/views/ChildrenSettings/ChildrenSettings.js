@@ -98,9 +98,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const ChildrenSettings = ({ onUserNameChange }) => {
-  const {
-    state: { settings, mail },
-  } = useLocation();
+  // const {
+  //   state: { settings, mail },
+  // } = useLocation();
 
   const classes = useStyles();
   const { backgroundColor } = useContext(BackgroundColorContext);
@@ -130,6 +130,17 @@ const ChildrenSettings = ({ onUserNameChange }) => {
         setAlertSettings((prev) => ({ ...prev, [prop]: !prev[prop] }))
       );
   };
+
+  // useEffect(async () => {
+  //   if (userId) {
+  //     const childrens = await axios.get(
+  //       `${config.PIGGY_DB_URL}/parentChild/${userId}`
+  //     );
+  //     setIsChildrensLoding(false);
+  //     setChildrens(childrens.data);
+  //   }
+  // }, [userId]);
+  
 
   const handleChangeDisplayName = async (displayName) => {
     const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
@@ -162,23 +173,22 @@ const ChildrenSettings = ({ onUserNameChange }) => {
     setEditName(value);
   };
 
-  useEffect(() => {
-    if (settings) {
-      setAlertSettings(settings.AlertsSettings);
-      setUserDetailsSettings((prev) => ({
-        ...prev,
-        ...settings,
-      }));
-    }
-  }, [settings]);
+  useEffect(async () => {
+      const userMail = JSON.parse(sessionStorage.getItem('profileObj'))['email'];
+      const user = await axios.get(`${config.PIGGY_DB_URL}/children/mail/${userMail}`);
+      const {data : {UserSettings: {AlertsSettings, ...rest }}} = user;
+      setAlertSettings(AlertsSettings);
+      setUserDetailsSettings(rest);
+    
+  },[]);
 
-  useEffect(() => {
-    axios
-      .get(`${config.PIGGY_DB_URL}/avatar/${settings.AvatarId}`)
-      .then((res) =>
-        setUserDetailsSettings((prev) => ({ ...prev, avatarURL: res.data.URL }))
-      );
-  }, [settings]);
+  // useEffect(() => {
+  //   axios
+  //     .get(`${config.PIGGY_DB_URL}/avatar/${settings.AvatarId}`)
+  //     .then((res) =>
+  //       setUserDetailsSettings((prev) => ({ ...prev, avatarURL: res.data.URL }))
+  //     );
+  // }, [settings]);
 
   return (
     <div className={classes.container}>
