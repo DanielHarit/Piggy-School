@@ -45,9 +45,6 @@ const ParentIndex = () => {
 		setUser(user.data);
 	}, []);
 	const navigate = useNavigate();
-	const a = () =>{
-		return "dada"
-	}
 
 	return (
 		<ParentContext.Provider value={{ amount, setAmount, selectedChildrenId, setSelectedChildrenId }}>
