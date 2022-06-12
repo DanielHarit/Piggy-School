@@ -100,9 +100,29 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 const ParentSettings = ({ onUserNameChange }) => {
-  const {
-    state: { settings, mail },
-  } = useLocation();
+  // const {
+  // state: {  mail , settings, setSettings },
+  // } = useLocation();
+  // const {
+  //   state: { userMail },
+  //   } = useLocation();
+  // const [mail, setMail] = useState("");
+  // const [settings, setSettings] = useState({})
+
+  useEffect(async () => {
+    const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
+    const user = await axios.get(
+      `${config.PIGGY_DB_URL}/parent/mail/${userMail}`
+    ).then((user)=>{
+     // setMail(userMail);
+      setUserDetailsSettings({
+        DisplayName: user.data.DisplayName,
+        Mail: userMail
+      })
+      setAlertSettings(user.data.NotificationsSettings)
+     // setSettings({ AlertSettings: user.NotificationsSettings, DisplayName: user.DisplayName});
+    });
+  },[])
 
   const classes = useStyles();
   const [alertSettings, setAlertSettings] = useState({
@@ -152,7 +172,10 @@ const ParentSettings = ({ onUserNameChange }) => {
         [prop]: !alertSettings[prop],
       })
       .then((data) =>
-        setAlertSettings((prev) => ({ ...prev, [prop]: !prev[prop] }))
+        setAlertSettings((prev) => {
+         // setSettings(({ ...prev, [prop]: !prev[prop] }));
+          return ({ ...prev, [prop]: !prev[prop] })})
+        
       );
   };
 
@@ -171,27 +194,27 @@ const ParentSettings = ({ onUserNameChange }) => {
       });
   };
 
-  useEffect(() => {
-    setUserDetailsSettings((prev) => ({
-      ...prev,
-      mail,
-    }));
-  }, [mail]);
+  // useEffect(() => {
+  //   setUserDetailsSettings((prev) => ({
+  //     ...prev,
+  //     mail,
+  //   }));
+  // }, [mail]);
 
   const handleInputChange = (event) => {
     const value = event.target.value;
     setEditName(value);
   };
 
-  useEffect(() => {
-    if (settings) {
-      setAlertSettings(settings.AlertSettings);
-      setUserDetailsSettings((prev) => ({
-        ...prev,
-        DisplayName: settings.DisplayName,
-      }));
-    }
-  }, [settings]); 
+  // useEffect(() => {
+  //   if (settings) {
+  //     setAlertSettings(settings.AlertSettings);
+  //     setUserDetailsSettings((prev) => ({
+  //       ...prev,
+  //       DisplayName: settings.DisplayName,
+  //     }));
+  //   }
+  // }, [settings]); 
 
   const updateCreditCard = () => {
     axios
@@ -310,7 +333,7 @@ const ParentSettings = ({ onUserNameChange }) => {
           <FormControlLabel
             control={
               <Switch
-                checked={alertSettings.newAim}
+                checked={alertSettings?.newAim}
                 onChange={() => handleChangeSettings("newAim")}
               />
             }
@@ -319,7 +342,7 @@ const ParentSettings = ({ onUserNameChange }) => {
           <FormControlLabel
             control={
               <Switch
-                checked={alertSettings.newExpense}
+                checked={alertSettings?.newExpense}
                 onChange={() => handleChangeSettings("newExpense")}
               />
             }
@@ -328,7 +351,7 @@ const ParentSettings = ({ onUserNameChange }) => {
           <FormControlLabel
             control={
               <Switch
-                checked={alertSettings.ReceivedMonyLimit}
+                checked={alertSettings?.ReceivedMonyLimit}
                 onChange={() => handleChangeSettings("ReceivedMonyLimit")}
               />
             }

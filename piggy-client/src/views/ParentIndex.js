@@ -45,6 +45,9 @@ const ParentIndex = () => {
 		setUser(user.data);
 	}, []);
 	const navigate = useNavigate();
+	const a = () =>{
+		return "dada"
+	}
 
 	return (
 		<ParentContext.Provider value={{ amount, setAmount, selectedChildrenId, setSelectedChildrenId }}>
@@ -57,8 +60,9 @@ const ParentIndex = () => {
 						left: () => {
 							navigate('/parent' + routes.ParentSettings, {
 								state: {
-									settings: { AlertSettings: user.NotificationsSettings, DisplayName: user.DisplayName },
-									mail: user.Mail,
+									userMail: user.userMail
+									// mail: user.Mail,
+									// settings: { AlertSettings: user.NotificationsSettings, DisplayName: user.DisplayName},
 								},
 							});
 						},
@@ -76,7 +80,7 @@ const ParentIndex = () => {
 					<Routes>
 						<Route path={routes.ParentHomePage} element={<ParentHomePage />} />
 						<Route path={routes.ParentTransfer} element={<ParentTransferMoneyPage parentId={user?._id} />} />
-						<Route path={routes.ParentSettings} element={<ParentSettings />} />
+						<Route path={routes.ParentSettings} element={<ParentSettings onUserNameChange={(newName)=> setUser(prev => ({...prev , DisplayName : newName }))} />} />
 						<Route path={routes.ChildrenQuickView} element={<ChildrenQuickView />} />
 						<Route path={routes.Budget} element={<BudgetView />} />
 						<Route path='*' element={<Navigate to={'parent'} />} />
