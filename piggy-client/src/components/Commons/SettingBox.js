@@ -6,9 +6,9 @@ const useStyles = makeStyles((theme) => ({
 	container: { 
         display: "flex",
         flexDirection: 'column',
-        backgroundColor: 'white',
+        backgroundColor: "#F5F5F5",
         flexGrow: '1',
-        margin: '1px 15px',
+        margin: '4px 15px',
         borderRadius: '10px',
         padding: '12px 10px',
         justifyContent: 'center'
