@@ -49,7 +49,7 @@ export const registerChild = async (userMail, displayName, parentMail) => {
       UserSettings: {
         DisplayName: displayName,
         AvatarId: '62171cef74e8cac9530332b',
-        BackgroudColor: '62171cef74e8cac9530d56a',
+        BackgroudColor: '62a7b3ca8d313c2f67b009f1',
         AlertsSettings: {
           WeeklyWatch: true,
           NewStories: true,

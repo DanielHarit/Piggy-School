@@ -33,12 +33,12 @@ const useStyles = makeStyles((theme) => ({
     
 }));
 
-function Login({successCallback=() => {}, btnText='ערך דיפולטי', setIsLoding}) {
+function Login({successCallback= async() => {}, btnText='ערך דיפולטי', setIsLoding =() =>{}}) {
   const classes = useStyles();
 
   const onSuccess = async (res) => {
     setIsLoding(true);
-    successCallback(res.profileObj.email, res.profileObj.name);
+    await successCallback(res.profileObj.email, res.profileObj.name);
     sessionStorage.setItem("profileObj", JSON.stringify(res.profileObj));
     sessionStorage.setItem("tokenId", JSON.stringify(res.tokenId));
     refreshTokenSetup(res);
@@ -47,9 +47,11 @@ function Login({successCallback=() => {}, btnText='ערך דיפולטי', setIs
     const userMail = JSON.parse(sessionStorage.getItem("profileObj"))["email"];
     const user = await axios.get(`${config.PIGGY_DB_URL}/identity/${userMail}`); 
 
+
     if (user["data"]["type"] === 'parent') navigate("/parent");
-    if (user["data"]["type"] === 'child') navigate("/child");
-    navigate("/child");
+    else if (user["data"]["type"] === 'child') navigate("/child");
+    else setIsLoding(false);
+    //navigate("/child");
   };
 
   const onFailure = (res) => {
@@ -70,7 +72,7 @@ function Login({successCallback=() => {}, btnText='ערך דיפולטי', setIs
         onFailure={onFailure}
         className={classes.googleBtn}
         cookiePolicy={'single_host_origin'}
-        isSignedIn={true}
+        // isSignedIn={true}
       />
     </div>
   );
