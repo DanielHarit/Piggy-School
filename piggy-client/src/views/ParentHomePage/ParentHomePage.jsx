@@ -21,6 +21,13 @@ const useStyles = makeStyles((theme) => ({
       width: '85%',
       marginRight: 'auto',
 	  	marginLeft: 'auto',
+    },
+    noChildren: {
+      display : 'flex',
+      flexDirection: 'column',
+      width : '50vw',
+      margin: '10vh auto',
+      alignItems: 'center'
     }
 }))
 
@@ -54,7 +61,9 @@ const ParentHomePage = () => {
 
   return (
     <div className={classes.root}>
+       { childrens.length !== 0 ?<>
       <Typography className={classes.title}>אני רוצה לבדוק את המצב של..</Typography>
+     
 
       <div className={classes.container}>
       <ChildrenDisplayAll 
@@ -68,7 +77,15 @@ const ParentHomePage = () => {
 
       <Typography className={classes.title}>מבט מהיר שבועי</Typography>
       <ChildrenBoard childrenList={childrens} isChildrenLoading={isChildrenLoading} daysNum={7}></ChildrenBoard>
+      </>
+      : 
+      <div className={classes.noChildren}>
+        <Typography variant='h3'>אופס!</Typography>
+        <Typography variant='h5' align="center">נראה שאין לך קישור לאף ילד. תוכל לצרף אותם דרך מסך ההגדרות</Typography>
+      </div>
+    }
     </div>
+
   );
 };
 

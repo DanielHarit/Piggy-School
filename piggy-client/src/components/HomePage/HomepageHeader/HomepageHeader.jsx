@@ -59,7 +59,7 @@ const HomepageHeader = ({ username, caption, headerType, showHelloMsg = true }) 
 	useEffect(() => {
 		const user = JSON.parse(sessionStorage.getItem('profileObj'));
 		const userMail = user['email'];
-		axios.get(`${config.PIGGY_DB_URL}/backgroundColor/childrenMail/${userMail}`).then((res) => {
+		headerType === HOMEPAGE_CONSTANTS.CHILD && axios.get(`${config.PIGGY_DB_URL}/backgroundColor/childrenMail/${userMail}`).then((res) => {
 			setBackgroundColor(res.data);
 		});
 	}, []);
