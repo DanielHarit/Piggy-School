@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 		maxWidth: 174,
 		display: 'inline-block',
 		marginBottom: -29,
-		zIndex: '1000',
+		zIndex: '10',
 	},
 	titles: {
 		marginBottom: 25,
